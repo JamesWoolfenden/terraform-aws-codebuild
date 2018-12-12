@@ -5,7 +5,7 @@ module "codebuild" {
   build_image            = "${var.build_image}"
   environment            = "${var.environment}"
   build_timeout          = "${var.build_timeout}"
-  build_compute_type     = "${var.build_compute_type}" 
+  build_compute_type     = "${var.build_compute_type}"
   repolocation           = "${var.repolocation}"
   force_artifact_destroy = true
 }

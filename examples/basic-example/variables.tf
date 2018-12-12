@@ -20,5 +20,4 @@ variable "build_privileged_override" {}
 
 variable "package_buildspec" {}
 
-variable "repolocation" {
-}
+variable "repolocation" {}

@@ -38,6 +38,5 @@ variable "buildspec" {
 }
 
 variable "repolocation" {
-  description=""
+  description = ""
 }
-
