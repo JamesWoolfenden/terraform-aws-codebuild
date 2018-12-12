@@ -5,7 +5,7 @@ variable "char_delimiter" {
   default     = "-"
 }
 
-variable "repo_name" {}
+variable "reponame" {}
 
 variable "force_artifact_destroy" {
   description = "Force the removal of the artifact S3 bucket on destroy (default: false)."
@@ -36,3 +36,8 @@ variable "buildspec" {
   description = "The Override buildspec, best practice is not to supply as this file wll be obtained from the repo (default: buildspec.yml)"
   default     = ""
 }
+
+variable "repolocation" {
+  description=""
+}
+

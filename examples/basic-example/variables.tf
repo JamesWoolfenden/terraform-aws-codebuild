@@ -2,7 +2,7 @@ variable "organization_name" {}
 
 variable "char_delimiter" {}
 
-variable "repo_name" {}
+variable "reponame" {}
 
 variable "repo_default_branch" {}
 
@@ -20,3 +20,5 @@ variable "build_privileged_override" {}
 
 variable "package_buildspec" {}
 
+variable "repolocation" {
+}
