@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "codebuild_policy" {
     ]
 
     resources = [
-      "${aws_codebuild_project.build_project.id}",
+      "${aws_codebuild_project.project.id}",
     ]
   }
 
