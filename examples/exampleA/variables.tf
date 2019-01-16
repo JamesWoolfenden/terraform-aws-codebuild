@@ -15,7 +15,7 @@ variable "environment" {
 variable "build_timeout" {}
 
 variable "artifacts" {
-  type = "list"
+  type = "map"
 }
 
 variable "sourcecode" {
