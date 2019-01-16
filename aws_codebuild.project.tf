@@ -6,7 +6,7 @@ resource "aws_codebuild_project" "project" {
 
   artifacts {
     type           = "S3"
-    location       = "${aws_s3_bucket.artifacts.domain_name}"
+    location       = "${aws_s3_bucket.artifacts.bucket_domain_name}"
     name           = "${var.name}"
     namespace_type = "BUILD_ID"
     packaging      = "ZIP"
