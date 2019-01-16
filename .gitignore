@@ -7,3 +7,8 @@
 .idea
 *.iml
 *.ini
+
+*~HEAD
+*backup
+
+*.orig

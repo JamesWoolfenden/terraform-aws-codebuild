@@ -1,5 +1,9 @@
 variable "name" {}
 
+variable "description" {
+  description = "Description of the Codebuild project"
+}
+
 variable "force_artifact_destroy" {
   description = "Force the removal of the artifact S3 bucket on destroy (default: false)."
 }
@@ -28,4 +32,10 @@ variable "sourcecode" {
 
 variable "common_tags" {
   type = "map"
+}
+
+variable depends_on {
+  default     = []
+  description = "This is a way to make a module depends on, which isnt built to depend on"
+  type        = "list"
 }
