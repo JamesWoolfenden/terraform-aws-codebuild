@@ -2,6 +2,7 @@ variable "name" {}
 
 variable "description" {
   description = "Description of the Codebuild project"
+  default     = ""
 }
 
 variable "force_artifact_destroy" {
