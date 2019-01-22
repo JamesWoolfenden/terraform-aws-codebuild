@@ -1,4 +1,6 @@
-variable "name" {}
+variable "name" {
+  description = "The name of the Build"
+}
 
 variable "description" {
   description = "Description of the Codebuild project"
@@ -24,11 +26,13 @@ variable "region" {
 }
 
 variable "sourcecode" {
-  type = "list"
+  type        = "list"
+  description = "The SourceCode"
 }
 
 variable "common_tags" {
-  type = "map"
+  type        = "map"
+  description = "An AWS tagging scheme"
 }
 
 variable depends_on {

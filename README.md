@@ -36,13 +36,8 @@ module "codebuild" {
 }
 ```
 
-
-
-
-
-
 ## Makefile Targets
-```
+```make
 Available targets:
 
   help/all:                          Display help for all targets
@@ -91,32 +86,15 @@ Check out these related projects.
 
 File a GitHub [issue](https://github.com/jameswoolfenden/terraform-aws-codebuild/issues).
 
-
-
-## Terraform Module Development
-
-
-
-## Slack Community
-
-You can join the Cloudposse community [Open Source Community][slack] on Slack.
-
 ## Contributing
 
 ### Bug Reports & Feature Requests
 
 Please use the [issue tracker](https://github.com/jameswoolfenden/terraform-aws-codebuild/issues) to report any bugs or file feature requests.
 
-
-
 ## Copyrights
 
 Copyright © 2019-2019 [Slalom, LLC](https://slalom.com)
-
-
-
-
-
 
 ## License
 
@@ -141,17 +119,6 @@ See [LICENSE](LICENSE) for full details.
     specific language governing permissions and limitations
     under the License.
 
-
-
-
-
-
-
-
-
-
-
-
 ### Contributors
 
 |  [![James Woolfenden][jameswoolfenden_avatar]][jameswoolfenden_homepage]<br/>[James Woolfenden][jameswoolfenden_homepage] |
@@ -160,12 +127,9 @@ See [LICENSE](LICENSE) for full details.
   [jameswoolfenden_homepage]: https://github.com/jameswoolfenden
   [jameswoolfenden_avatar]: https://github.com/jameswoolfenden.png?size=150
 
-
-
-[logo]: docs/slalom-logo.png
+[logo]: https://gist.githubusercontent.com/JamesWoolfenden/5c457434351e9fe732ca22b78fdd7d5e/raw/15933294ae2b00f5dba6557d2be88f4b4da21201/slalom-logo.png
 [website]: https://slalom.com
 [github]: https://github.com/jameswoolfenden
-[slack]: https://cpco.io/slack
 [linkedin]: https://www.linkedin.com/company/slalom-consulting/
 [twitter]: https://twitter.com/Slalom
 
