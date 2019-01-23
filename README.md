@@ -2,7 +2,7 @@
 
 [![Slalom][logo]](https://slalom.com)
 
-# terraform-aws-codebuild [![Build Status](https://api.travis-ci.com/JamesWoolfenden/terraform-aws-codebuild.svg?branch=master)](https://travis-ci.com/JamesWoolfenden/terraform-aws-codebuild) [![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-aws-codebuild.svg)](https://github.com/JamesWoolfenden/terraform-aws-codebuild/releases/latest)
+# terraform-aws-codebuild [![Build Status](https://travis-ci.com/JamesWoolfenden/terraform-aws-codebuild.svg?branch=master)](https://travis-ci.com/JamesWoolfenden/terraform-aws-codebuild) [![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-aws-codebuild.svg)](https://github.com/JamesWoolfenden/terraform-aws-codebuild/releases/latest)
 
 
 Terraform module to provision an AWS [`codebuild`](https://aws.amazon.com/codebuild/) CI/CD system.
@@ -36,20 +36,6 @@ module "codebuild" {
 }
 ```
 
-## Makefile Targets
-```make
-Available targets:
-
-  help/all:
-                          Display help for all targets
-  help/short:
-                        This help short screen
-  help:
-                              Help screen
-  lint:
-                              Lint terraform code
-
-```
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -125,8 +111,7 @@ See [LICENSE](LICENSE) for full details.
 
 ### Contributors
 
-|  [![James Woolfenden][jameswoolfenden_avatar]][jameswoolfenden_homepage]<br/>[James Woolfenden][jameswoolfenden_homepage] |
-|---|
+  [![James Woolfenden][jameswoolfenden_avatar]][jameswoolfenden_homepage]<br/>[James Woolfenden][jameswoolfenden_homepage] |
 
   [jameswoolfenden_homepage]: https://github.com/jameswoolfenden
   [jameswoolfenden_avatar]: https://github.com/jameswoolfenden.png?size=150
