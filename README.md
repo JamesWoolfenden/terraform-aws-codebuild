@@ -18,9 +18,16 @@ Include this repository as a module in your existing terraform code:
 
 ```hcl
 module "codebuild" {
-  source     = "git::https://github.com/jameswoolfenden/terraform-aws-codebuild.git?ref=master"
-
-  depends_on      = ["${aws_iam_group.developer.group_name}"]
+    source                 = "jameswoolfenden/codebuild/aws"
+    description            = "${var.description}"
+    build_timeout          = "${var.build_timeout}"
+    projectroot            = "${var.projectroot}"
+    name                   = "${var.name}"
+    sourcecode             = "${var.sourcecode}"
+    common_tags            = "${var.common_tags}"
+    environment            = "${var.environment}"
+    force_artifact_destroy = "${var.force_artifact_destroy}"
+    depends_on             = ["${aws_iam_group.developer.group_name}"]
 }
 ```
 
