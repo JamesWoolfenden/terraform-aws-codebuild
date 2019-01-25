@@ -1,6 +1,7 @@
 variable "organization_name" {}
+
 variable "description" {
-  description="Description of the repository"
+  description = "Description of the repository"
 }
 
 variable "char_delimiter" {}

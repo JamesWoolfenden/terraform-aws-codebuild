@@ -4,25 +4,13 @@
 
 # terraform-aws-codebuild [![Build Status](https://travis-ci.com/JamesWoolfenden/terraform-aws-codebuild.svg?branch=master)](https://travis-ci.com/JamesWoolfenden/terraform-aws-codebuild) [![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-aws-codebuild.svg)](https://github.com/JamesWoolfenden/terraform-aws-codebuild/releases/latest)
 
-
 Terraform module to provision an AWS [`codebuild`](https://aws.amazon.com/codebuild/) CI/CD system.
-
 
 ---
 
 This project uses the "build-harness" a modified version of the project ["SweetOps"](https://cpco.io/sweetops) from Cloudposse. Sweet indeed.
 
-
 It's 100% Open Source and licensed under the [APACHE2](LICENSE).
-
-
-
-
-
-
-
-
-
 
 ## Usage
 
@@ -58,15 +46,11 @@ module "codebuild" {
 | codebuild_role | - |
 | codebuild_role_name | - |
 
-
-
-
 ## Related Projects
 
 Check out these related projects.
 
 - [terraform-aws-codecommit](https://github.com/jameswoolfenden/terraform-aws-codebuild) - Storing ones code
-
 
 ## Help
 
