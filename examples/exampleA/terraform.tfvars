@@ -1,4 +1,5 @@
 name                      = "exampleA"
+projectroot               = "example"
 description               = "Description fitting of such a repos"
 organization_name         = "slalom"
 char_delimiter            = "-"

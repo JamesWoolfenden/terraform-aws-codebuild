@@ -35,6 +35,10 @@ variable "common_tags" {
   description = "An AWS tagging scheme"
 }
 
+variable "projectroot" {
+  description = "The name of the parent project for SSM"
+}
+
 variable depends_on {
   default     = []
   description = "This is a way to make a module depends on, which isnt built to depend on"
