@@ -64,7 +64,7 @@ usage: |-
   ```
 
 include:
-  - "docs/usage.md"  
+  - "docs/usage.md"
   - "docs/terraform.md"
 
 # Contributors to this project
