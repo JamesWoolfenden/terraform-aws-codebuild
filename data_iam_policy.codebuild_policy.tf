@@ -24,6 +24,16 @@ data "aws_iam_policy_document" "codebuild_policy" {
 
   statement {
     actions = [
+      "ssm:GetParameters",
+    ]
+
+    resources = [
+      "*",
+    ]
+  }
+
+  statement {
+    actions = [
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:PutLogEvents",

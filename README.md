@@ -68,8 +68,6 @@ Check out these related projects.
 - [terraform-aws-codecommit](https://github.com/jameswoolfenden/terraform-aws-codebuild) - Storing ones code
 
 
-
-
 ## Help
 
 **Got a question?**

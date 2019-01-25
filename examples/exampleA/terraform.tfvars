@@ -1,4 +1,5 @@
 name                      = "exampleA"
+description               = "Description fitting of such a repos"
 organization_name         = "slalom"
 char_delimiter            = "-"
 repo_default_branch       = "master"
