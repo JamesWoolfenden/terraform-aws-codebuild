@@ -25,6 +25,7 @@ data "aws_iam_policy_document" "codebuild_policy" {
   statement {
     actions = [
       "ssm:GetParameters",
+      "ssm:PutParameter",
     ]
 
     resources = [
