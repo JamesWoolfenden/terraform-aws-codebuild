@@ -8,9 +8,9 @@ provider "null" {
 }
 
 provider "local" {
-   version = "1.1"
+  version = "1.1"
 }
 
 provider "template" {
-   version = "2.0"
-} 
+  version = "2.0"
+}

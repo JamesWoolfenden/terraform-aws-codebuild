@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-BUILDNUMBER=$(aws ssm get-parameters --name "/{projectroot}/codebuild/{name}/buildnumber" --output text --query "Parameters[*].{Value:Value}")
+BUILDNUMBER=$(aws ssm get-parameters --name "/${projectroot}/codebuild/${name}/buildnumber" --output text --query "Parameters[*].{Value:Value}")
 BUILDNUMBER=$(expr $BUILDNUMBER + 1)
 export BUILDNUMBER=$BUILDNUMBER
-aws ssm put-parameter --name "/{projectroot}/codebuild/{name}/buildnumber" --type "String" --value $BUILDNUMBER --overwrite
+aws ssm put-parameter --name "/${projectroot}/codebuild/${name}/buildnumber" --type "String" --value $BUILDNUMBER --overwrite
