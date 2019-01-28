@@ -10,7 +10,6 @@ variable "name" {
   description = "The name of the build pipeline"
 }
 
-
 variable "force_artifact_destroy" {}
 
 variable "environment" {

@@ -36,13 +36,13 @@ variable "common_tags" {
 }
 
 variable "packaging" {
-  description="To zip or not"
-  default="NONE"
+  description = "To zip or not"
+  default     = "NONE"
 }
 
 variable "namespace_type" {
   description = "Do I want to add a folder to artifact output"
-  default = "NONE"
+  default     = "NONE"
 }
 
 variable "projectroot" {

@@ -18,16 +18,16 @@ Include this repository as a module in your existing terraform code:
 
 ```hcl
 module "codebuild" {
-    source                 = "jameswoolfenden/codebuild/aws"
-    description            = "${var.description}"
-    build_timeout          = "${var.build_timeout}"
-    projectroot            = "${var.projectroot}"
-    name                   = "${var.name}"
-    sourcecode             = "${var.sourcecode}"
-    common_tags            = "${var.common_tags}"
-    environment            = "${var.environment}"
-    force_artifact_destroy = "${var.force_artifact_destroy}"
-    depends_on             = ["${aws_iam_group.developer.group_name}"]
+  source                 = "jameswoolfenden/codebuild/aws"
+  description            = "${var.description}"
+  build_timeout          = "${var.build_timeout}"
+  projectroot            = "${var.projectroot}"
+  name                   = "${var.name}"
+  sourcecode             = "${var.sourcecode}"
+  common_tags            = "${var.common_tags}"
+  environment            = "${var.environment}"
+  force_artifact_destroy = "${var.force_artifact_destroy}"
+  depends_on             = ["${aws_iam_group.developer.group_name}"]
 }
 ```
 
@@ -50,6 +50,8 @@ In this example directory there is `buildspec.yml` and `buildno.sh`. These are s
 | environment | The environment being deployed | list | - | yes |
 | force_artifact_destroy | Force the removal of the artifact S3 bucket on destroy (default: false). | string | - | yes |
 | name | The name of the Build | string | - | yes |
+| namespace_type | Do I want to add a folder to artifact output | string | `NONE` | no |
+| packaging | To zip or not | string | `NONE` | no |
 | projectroot | The name of the parent project for SSM | string | - | yes |
 | region | Which aws region this is in. | string | `eu-west-1` | no |
 | sourcecode | The SourceCode | list | - | yes |

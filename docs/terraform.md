@@ -9,6 +9,8 @@
 | environment | The environment being deployed | list | - | yes |
 | force_artifact_destroy | Force the removal of the artifact S3 bucket on destroy (default: false). | string | - | yes |
 | name | The name of the Build | string | - | yes |
+| namespace_type | Do I want to add a folder to artifact output | string | `NONE` | no |
+| packaging | To zip or not | string | `NONE` | no |
 | projectroot | The name of the parent project for SSM | string | - | yes |
 | region | Which aws region this is in. | string | `eu-west-1` | no |
 | sourcecode | The SourceCode | list | - | yes |
@@ -20,3 +22,4 @@
 | artifact_bucket | - |
 | codebuild_role | - |
 | codebuild_role_name | - |
+
