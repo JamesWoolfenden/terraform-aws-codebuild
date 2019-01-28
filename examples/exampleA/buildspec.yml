@@ -16,4 +16,5 @@ phases:
       - echo "build command"
   post_build:
     commands:
+      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then . ./setlatest.sh; else echo Build failed; fi
       - echo "post_build step"
