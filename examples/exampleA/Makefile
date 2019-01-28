@@ -1,13 +1,31 @@
-#
-# MakeFile Terraform
-# By James Woolfenden
-#
-.PHONY: clean
+#Makefile
+
+.PHONY: all
+
+all: init plan build
 
 init:
-	rm .terraform/modules/ -fr
-	terraform init
-clean:
-	echo "Hello"
+	rm -rf .terraform/modules/
+	terraform init -reconfigure
+
 plan: init
-	terraform plan
+	terraform plan -refresh=true
+
+build: init
+	terraform apply -auto-approve
+
+check: init
+	terraform plan -detailed-exitcode
+
+destroy: init
+	terraform destroy -force
+
+docs:
+	terraform-docs md . > README.md
+
+valid:
+	tflint
+	terraform fmt -check=true -diff=true
+
+purge: 
+	rm -rf .terraform/

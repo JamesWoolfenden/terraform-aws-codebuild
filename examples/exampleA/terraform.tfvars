@@ -1,19 +1,8 @@
 name                      = "exampleA"
 projectroot               = "example"
 description               = "Description fitting of such a repos"
-organization_name         = "slalom"
-char_delimiter            = "-"
-repo_default_branch       = "master"
 force_artifact_destroy    = "false"
 build_timeout             = "60"
-
-  artifacts={
-    type           = "S3"
-    location       = "${aws_s3_bucket.artifacts.bucket_domain_name}"
-    name           = "exampleA"
-    namespace_type = "NONE"
-    packaging      = "NONE"
-  }
 
   environment =[{
     compute_type    = "BUILD_GENERAL1_SMALL"

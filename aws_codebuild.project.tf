@@ -8,8 +8,8 @@ resource "aws_codebuild_project" "project" {
     type           = "S3"
     location       = "${aws_s3_bucket.artifacts.bucket_domain_name}"
     name           = "${var.name}"
-    namespace_type = "BUILD_ID"
-    packaging      = "ZIP"
+    namespace_type = "${var.namespace_type}"
+    packaging      = "${var.packaging}"
   }
 
   environment = "${var.environment}"

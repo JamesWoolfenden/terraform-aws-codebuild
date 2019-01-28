@@ -35,6 +35,16 @@ variable "common_tags" {
   description = "An AWS tagging scheme"
 }
 
+variable "packaging" {
+  description="To zip or not"
+  default="NONE"
+}
+
+variable "namespace_type" {
+  description = "Do I want to add a folder to artifact output"
+  default = "NONE"
+}
+
 variable "projectroot" {
   description = "The name of the parent project for SSM"
 }
