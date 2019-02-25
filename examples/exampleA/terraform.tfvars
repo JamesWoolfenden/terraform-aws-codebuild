@@ -3,6 +3,7 @@ projectroot               = "example"
 description               = "Description fitting of such a repos"
 force_artifact_destroy    = "false"
 build_timeout             = "60"
+env                       = "dev"
 
   environment =[{
     compute_type    = "BUILD_GENERAL1_SMALL"

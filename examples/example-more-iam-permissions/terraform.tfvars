@@ -3,6 +3,7 @@ projectroot               = "core"
 description               = "The CodeBuild project for code in aws-lexbot-handler"
 force_artifact_destroy    = "false"
 build_timeout             = "60"
+env                       = "dev"
 
   environment =[{
     compute_type    = "BUILD_GENERAL1_SMALL"

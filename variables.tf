@@ -2,11 +2,6 @@ variable "name" {
   description = "The name of the Build"
 }
 
-variable "description" {
-  description = "Description of the Codebuild project"
-  default     = ""
-}
-
 variable "force_artifact_destroy" {
   description = "Force the removal of the artifact S3 bucket on destroy (default: false)."
 }
@@ -59,4 +54,10 @@ variable depends_on {
   default     = []
   description = "This is a way to make a module depends on, which isnt built to depend on"
   type        = "list"
+}
+
+variable "description" {}
+
+variable "env" {
+  description = "environment name for ssm"
 }

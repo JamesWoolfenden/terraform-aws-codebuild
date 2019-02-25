@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-aws ssm put-parameter --name "/${projectroot}/codebuild/${name}/latest" --type "String" --value "$BUILDVERSION" --overwrite
+aws ssm put-parameter --name "/${projectroot}/codebuild/${name}/${env}/latest" --type "String" --value "$BUILDVERSION" --overwrite

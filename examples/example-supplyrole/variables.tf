@@ -33,3 +33,7 @@ variable "sourcecode" {
 variable "common_tags" {
   type = "map"
 }
+
+variable "env" {
+  description = "environment name for ssm"
+}

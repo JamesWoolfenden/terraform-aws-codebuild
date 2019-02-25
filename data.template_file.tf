@@ -4,6 +4,7 @@ data "template_file" "buildnumber" {
   vars = {
     name        = "${var.name}"
     projectroot = "${var.projectroot}"
+    env         = "${var.env}"
   }
 }
 
