@@ -3,9 +3,9 @@ output "artifact_bucket" {
 }
 
 output "codebuild_role" {
-  value = "${aws_iam_role.codebuild.arn}"
+  value = "${var.role == "" ? element(concat(aws_iam_role.codebuild.*.arn, list("")), 0)  : element(concat(data.aws_iam_role.existing.*.arn, list("")), 0) }"
 }
 
 output "codebuild_role_name" {
-  value = "${aws_iam_role.codebuild.id}"
+  value = "${var.role == "" ? element(concat(aws_iam_role.codebuild.*.id, list("")), 0) : var.role }"
 }

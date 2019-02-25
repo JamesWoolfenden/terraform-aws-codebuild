@@ -12,5 +12,5 @@ build-harness
 
 *~HEAD
 *backup
-
+*.zip
 *.orig

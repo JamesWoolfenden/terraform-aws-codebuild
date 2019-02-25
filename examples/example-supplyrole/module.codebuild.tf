@@ -1,6 +1,7 @@
 module "codebuild" {
-  source                 = "github.com/jameswoolfenden/terraform-aws-codebuild"
+  source                 = "../../"
   projectroot            = "${var.projectroot}"
+  role                   = "${var.role}"
   description            = "${var.description}"
   build_timeout          = "${var.build_timeout}"
   name                   = "${var.name}"

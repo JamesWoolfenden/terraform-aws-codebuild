@@ -20,6 +20,9 @@ init:
 plan: init
 	terraform plan -refresh=true
 
+p:
+	terraform plan -refresh=true | landscape
+
 build: init
 	terraform apply -auto-approve
 

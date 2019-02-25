@@ -30,6 +30,12 @@ variable "sourcecode" {
   description = "The SourceCode"
 }
 
+variable "role" {
+  description = "Override for providing a role"
+  default     = ""
+  type        = "string"
+}
+
 variable "common_tags" {
   type        = "map"
   description = "An AWS tagging scheme"

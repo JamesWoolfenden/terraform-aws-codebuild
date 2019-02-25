@@ -1,0 +1,20 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - echo "install step"
+  pre_build:
+    commands:
+      - echo "pre_build step"
+      - export MAJOR=0
+      - export MINOR=0
+      - . ./buildno.sh
+      - export BUILDVERSION=$MAJOR.$MINOR.$BUILDNUMBER
+      - echo "Running - $BUILDVERSION"
+  build:
+    commands:
+      - echo "build command"
+  post_build:
+    commands:
+      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then . ./setlatest.sh; else echo Build failed; fi
+      - echo "post_build step"

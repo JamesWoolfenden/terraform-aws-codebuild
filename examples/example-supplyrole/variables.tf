@@ -2,15 +2,21 @@ variable "description" {
   description = "Description of the repository"
 }
 
-variable "projectroot" {
-  description = "The root project name"
-}
-
 variable "name" {
   description = "The name of the build pipeline"
 }
 
-variable "force_artifact_destroy" {}
+variable "projectroot" {
+  type = "string"
+}
+
+variable "force_artifact_destroy" {
+  type = "string"
+}
+
+variable "role" {
+  type = "string"
+}
 
 variable "environment" {
   type = "list"

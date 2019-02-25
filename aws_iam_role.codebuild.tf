@@ -1,4 +1,6 @@
 resource "aws_iam_role" "codebuild" {
+  count = "${var.role == "" ? 1 : 0}"
+
   assume_role_policy = <<HERE
 {
     "Version": "2012-10-17",
@@ -13,4 +15,6 @@ resource "aws_iam_role" "codebuild" {
     ]
 }
 HERE
+
+  tags = "${var.common_tags}"
 }

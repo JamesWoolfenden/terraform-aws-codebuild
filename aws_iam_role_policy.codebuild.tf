@@ -1,5 +1,6 @@
 resource "aws_iam_role_policy" "codebuild_policy" {
-  role = "${aws_iam_role.codebuild.id}"
+  count = "${var.role == "" ? 1 : 0}"
+  role  = "${aws_iam_role.codebuild.id}"
 
   policy = <<JSON
 {

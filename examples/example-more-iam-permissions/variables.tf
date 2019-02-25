@@ -1,9 +1,9 @@
 variable "description" {
-  description = "Description of the repository"
+  description = "Description of build project"
 }
 
 variable "projectroot" {
-  description = "The root project name"
+  description = "The root path element for SSM variables"
 }
 
 variable "name" {
