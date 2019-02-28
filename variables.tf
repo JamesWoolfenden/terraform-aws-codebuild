@@ -2,6 +2,10 @@ variable "name" {
   description = "The name of the Build"
 }
 
+variable "reponame" {
+  description = "The name of the repository"
+}
+
 variable "force_artifact_destroy" {
   description = "Force the removal of the artifact S3 bucket on destroy (default: false)."
 }

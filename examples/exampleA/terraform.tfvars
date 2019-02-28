@@ -1,4 +1,5 @@
 name                      = "exampleA"
+reponame                  = "exampleA"
 projectroot               = "example"
 description               = "Description fitting of such a repos"
 force_artifact_destroy    = "false"
