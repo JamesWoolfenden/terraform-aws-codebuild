@@ -56,8 +56,8 @@ resource "aws_iam_role_policy" "codebuild_policy" {
             "Effect": "Allow",
             "Action": "s3:*",
             "Resource": [
-                "arn:aws:s3:::${var.name}-${data.aws_caller_identity.current.account_id}-artifacts",
-                "arn:aws:s3:::${var.name}-${data.aws_caller_identity.current.account_id}-artifacts/*"
+                "arn:aws:s3:::${local.bucketname}",
+                "arn:aws:s3:::${local.bucketname}/*"
             ]
         },
         {
