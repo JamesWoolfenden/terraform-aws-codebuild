@@ -44,4 +44,15 @@ data "aws_iam_policy_document" "codebuild_policy" {
       "*",
     ]
   }
+
+  statement {
+    actions = [
+      "iam:ListRoles",
+      "iam:PassRole",
+    ]
+
+    resources = [
+      "*",
+    ]
+  }
 }

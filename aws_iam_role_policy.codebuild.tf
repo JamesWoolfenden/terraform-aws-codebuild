@@ -37,7 +37,7 @@ resource "aws_iam_role_policy" "codebuild_policy" {
                 "codecommit:GetBranch",
                 "codecommit:GetMergeConflicts"
             ],
-            "Resource": "arn:aws:codecommit:${var.region}:${data.aws_caller_identity.current.account_id}:aws-lexbot-handler"
+            "Resource": "arn:aws:codecommit:${var.region}:${data.aws_caller_identity.current.account_id}:${var.reponame}"
         },
         {
             "Sid": "VisualEditor1",
@@ -56,15 +56,15 @@ resource "aws_iam_role_policy" "codebuild_policy" {
             "Effect": "Allow",
             "Action": "s3:*",
             "Resource": [
-                "arn:aws:s3:::aws-lexbot-handler-${data.aws_caller_identity.current.account_id}-artifacts",
-                "arn:aws:s3:::aws-lexbot-handler-${data.aws_caller_identity.current.account_id}-artifacts/*"
+                "arn:aws:s3:::${var.name}-${data.aws_caller_identity.current.account_id}-artifacts",
+                "arn:aws:s3:::${var.name}-${data.aws_caller_identity.current.account_id}-artifacts/*"
             ]
         },
         {
             "Sid": "VisualEditor3",
             "Effect": "Allow",
             "Action": "codebuild:*",
-            "Resource": "arn:aws:codebuild:${var.region}:${data.aws_caller_identity.current.account_id}:project/aws-lexbot-handler"
+            "Resource": "arn:aws:codebuild:${var.region}:${data.aws_caller_identity.current.account_id}:project/${var.reponame}"
         }
     ]
 }

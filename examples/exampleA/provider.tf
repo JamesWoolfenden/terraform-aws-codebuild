@@ -1,6 +1,7 @@
 provider "aws" {
   region  = "eu-west-1"
   version = "1.54"
+  profile = "slalom"
 }
 
 provider "null" {
