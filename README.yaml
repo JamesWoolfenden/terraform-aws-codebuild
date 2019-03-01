@@ -58,15 +58,15 @@ usage: |-
   ```hcl
   module "codebuild" {
     source                 = "jameswoolfenden/codebuild/aws"
-    description            = "${var.description}"
     build_timeout          = "${var.build_timeout}"
-    projectroot            = "${var.projectroot}"
-    name                   = "${var.name}"
-    sourcecode             = "${var.sourcecode}"
     common_tags            = "${var.common_tags}"
+    depends_on             = ["${aws_iam_group.developer.group_name}"]
+    description            = "${var.description}"
     environment            = "${var.environment}"
     force_artifact_destroy = "${var.force_artifact_destroy}"
-    depends_on             = ["${aws_iam_group.developer.group_name}"]
+    name                   = "${var.name}"
+    projectroot            = "${var.projectroot}"
+    sourcecode             = "${var.sourcecode}"
   }
   ```
 

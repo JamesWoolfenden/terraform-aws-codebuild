@@ -17,10 +17,7 @@ phases:
   pre_build:
     commands:
       - echo "pre_build step"
-      - export MAJOR=0
-      - export MINOR=0
       - . ./buildno.sh
-      - export BUILDVERSION=$MAJOR.$MINOR.$BUILDNUMBER
       - echo "Running - $BUILDVERSION"
   build:
     commands:

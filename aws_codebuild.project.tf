@@ -5,11 +5,12 @@ resource "aws_codebuild_project" "project" {
   build_timeout = "${var.build_timeout}"
 
   artifacts {
-    type           = "S3"
-    location       = "${local.bucketname}"
-    name           = "${var.name}"
-    namespace_type = "${var.namespace_type}"
-    packaging      = "${var.packaging}"
+    type                = "S3"
+    location            = "${local.bucketname}"
+    name                = "${var.name}"
+    namespace_type      = "${var.namespace_type}"
+    packaging           = "${var.packaging}"
+    encryption_disabled = "${var.encryption_disabled}"
   }
 
   environment = "${var.environment}"

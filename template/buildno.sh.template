@@ -4,3 +4,4 @@ BUILDNUMBER=$(aws ssm get-parameters --name "/${projectroot}/codebuild/${name}/$
 BUILDNUMBER=$((BUILDNUMBER + 1))
 export BUILDNUMBER=$BUILDNUMBER
 aws ssm put-parameter --name "/${projectroot}/codebuild/${name}/${env}/buildnumber" --type "String" --value $BUILDNUMBER --overwrite
+export BUILDVERSION=$MAJOR.$MINOR.$BUILDNUMBER
