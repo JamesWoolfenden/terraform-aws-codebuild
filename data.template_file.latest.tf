@@ -13,6 +13,6 @@ resource "local_file" "latest" {
   filename = "setlatest.sh"
 
   lifecycle {
-    ignore_changes = true
+    ignore_changes = ["*"]
   }
 }
