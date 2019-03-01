@@ -11,4 +11,8 @@ data "template_file" "latest" {
 resource "local_file" "latest" {
   content  = "${data.template_file.latest.rendered}"
   filename = "setlatest.sh"
+
+  lifecycle {
+    ignore_changes = true
+  }
 }

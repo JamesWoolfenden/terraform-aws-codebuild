@@ -1,5 +1,5 @@
-data "template_file" "buildnumber" {
-  template = "${file("${path.module}/template/buildno.sh.template")}"
+data "template_file" "buildspec" {
+  template = "${file("${path.module}/template/buildspec.yml.template")}"
 
   vars = {
     name        = "${var.name}"
@@ -8,9 +8,9 @@ data "template_file" "buildnumber" {
   }
 }
 
-resource "local_file" "buildno" {
+resource "local_file" "buildspec" {
   content  = "${data.template_file.buildnumber.rendered}"
-  filename = "buildno.sh"
+  filename = "buildspec.yml"
 
   lifecycle {
     ignore_changes = true
