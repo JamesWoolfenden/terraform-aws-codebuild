@@ -9,7 +9,7 @@ data "template_file" "buildspec" {
 }
 
 resource "local_file" "buildspec" {
-  content  = "${data.template_file.buildnumber.rendered}"
+  content  = "${data.template_file.buildspec.rendered}"
   filename = "buildspec.yml"
 
   lifecycle {
