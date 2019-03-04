@@ -1,4 +1,5 @@
 resource "aws_iam_role" "codebuild" {
+  name  = "codebuildrole-${var.name}-${var.env}"
   count = "${var.role == "" ? 1 : 0}"
 
   assume_role_policy = <<HERE

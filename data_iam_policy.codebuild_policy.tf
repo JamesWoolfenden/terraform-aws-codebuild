@@ -1,14 +1,12 @@
 data "aws_iam_policy_document" "codebuild_policy" {
   statement {
     actions = [
-      "s3:PutObject",
-      "s3:GetObject",
-      "s3:GetObjectVersion",
-      "s3:GetBucketVersioning",
+      "*",
     ]
 
     resources = [
-      "*",
+      "arn:aws:s3:::${local.bucketname}",
+      "arn:aws:s3:::${local.bucketname}/*",
     ]
   }
 

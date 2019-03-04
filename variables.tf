@@ -3,10 +3,13 @@ variable "name" {
 }
 
 variable "reponame" {
+  type        = "string"
   description = "The name of the repository"
+  default     = ""
 }
 
 variable "force_artifact_destroy" {
+  type        = "string"
   description = "Force the removal of the artifact S3 bucket on destroy (default: false)."
 }
 
