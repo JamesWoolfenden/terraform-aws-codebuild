@@ -13,6 +13,6 @@ resource "local_file" "buildno" {
   filename = "buildno.sh"
 
   lifecycle {
-    ignore_changes = ["*"]
+    ignore_changes = ["all"]
   }
 }

@@ -13,6 +13,6 @@ resource "local_file" "buildspec" {
   filename = "buildspec.yml"
 
   lifecycle {
-    ignore_changes = ["*"]
+    ignore_changes = ["all"]
   }
 }
