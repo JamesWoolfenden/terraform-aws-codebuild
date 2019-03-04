@@ -1,4 +1,5 @@
 resource "aws_cloudwatch_event_rule" "codechange" {
+  count       = "${var.reponame == "" ? 0 : 1}"
   name        = "codecommit-${var.name}"
   description = "Capture source code change events to trigger build"
 

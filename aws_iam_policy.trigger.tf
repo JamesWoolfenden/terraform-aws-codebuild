@@ -1,4 +1,6 @@
 resource "aws_iam_policy" "trigger" {
+  count = "${var.reponame == "" ? 0 : 1}"
+
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -15,6 +17,7 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "attachtotriggerrole" {
+  count      = "${var.reponame == "" ? 0 : 1}"
   role       = "${aws_iam_role.trigger.name}"
   policy_arn = "${aws_iam_policy.trigger.arn}"
 }
