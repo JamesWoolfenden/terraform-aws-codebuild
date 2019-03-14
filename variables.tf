@@ -22,6 +22,14 @@ variable "build_timeout" {
   description = "The time to wait for a CodeBuild to complete before timing out in minutes (default: 5)"
 }
 
+variable "type" {
+  type = "string"
+}
+
+variable "bucketname" {
+  type = "string"
+}
+
 variable "region" {
   default     = "eu-west-1"
   description = "Which aws region this is in."

@@ -35,3 +35,17 @@ variable "env" {
 variable "reponame" {
   type = "string"
 }
+
+variable "namespace_type" {}
+
+variable "packaging" {}
+
+variable "encryption_disabled" {}
+
+variable "type" {
+  type = "string"
+}
+
+variable "bucketname" {
+  type = "string"
+}

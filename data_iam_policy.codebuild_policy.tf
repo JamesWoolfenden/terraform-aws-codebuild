@@ -5,8 +5,8 @@ data "aws_iam_policy_document" "codebuild_policy" {
     ]
 
     resources = [
-      "arn:aws:s3:::${local.bucketname}",
-      "arn:aws:s3:::${local.bucketname}/*",
+      "arn:aws:s3:::${var.bucketname}",
+      "arn:aws:s3:::${var.bucketname}/*",
     ]
   }
 
