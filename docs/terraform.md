@@ -2,6 +2,7 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
+| bucketname | - | string | `` | no |
 | build_timeout | The time to wait for a CodeBuild to complete before timing out in minutes (default: 5) | string | - | yes |
 | common_tags | An AWS tagging scheme | map | - | yes |
 | depends_on | This is a way to make a module depends on, which isnt built to depend on | list | `<list>` | no |
@@ -15,9 +16,10 @@
 | packaging | To zip or not | string | `NONE` | no |
 | projectroot | The name of the parent project for SSM | string | - | yes |
 | region | Which aws region this is in. | string | `eu-west-1` | no |
-| reponame | The name of the repository | string | - | yes |
+| reponame | The name of the repository | string | `` | no |
 | role | Override for providing a role | string | `` | no |
 | sourcecode | The SourceCode | list | - | yes |
+| type | - | string | - | yes |
 
 ## Outputs
 

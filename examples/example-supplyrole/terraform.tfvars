@@ -5,6 +5,7 @@ force_artifact_destroy    = "false"
 build_timeout             = "60"
 role                      = "WilburToolsAcctCodePipelineCloudFormationEURole"
 env                       = "dev"
+type                      = "S3"
 
   environment =[{
     compute_type    = "BUILD_GENERAL1_SMALL"

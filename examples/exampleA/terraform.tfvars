@@ -23,7 +23,6 @@ packaging                 = "NONE"
     location  = "https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/exampleA"
   }]
 
-
   common_tags={
     name="exampleA"
   }

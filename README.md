@@ -19,31 +19,35 @@ Include this repository as a module in your existing terraform code:
 ```hcl
 module "codebuild" {
   source                 = "jameswoolfenden/codebuild/aws"
-  description            = "${var.description}"
   build_timeout          = "${var.build_timeout}"
-  projectroot            = "${var.projectroot}"
-  name                   = "${var.name}"
-  sourcecode             = "${var.sourcecode}"
   common_tags            = "${var.common_tags}"
+  description            = "${var.description}"
+  env                    = "${var.env}"
   environment            = "${var.environment}"
   force_artifact_destroy = "${var.force_artifact_destroy}"
-  depends_on             = ["${aws_iam_group.developer.group_name}"]
+  name                   = "${var.name}"
+  namespace_type         = "${var.namespace_type}"
+  packaging              = "${var.packaging}"
+  projectroot            = "${var.projectroot}"
+  reponame               = "${var.reponame}"
+  sourcecode             = "${var.sourcecode}"
+  type                   = "${var.type}"
 }
 ```
 
 ## Detailed Notes
 
-These template inplment the module terraform-aws-codebuild. It includes a number of default behaviours.
-Versioning is implmented with the use of calls to System manager parameter store.
+These template implement the module terraform-aws-codebuild. It includes a number of default behaviours.
+Versioning is implemented with the use of calls to System manager parameter store.
 
 ### Sample buildspec files
 
 In this example directory there is `buildspec.yml` and `buildno.sh`. These are starter build spec files you can add to the root of your new repository in CodeCommit. The `buildno.sh` shell script calls ssm and increments the build number found at that location it is then made available in the build process itself.
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
+| bucketname | - | string | `` | no |
 | build_timeout | The time to wait for a CodeBuild to complete before timing out in minutes (default: 5) | string | - | yes |
 | common_tags | An AWS tagging scheme | map | - | yes |
 | depends_on | This is a way to make a module depends on, which isnt built to depend on | list | `<list>` | no |
@@ -57,9 +61,10 @@ In this example directory there is `buildspec.yml` and `buildno.sh`. These are s
 | packaging | To zip or not | string | `NONE` | no |
 | projectroot | The name of the parent project for SSM | string | - | yes |
 | region | Which aws region this is in. | string | `eu-west-1` | no |
-| reponame | The name of the repository | string | - | yes |
+| reponame | The name of the repository | string | `` | no |
 | role | Override for providing a role | string | `` | no |
 | sourcecode | The SourceCode | list | - | yes |
+| type | - | string | - | yes |
 
 ## Outputs
 

@@ -37,3 +37,7 @@ variable "common_tags" {
 variable "env" {
   description = "environment name for ssm"
 }
+
+variable "type" {
+  type = "string"
+}

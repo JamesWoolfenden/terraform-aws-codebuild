@@ -4,6 +4,7 @@ description               = "The CodeBuild project for code in aws-lexbot-handle
 force_artifact_destroy    = "false"
 build_timeout             = "60"
 env                       = "dev"
+type                      = "S3"
 
   environment =[{
     compute_type    = "BUILD_GENERAL1_SMALL"
