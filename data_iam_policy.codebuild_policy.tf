@@ -22,6 +22,16 @@ data "aws_iam_policy_document" "codebuild_policy" {
 
   statement {
     actions = [
+      "ecr:*",
+    ]
+
+    resources = [
+      "*",
+    ]
+  }
+
+  statement {
+    actions = [
       "ssm:GetParameters",
       "ssm:PutParameter",
     ]
