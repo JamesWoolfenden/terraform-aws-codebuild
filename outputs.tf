@@ -1,5 +1,5 @@
 output "artifact_bucket" {
-  value = "${aws_s3_bucket.artifacts.0.id}"
+  value = "${local.bucketname}"
 }
 
 output "codebuild_role" {
