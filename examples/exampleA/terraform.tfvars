@@ -1,5 +1,4 @@
 name                      = "exampleA"
-bucketname                = "slalom-dev-examplea"
 reponame                  = "exampleA"
 projectroot               = "example"
 description               = "Description fitting of such a repos"

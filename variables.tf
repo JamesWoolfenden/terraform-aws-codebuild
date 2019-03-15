@@ -27,7 +27,8 @@ variable "type" {
 }
 
 variable "bucketname" {
-  type = "string"
+  type    = "string"
+  default = ""
 }
 
 variable "region" {

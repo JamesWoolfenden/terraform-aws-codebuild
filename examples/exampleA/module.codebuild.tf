@@ -1,6 +1,5 @@
 module "codebuild" {
   source                 = "../../"
-  bucketname             = "${var.bucketname}"
   build_timeout          = "${var.build_timeout}"
   common_tags            = "${var.common_tags}"
   description            = "${var.description}"

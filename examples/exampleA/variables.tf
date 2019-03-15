@@ -45,7 +45,3 @@ variable "encryption_disabled" {}
 variable "type" {
   type = "string"
 }
-
-variable "bucketname" {
-  type = "string"
-}
