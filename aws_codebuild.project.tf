@@ -6,7 +6,7 @@ resource "aws_codebuild_project" "project" {
 
   artifacts {
     type                = "${var.type}"
-    location            = "${var.bucketname}"
+    location            = "${local.bucketname}"
     name                = "${var.name}"
     namespace_type      = "${var.namespace_type}"
     packaging           = "${var.packaging}"
