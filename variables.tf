@@ -74,10 +74,6 @@ variable depends_on {
 
 variable "description" {}
 
-variable "env" {
-  description = "environment name for ssm"
-}
-
 variable "encryption_disabled" {
   type        = "string"
   description = "Codebuild will autoencrypt your files"

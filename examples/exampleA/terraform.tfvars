@@ -4,7 +4,6 @@ projectroot               = "example"
 description               = "Description fitting of such a repos"
 force_artifact_destroy    = "true"
 build_timeout             = "60"
-env                       = "dev"
 type                      = "S3"
 encryption_disabled       = true
 namespace_type            = "NONE"

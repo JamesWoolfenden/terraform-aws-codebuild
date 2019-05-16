@@ -28,10 +28,6 @@ variable "common_tags" {
   type = "map"
 }
 
-variable "env" {
-  description = "environment name for ssm"
-}
-
 variable "reponame" {
   type = "string"
 }

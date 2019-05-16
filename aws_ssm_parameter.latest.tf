@@ -1,5 +1,5 @@
 resource "aws_ssm_parameter" "latest" {
-  name  = "/${var.projectroot}/codebuild/${var.name}/${var.env}/latest"
+  name  = "/${var.projectroot}/codebuild/${var.name}/latest"
   type  = "String"
   value = "0"
 

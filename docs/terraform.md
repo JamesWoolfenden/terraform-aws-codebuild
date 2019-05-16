@@ -8,7 +8,6 @@
 | depends_on | This is a way to make a module depends on, which isnt built to depend on | list | `<list>` | no |
 | description | - | string | - | yes |
 | encryption_disabled | Codebuild will autoencrypt your files | string | `false` | no |
-| env | environment name for ssm | string | - | yes |
 | environment | The environment being deployed | list | - | yes |
 | force_artifact_destroy | Force the removal of the artifact S3 bucket on destroy (default: false). | string | - | yes |
 | name | The name of the Build | string | - | yes |
@@ -28,3 +27,4 @@
 | artifact_bucket | - |
 | codebuild_role | - |
 | codebuild_role_name | - |
+

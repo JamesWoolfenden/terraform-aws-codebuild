@@ -1,6 +1,5 @@
 ## Makefile Targets
-
-```make
+```
 Available targets:
 
   help                                Help screen

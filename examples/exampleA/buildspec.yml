@@ -1,7 +1,6 @@
 version: 0.2
 env:
   variables:
-    environment: "dev"
     MAJOR: "1"
     MINOR: "1"
 phases:

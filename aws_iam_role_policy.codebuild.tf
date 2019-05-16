@@ -1,5 +1,5 @@
 resource "aws_iam_role_policy" "codebuild_policy" {
-  name  = "codebuildpolicy-${var.name}-${var.env}"
+  name  = "codebuildpolicy-${var.name}"
   count = "${var.role == "" ? 1 : 0}"
   role  = "${aws_iam_role.codebuild.id}"
 

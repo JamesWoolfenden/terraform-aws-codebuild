@@ -2,7 +2,7 @@
 
 [![Slalom][logo]](https://slalom.com)
 
-# terraform-aws-codebuild [![Build Status](https://api.travis-ci.com/JamesWoolfenden/terraform-aws-codebuild.svg?branch=master)](https://travis-ci.com/JamesWoolfenden/terraform-aws-codebuild) [![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-aws-codebuild.svg)](https://github.com/JamesWoolfenden/terraform-aws-codebuild/releases/latest)
+terraform-aws-codebuild [![Build Status](https://api.travis-ci.com/JamesWoolfenden/terraform-aws-codebuild.svg?branch=master)](https://travis-ci.com/JamesWoolfenden/terraform-aws-codebuild) [![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-aws-codebuild.svg)](https://github.com/JamesWoolfenden/terraform-aws-codebuild/releases/latest)
 
 Terraform module to provision an AWS [`codebuild`](https://aws.amazon.com/codebuild/) CI/CD system.
 
@@ -22,7 +22,6 @@ module "codebuild" {
   build_timeout          = "${var.build_timeout}"
   common_tags            = "${var.common_tags}"
   description            = "${var.description}"
-  env                    = "${var.env}"
   environment            = "${var.environment}"
   force_artifact_destroy = "${var.force_artifact_destroy}"
   name                   = "${var.name}"
@@ -37,12 +36,12 @@ module "codebuild" {
 
 ## Detailed Notes
 
-These template implement the module terraform-aws-codebuild. It includes a number of default behaviours.
-Versioning is implemented with the use of calls to System manager parameter store.
+These template inplment the module terraform-aws-codebuild. It includes a number of default behaviours.
 
 ### Sample buildspec files
 
 In this example directory there is `buildspec.yml` and `buildno.sh`. These are starter build spec files you can add to the root of your new repository in CodeCommit. The `buildno.sh` shell script calls ssm and increments the build number found at that location it is then made available in the build process itself.
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -53,7 +52,6 @@ In this example directory there is `buildspec.yml` and `buildno.sh`. These are s
 | depends_on | This is a way to make a module depends on, which isnt built to depend on | list | `<list>` | no |
 | description | - | string | - | yes |
 | encryption_disabled | Codebuild will autoencrypt your files | string | `false` | no |
-| env | environment name for ssm | string | - | yes |
 | environment | The environment being deployed | list | - | yes |
 | force_artifact_destroy | Force the removal of the artifact S3 bucket on destroy (default: false). | string | - | yes |
 | name | The name of the Build | string | - | yes |
@@ -121,7 +119,7 @@ See [LICENSE](LICENSE) for full details.
 
 ### Contributors
 
-[![James Woolfenden][jameswoolfenden_avatar]][jameswoolfenden_homepage]<br/>[James Woolfenden][jameswoolfenden_homepage] |
+|  [![James Woolfenden][jameswoolfenden_avatar]][jameswoolfenden_homepage]<br/>[James Woolfenden][jameswoolfenden_homepage] |
 |---|
 
   [jameswoolfenden_homepage]: https://github.com/jameswoolfenden

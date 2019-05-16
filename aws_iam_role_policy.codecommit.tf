@@ -1,5 +1,5 @@
 resource "aws_iam_role_policy" "codecommit_policy" {
-  name  = "codecommitpolicy-${var.name}-${var.env}"
+  name  = "codecommitpolicy-${var.name}"
   count = "${var.reponame == "" ? 0 : 1}"
   role  = "${aws_iam_role.codebuild.id}"
 

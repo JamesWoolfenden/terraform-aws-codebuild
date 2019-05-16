@@ -1,5 +1,5 @@
 resource "aws_ssm_parameter" "buildnumber" {
-  name  = "/${var.projectroot}/codebuild/${var.name}/${var.env}/buildnumber"
+  name  = "/${var.projectroot}/codebuild/${var.name}/buildnumber"
   type  = "String"
   value = "0"
 
