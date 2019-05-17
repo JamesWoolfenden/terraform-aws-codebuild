@@ -17,7 +17,7 @@ resource "aws_cloudwatch_event_rule" "codechange" {
         "CodeCommit Repository State Change"
     ],
     "resources": [
-        "arn:aws:codecommit:${var.region}:${data.aws_caller_identity.current.account_id}:${var.name}"
+        "arn:aws:codecommit:${data.aws_region.current.region.name}:${data.aws_caller_identity.current.account_id}:${var.name}"
     ],
     "source": [
         "aws.codecommit"

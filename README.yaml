@@ -51,8 +51,8 @@ related:
 description: |-
   Terraform module to provision an AWS [`codebuild`](https://aws.amazon.com/codebuild/) CI/CD system.
 
-# How to use this project
-usage: |-
+# How to get started quickly
+quickstart: |-
   Include this repository as a module in your existing terraform code:
 
   ```hcl

@@ -26,15 +26,6 @@ variable "type" {
   type = "string"
 }
 
-variable "bucketname" {
-  type    = "string"
-  default = ""
-}
-
-variable "region" {
-  default     = "eu-west-1"
-  description = "Which aws region this is in."
-}
 
 variable "sourcecode" {
   type        = "list"
@@ -78,4 +69,8 @@ variable "encryption_disabled" {
   type        = "string"
   description = "Codebuild will autoencrypt your files"
   default     = false
+}
+
+variable "bucketname" {
+  default=""
 }

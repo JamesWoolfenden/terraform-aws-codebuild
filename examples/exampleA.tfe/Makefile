@@ -44,4 +44,3 @@ target:
 
 purge:
 	$(BLAT)
-	rm -rf .terraform/

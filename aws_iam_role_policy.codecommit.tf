@@ -38,7 +38,7 @@ resource "aws_iam_role_policy" "codecommit_policy" {
                 "codecommit:GetBranch",
                 "codecommit:GetMergeConflicts"
             ],
-            "Resource": "arn:aws:codecommit:${var.region}:${data.aws_caller_identity.current.account_id}:${var.reponame}"
+            "Resource": "arn:aws:codecommit:${data.aws_region.current.region.name}:${data.aws_caller_identity.current.account_id}:${var.reponame}"
         }
     ]
 }
