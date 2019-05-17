@@ -23,6 +23,7 @@ variable "sourcecode" {
 variable "common_tags" {
   type = "map"
 }
+
 variable "type" {
   type = "string"
 }

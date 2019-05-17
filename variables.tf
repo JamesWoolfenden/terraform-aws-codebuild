@@ -26,7 +26,6 @@ variable "type" {
   type = "string"
 }
 
-
 variable "sourcecode" {
   type        = "list"
   description = "The SourceCode"
@@ -72,5 +71,5 @@ variable "encryption_disabled" {
 }
 
 variable "bucketname" {
-  default=""
+  default = ""
 }
