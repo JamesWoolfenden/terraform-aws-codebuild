@@ -12,22 +12,11 @@ variable "name" {
 
 variable "force_artifact_destroy" {}
 
-variable "build_timeout" {
-  description = "Timeout set for the build to run"
-}
-
-variable "sourcecode" {
-  type = "list"
-}
-
 variable "common_tags" {
-  type = "map"
+  type = map
 }
 
-variable "type" {
-  type = "string"
+variable "source_location" {
+  type = string
 }
 
-variable "environment" {
-  type = "list"
-}

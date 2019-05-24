@@ -1,7 +1,7 @@
 resource "aws_iam_role_policy" "codecommit_policy" {
   name  = "codecommitpolicy-${var.name}"
-  count = "${var.reponame == "" ? 0 : 1}"
-  role  = "${aws_iam_role.codebuild.id}"
+  count = var.reponame == "" ? 0 : 1
+  role  = aws_iam_role.codebuild[count.index].id
 
   policy = <<JSON
 {
@@ -38,7 +38,7 @@ resource "aws_iam_role_policy" "codecommit_policy" {
                 "codecommit:GetBranch",
                 "codecommit:GetMergeConflicts"
             ],
-            "Resource": "arn:aws:codecommit:${data.aws_region.current.region.name}:${data.aws_caller_identity.current.account_id}:${var.reponame}"
+            "Resource": "arn:aws:codecommit:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${var.reponame}"
         }
     ]
 }

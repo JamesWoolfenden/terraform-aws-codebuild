@@ -1,6 +1,5 @@
 #Makefile
 ifdef OS
-   RM   = $(powershell  -noprofile rm .\.terraform\modules -force -recurse)
    BLAT = $(powershell  -noprofile rm .\.terraform\ -force -recurse)
 else
    ifeq ($(shell uname), Linux)
@@ -21,7 +20,7 @@ plan: init
 	terraform plan -refresh=true
 
 p:
-	terraform plan -refresh=true | landscape
+	terraform plan -refresh=true
 
 build: init
 	terraform apply -auto-approve
@@ -45,4 +44,3 @@ target:
 
 purge:
 	$(BLAT)
-	terraform init -reconfigure
