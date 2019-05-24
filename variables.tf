@@ -97,5 +97,5 @@ variable "environment_compute_type" {
 }
 
 variable "source_location" {
-  type=string
+  type = string
 }

@@ -21,8 +21,8 @@ resource "aws_codebuild_project" "project" {
   }
 
   source {
-    type    = var.source_type
-    location= var.source_location
+    type     = var.source_type
+    location = var.source_location
   }
 
   tags = var.common_tags
