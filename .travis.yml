@@ -2,7 +2,7 @@ branches:
   only:
     - master
 env:
-  - VERSION="0.1.$TRAVIS_BUILD_NUMBER"
+  - VERSION="0.2.$TRAVIS_BUILD_NUMBER"
 addons:
   apt:
     packages:
@@ -25,4 +25,4 @@ after_success:
   - git config --global user.name "Travis CI"
   - export GIT_TAG=$VERSION
   - git tag $GIT_TAG -a -m "Generated tag from TravisCI build $VERSION"
-  - git push --quiet https://$TAGAUTH@github.com/jameswoolfenden/terraform-aws-codebuild $GIT_TAG > /dev/null 2>&1
+  - git push --quiet https://$TAGAUTH@github.com/jameswoolfenden/terraform-aws-codebuild $GIT_TAG > /dev/null 2>&1v cg
