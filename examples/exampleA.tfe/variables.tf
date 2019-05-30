@@ -13,10 +13,9 @@ variable "name" {
 variable "force_artifact_destroy" {}
 
 variable "common_tags" {
-  type = map
+  type = "map"
 }
 
 variable "source_location" {
-  type = string
+  type = "string"
 }
-
