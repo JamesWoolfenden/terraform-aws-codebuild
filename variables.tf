@@ -104,3 +104,8 @@ variable "defaultbranch" {
   type    = "string"
   default = "master"
 }
+
+variable "source_buildspec" {
+  type    = "string"
+  default = ""
+}
