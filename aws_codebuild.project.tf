@@ -21,9 +21,9 @@ resource "aws_codebuild_project" "project" {
   }
 
   source {
-    type     = "${var.source_type}"
-    location = "${var.source_location}"
-    buildspec= "${var.source_buildspec}"
+    type      = "${var.source_type}"
+    location  = "${var.source_location}"
+    buildspec = "${var.source_buildspec}"
   }
 
   tags = "${var.common_tags}"

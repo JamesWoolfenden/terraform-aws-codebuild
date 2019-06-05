@@ -17,4 +17,6 @@ resource "aws_iam_role" "trigger" {
     ]
 }
 PATTERN
+
+  tags = "${var.common_tags}"
 }
