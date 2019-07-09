@@ -17,5 +17,5 @@ resource "aws_iam_role" "codebuild" {
 }
 HERE
 
-  tags = "${var.common_tags}"
+  tags = var.common_tags
 }

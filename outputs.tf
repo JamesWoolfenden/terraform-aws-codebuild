@@ -1,5 +1,5 @@
 output "artifact_bucket" {
-  value = "${local.bucketname}"
+  value = local.bucketname
 }
 
 output "codebuild_role_name" {

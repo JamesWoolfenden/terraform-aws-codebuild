@@ -26,7 +26,7 @@ HERE
 }
 
 resource "aws_iam_role_policy_attachment" "lex" {
-  role       = "${module.codebuild.codebuild_role_name}"
+  role = "${module.codebuild.codebuild_role_name}"
   policy_arn = "${aws_iam_policy.additionalneeds.arn}"
   depends_on = ["aws_iam_policy.additionalneeds"]
 }
