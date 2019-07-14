@@ -1,7 +1,7 @@
 resource "aws_codebuild_project" "project" {
-  name          = replace(var.name, ".", "-")
+  name          = "${replace(var.name, ".", "-")}"
   description   = var.description
-  service_role  = var.role == "" ? element(concat(aws_iam_role.codebuild.*.arn, list("")), 0) : element(concat(data.aws_iam_role.existing.*.arn, list("")), 0)
+  service_role  = "${var.role == "" ? element(concat(aws_iam_role.codebuild.*.arn, list("")), 0) : element(concat(data.aws_iam_role.existing.*.arn, list("")), 0)}"
   build_timeout = var.build_timeout
 
   artifacts {
@@ -21,8 +21,9 @@ resource "aws_codebuild_project" "project" {
   }
 
   source {
-    type     = var.source_type
-    location = var.source_location
+    type      = var.source_type
+    location  = var.source_location
+    buildspec = var.source_buildspec
   }
 
   tags = var.common_tags

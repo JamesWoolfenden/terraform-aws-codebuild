@@ -16,8 +16,8 @@ variable "force_artifact_destroy" {
 
 variable "build_timeout" {
   description = "The time to wait for a CodeBuild to complete before timing out in minutes (default: 5)"
-  type        = number
-  default     = 60
+  type        = string
+  default     = "60"
 }
 
 variable "role" {
@@ -48,7 +48,9 @@ variable "projectroot" {
   type        = string
 }
 
-variable "description" {}
+variable "description" {
+  type = string
+}
 
 variable "encryption_disabled" {
   type        = string
@@ -61,13 +63,8 @@ variable "bucketname" {
   type    = string
 }
 
-variable "region" {
-  default = "eu-west-1"
-  type    = string
-}
-
 variable "artifact_type" {
-  default = "CODEBUILD"
+  default = "NO_ARTIFACTS"
   type    = string
 }
 
@@ -77,13 +74,13 @@ variable "source_type" {
 }
 
 variable "environment_privileged_mode" {
-  type    = bool
-  default = false
+  type    = string
+  default = "false"
 }
 
 variable "environment_type" {
   type    = string
-  default = "BUILD_GENERAL1_SMALL"
+  default = "LINUX_CONTAINER"
 }
 
 variable "environment_image" {
@@ -93,9 +90,19 @@ variable "environment_image" {
 
 variable "environment_compute_type" {
   type    = string
-  default = "LINUX_CONTAINER"
+  default = "BUILD_GENERAL1_SMALL"
 }
 
 variable "source_location" {
   type = string
+}
+
+variable "defaultbranch" {
+  type    = string
+  default = "master"
+}
+
+variable "source_buildspec" {
+  type    = string
+  default = ""
 }

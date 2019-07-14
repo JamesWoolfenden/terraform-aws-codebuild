@@ -7,6 +7,8 @@ data "aws_iam_policy_document" "codebuild_policy" {
     resources = [
       "arn:aws:s3:::${local.bucketname}",
       "arn:aws:s3:::${local.bucketname}/*",
+      "arn:aws:s3:::codepipeline-${data.aws_region.current.name}-163714928765/*",
+      "arn:aws:s3:::codepipeline-${data.aws_region.current.name}-163714928765",
     ]
   }
 

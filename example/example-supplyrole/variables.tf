@@ -2,7 +2,6 @@ variable "description" {
   description = "Description of the repository"
 }
 
-
 variable "projectroot" {
   description = "The root project name"
 }
@@ -17,11 +16,10 @@ variable "name" {
 
 variable "force_artifact_destroy" {}
 
-
 variable "common_tags" {
-  type = map
+  type = "map"
 }
 
 variable "source_location" {
-  type=string
+  type = "string"
 }
