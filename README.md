@@ -15,18 +15,18 @@ Include this repository as a module in your existing terraform code:
 ```hcl
 module "codebuild" {
   source                 = "jameswoolfenden/codebuild/aws"
-  build_timeout          = "${var.build_timeout}"
-  common_tags            = "${var.common_tags}"
-  description            = "${var.description}"
-  environment            = "${var.environment}"
-  force_artifact_destroy = "${var.force_artifact_destroy}"
-  name                   = "${var.name}"
-  namespace_type         = "${var.namespace_type}"
-  packaging              = "${var.packaging}"
-  projectroot            = "${var.projectroot}"
-  reponame               = "${var.reponame}"
-  sourcecode             = "${var.sourcecode}"
-  type                   = "${var.type}"
+  build_timeout          = var.build_timeout
+  common_tags            = var.common_tags
+  description            = var.description
+  environment            = var.environment
+  force_artifact_destroy = var.force_artifact_destroy
+  name                   = var.name
+  namespace_type         = var.namespace_type
+  packaging              = var.packaging
+  projectroot            = var.projectroot
+  reponame               = var.reponame
+  sourcecode             = var.sourcecode
+  type                   = var.type
 }
 ```
 
