@@ -12,6 +12,7 @@ variable "reponame" {
 variable "force_artifact_destroy" {
   type        = string
   description = "Force the removal of the artifact S3 bucket on destroy (default: false)."
+  default     = false
 }
 
 variable "build_timeout" {
@@ -46,10 +47,12 @@ variable "namespace_type" {
 variable "projectroot" {
   description = "The name of the parent project for SSM"
   type        = string
+  default     = "core"
 }
 
 variable "description" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "encryption_disabled" {
