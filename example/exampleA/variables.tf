@@ -15,7 +15,6 @@ variable "name" {
 
 variable "force_artifact_destroy" {
   type = string
-
 }
 
 variable "common_tags" {

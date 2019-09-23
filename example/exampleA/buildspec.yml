@@ -2,7 +2,7 @@ version: 0.2
 env:
   parameter-store:
     BUILDNUMBER: /core/codebuild/exampleA/buildnumber
-    
+
 phases:
   install:
     commands:

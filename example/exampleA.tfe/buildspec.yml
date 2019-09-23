@@ -4,7 +4,7 @@ env:
     MAJOR: "1"
     MINOR: "1"
   parameter-store:
-    BUILDNUMBER: =/core/codebuild/exampleA/buildnumber
+    BUILDNUMBER: /core/codebuild/exampleA/buildnumber
 
 phases:
   install:
@@ -18,7 +18,9 @@ phases:
       - echo "pre_build step"
       - export MAJOR=0
       - export MINOR=0
-      - . ./buildno.sh
+      - BUILDNUMBER=$(BUILDNUMBER + 1)
+      - export BUILDNUMBER=$BUILDNUMBER
+      - aws ssm put-parameter --name "/core/codebuild/exampleA/buildnumber" --type "String" --value "$BUILDNUMBER" --overwrite
       - export BUILDVERSION=$MAJOR.$MINOR.$BUILDNUMBER
       - echo "Running - $BUILDVERSION"
   build:
