@@ -31,9 +31,9 @@ module "codebuild" {
   sourcecode             = var.sourcecode
   type                   = var.type
 }
+```
 
 As always a full example is included for reference.
-```
 
 ## Detailed Notes
 
