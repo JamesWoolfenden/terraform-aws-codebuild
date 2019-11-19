@@ -6,5 +6,5 @@ module "codebuild" {
   name                   = var.name
   projectroot            = var.projectroot
   role                   = var.role
-  source_location        = var.source_location
+  sourcecode             = var.sourcecode
 }

@@ -21,6 +21,11 @@ variable "common_tags" {
   type = map
 }
 
-variable "source_location" {
-  type = string
+variable "sourcecode" {
+  type = map
+  default = {
+    type      = "CODECOMMIT"
+    location  = ""
+    buildspec = ""
+  }
 }

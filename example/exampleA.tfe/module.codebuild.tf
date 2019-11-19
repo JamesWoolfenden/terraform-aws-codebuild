@@ -5,5 +5,5 @@ module "codebuild" {
   force_artifact_destroy = var.force_artifact_destroy
   name                   = var.name
   projectroot            = var.projectroot
-  source_location        = var.source_location
+  sourcecode             = var.sourcecode
 }

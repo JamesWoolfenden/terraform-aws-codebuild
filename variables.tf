@@ -32,16 +32,14 @@ variable "common_tags" {
   description = "An AWS tagging scheme"
 }
 
-variable "packaging" {
-  description = "To zip or not"
-  default     = "NONE"
-  type        = string
-}
 
-variable "namespace_type" {
-  description = "Do I want to add a folder to artifact output"
-  default     = "NONE"
-  type        = string
+variable "artifact" {
+  default = {
+    encryption_disabled = false
+    packaging           = "NONE"
+    type                = "NO_ARTIFACTS"
+    namespace_type      = "NONE"
+  }
 }
 
 variable "projectroot" {
@@ -55,49 +53,10 @@ variable "description" {
   default = ""
 }
 
-variable "encryption_disabled" {
-  type        = string
-  description = "Codebuild will autoencrypt your files"
-  default     = false
-}
 
 variable "bucketname" {
   default = ""
   type    = string
-}
-
-variable "artifact_type" {
-  default = "NO_ARTIFACTS"
-  type    = string
-}
-
-variable "source_type" {
-  type    = string
-  default = "CODECOMMIT"
-}
-
-variable "environment_privileged_mode" {
-  type    = string
-  default = "false"
-}
-
-variable "environment_type" {
-  type    = string
-  default = "LINUX_CONTAINER"
-}
-
-variable "environment_image" {
-  type    = string
-  default = "aws/codebuild/nodejs:6.3.1"
-}
-
-variable "environment_compute_type" {
-  type    = string
-  default = "BUILD_GENERAL1_SMALL"
-}
-
-variable "source_location" {
-  type = string
 }
 
 variable "defaultbranch" {
@@ -105,7 +64,22 @@ variable "defaultbranch" {
   default = "master"
 }
 
-variable "source_buildspec" {
-  type    = string
-  default = ""
+variable "environment" {
+  type = map
+  default = {
+    privileged_mode = "false"
+    type            = "LINUX_CONTAINER"
+    image           = "aws/codebuild/nodejs:6.3.1"
+    compute_type    = "BUILD_GENERAL1_SMALL"
+  }
+}
+
+
+variable "sourcecode" {
+  type = map
+  default = {
+    type      = "CODECOMMIT"
+    location  = ""
+    buildspec = ""
+  }
 }
