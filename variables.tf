@@ -50,15 +50,15 @@ variable "projectroot" {
 }
 
 variable "description" {
-  description="Yeah it's the description"
-  type    = string
-  default = ""
+  description = "Yeah it's the description"
+  type        = string
+  default     = ""
 }
 
 variable "bucketname" {
-  description= ""
-  default    = ""
-  type       = string
+  description = ""
+  default     = ""
+  type        = string
 }
 
 variable "defaultbranch" {
@@ -68,8 +68,8 @@ variable "defaultbranch" {
 }
 
 variable "environment" {
-  description="A map to describe the build environment and populate the environment block" 
-  type = map
+  description = "A map to describe the build environment and populate the environment block"
+  type        = map
   default = {
     privileged_mode = "false"
     type            = "LINUX_CONTAINER"
@@ -80,8 +80,8 @@ variable "environment" {
 
 
 variable "sourcecode" {
-  description="A map to describe where your sourcecode comes from, to fill the sourcecode block in a Codebuild project "
-  type = map
+  description = "A map to describe where your sourcecode comes from, to fill the sourcecode block in a Codebuild project "
+  type        = map
   default = {
     type      = "CODECOMMIT"
     location  = ""
