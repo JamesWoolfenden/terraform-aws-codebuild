@@ -34,6 +34,7 @@ variable "common_tags" {
 
 
 variable "artifact" {
+  description = "Populates the Artifact block"
   default = {
     encryption_disabled = false
     packaging           = "NONE"
@@ -49,22 +50,25 @@ variable "projectroot" {
 }
 
 variable "description" {
+  description="Yeah it's the description"
   type    = string
   default = ""
 }
 
-
 variable "bucketname" {
-  default = ""
-  type    = string
+  description= ""
+  default    = ""
+  type       = string
 }
 
 variable "defaultbranch" {
-  type    = string
-  default = "master"
+  description = "The default git branch"
+  type        = string
+  default     = "master"
 }
 
 variable "environment" {
+  description="A map to describe the build environment and populate the environment block" 
   type = map
   default = {
     privileged_mode = "false"
@@ -76,6 +80,7 @@ variable "environment" {
 
 
 variable "sourcecode" {
+  description="A map to describe where your sourcecode comes from, to fill the sourcecode block in a Codebuild project "
   type = map
   default = {
     type      = "CODECOMMIT"

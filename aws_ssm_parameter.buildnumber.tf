@@ -5,6 +5,6 @@ resource "aws_ssm_parameter" "buildnumber" {
 
   # i don't care what it's current value is
   lifecycle {
-    ignore_changes = ["value"]
+    ignore_changes = [value]
   }
 }

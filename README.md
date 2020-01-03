@@ -18,6 +18,7 @@ Include this repository as a module in your existing terraform code:
 ```hcl
 module "codebuild" {
   source                 = "jameswoolfenden/codebuild/aws"
+  version                = "0.2.70"
   common_tags            = var.common_tags
   description            = var.description
   force_artifact_destroy = var.force_artifact_destroy
@@ -43,18 +44,30 @@ In the root directory there is an example `buildspec.yml`. This is a build speci
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | artifact |  | map | `{ "encryption_disabled": false, "namespace_type": "NONE", "packaging": "NONE", "type": "NO_ARTIFACTS" }` | no |
-| bucketname |  | string | `""` | no |
-| build\_timeout | The time to wait for a CodeBuild to complete before timing out in minutes (default: 5) | string | `"60"` | no |
-| common\_tags | An AWS tagging scheme | map | n/a | yes |
-| defaultbranch |  | string | `"master"` | no |
-| description |  | string | `""` | no |
-| environment |  | map | `{ "compute_type": "BUILD_GENERAL1_SMALL", "image": "aws/codebuild/nodejs:6.3.1", "privileged_mode": "false", "type": "LINUX_CONTAINER" }` | no |
-| force\_artifact\_destroy | Force the removal of the artifact S3 bucket on destroy (default: false). | string | `"false"` | no |
-| name | The name of the Build | string | n/a | yes |
-| projectroot | The name of the parent project for SSM | string | `"core"` | no |
-| reponame | The name of the repository | string | `""` | no |
-| role | Override for providing a role | string | `""` | no |
-| sourcecode |  | map | `{ "buildspec": "", "location": "", "type": "CODECOMMIT" }` | no |
+| bucketname |  | string
+ | `""` | no |
+| build\_timeout | The time to wait for a CodeBuild to complete before timing out in minutes (default: 5) | string
+ | `"60"` | no |
+| common\_tags | An AWS tagging scheme | map
+ | n/a | yes |
+| defaultbranch |  | string
+ | `"master"` | no |
+| description |  | string
+ | `""` | no |
+| environment |  | map
+ | `{ "compute_type": "BUILD_GENERAL1_SMALL", "image": "aws/codebuild/nodejs:6.3.1", "privileged_mode": "false", "type": "LINUX_CONTAINER" }` | no |
+| force\_artifact\_destroy | Force the removal of the artifact S3 bucket on destroy (default: false). | string
+ | `"false"` | no |
+| name | The name of the Build | string
+ | n/a | yes |
+| projectroot | The name of the parent project for SSM | string
+ | `"core"` | no |
+| reponame | The name of the repository | string
+ | `""` | no |
+| role | Override for providing a role | string
+ | `""` | no |
+| sourcecode |  | map
+ | `{ "buildspec": "", "location": "", "type": "CODECOMMIT" }` | no |
 
 ## Outputs
 
