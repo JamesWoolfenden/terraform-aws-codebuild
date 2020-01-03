@@ -4,7 +4,7 @@ terraform {
     organization = "wolf"
 
     workspaces {
-      name = "terraform-aws-codebuild-exampleA-tfe"
+      name = "terraform-aws-codebuild-examplea-tfe"
     }
   }
 }
