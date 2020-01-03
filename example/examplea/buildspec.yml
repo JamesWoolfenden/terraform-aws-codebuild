@@ -1,7 +1,7 @@
 version: 0.2
 env:
   parameter-store:
-    BUILDNUMBER: /core/codebuild/exampleA/buildnumber
+    BUILDNUMBER: /core/codebuild/examplea/buildnumber
 
 phases:
   install:
@@ -14,7 +14,7 @@ phases:
       - export MINOR=0
       - BUILDNUMBER=$(BUILDNUMBER + 1)
       - export BUILDNUMBER=$BUILDNUMBER
-      - aws ssm put-parameter --name "/core/codebuild/exampleA/buildnumber" --type "String" --value "$BUILDNUMBER" --overwrite
+      - aws ssm put-parameter --name "/core/codebuild/examplea/buildnumber" --type "String" --value "$BUILDNUMBER" --overwrite
       - export BUILDVERSION=$MAJOR.$MINOR.$BUILDNUMBER
       - echo "Running - $BUILDVERSION"
   build:
@@ -22,5 +22,5 @@ phases:
       - echo "build command"
   post_build:
     commands:
-      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then aws ssm put-parameter --name "/core/codebuild/exampleA/latest" --type "String" --value "$BUILDVERSION" --overwrite; else echo Build failed; fi
+      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then aws ssm put-parameter --name "/core/codebuild/examplea/latest" --type "String" --value "$BUILDVERSION" --overwrite; else echo Build failed; fi
       - echo "post_build step"
