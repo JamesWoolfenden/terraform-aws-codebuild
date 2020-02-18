@@ -1,6 +1,6 @@
 [![Slalom][logo]](https://slalom.com)
 
-# terraform-aws-codebuild [![Build Status](https://api.travis-ci.com/JamesWoolfenden/terraform-aws-codebuild.svg?branch=master)](https://travis-ci.com/JamesWoolfenden/terraform-aws-codebuild) [![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-aws-codebuild.svg)](https://github.com/JamesWoolfenden/terraform-aws-codebuild/releases/latest)
+# terraform-aws-codebuild [![Build Status](https://api.travis-ci.com/JamesWoolfenden/terraform-aws-codebuild.svg?branch=master)](https://travis-ci.com/JamesWoolfenden/terraform-aws-codebuild) [![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-aws-codebuild.svg)](https://github.com/JamesWoolfenden/terraform-aws-codebuild/releases/latest) [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 Terraform module to provision an AWS [`codebuild`](https://aws.amazon.com/codebuild/) CI/CD system.
 
@@ -39,31 +39,37 @@ These templates implement the module terraform-aws-codebuild. It includes a numb
 In the root directory there is an example `buildspec.yml`. This is a build specification you can supply to CodeCommit. It includes some basic codebuild functionality to drive semantic versioning using SSM parameters.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Providers
+
+| Name | Version |
+|------|---------|
+| aws | n/a |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| artifact | Populates the Artifact block | map | `{ "encryption_disabled": false, "namespace_type": "NONE", "packaging": "NONE", "type": "NO_ARTIFACTS" }` | no |
-| bucketname |  | string | `""` | no |
-| build\_timeout | The time to wait for a CodeBuild to complete before timing out in minutes (default: 5) | string | `"60"` | no |
-| common\_tags | An AWS tagging scheme | map | n/a | yes |
-| defaultbranch | The default git branch | string | `"master"` | no |
-| description | Yeah it's the description | string | `""` | no |
-| environment | A map to describe the build environment and populate the environment block | map | `{ "compute_type": "BUILD_GENERAL1_SMALL", "image": "aws/codebuild/nodejs:6.3.1", "privileged_mode": "false", "type": "LINUX_CONTAINER" }` | no |
-| force\_artifact\_destroy | Force the removal of the artifact S3 bucket on destroy (default: false). | string | `"false"` | no |
-| name | The name of the Build | string | n/a | yes |
-| projectroot | The name of the parent project for SSM | string | `"core"` | no |
-| reponame | The name of the repository | string | `""` | no |
-| role | Override for providing a role | string | `""` | no |
-| sourcecode | A map to describe where your sourcecode comes from, to fill the sourcecode block in a Codebuild project | map | `{ "buildspec": "", "location": "", "type": "CODECOMMIT" }` | no |
+|------|-------------|------|---------|:-----:|
+| artifact | Populates the Artifact block | `map` | <pre>{<br>  "encryption_disabled": false,<br>  "namespace_type": "NONE",<br>  "packaging": "NONE",<br>  "type": "NO_ARTIFACTS"<br>}<br></pre> | no |
+| bucketname | n/a | `string` | `""` | no |
+| build\_timeout | The time to wait for a CodeBuild to complete before timing out in minutes (default: 5) | `string` | `"60"` | no |
+| common\_tags | An AWS tagging scheme | `map` | n/a | yes |
+| defaultbranch | The default git branch | `string` | `"master"` | no |
+| description | Yeah it's the description | `string` | `""` | no |
+| environment | A map to describe the build environment and populate the environment block | `map` | <pre>{<br>  "compute_type": "BUILD_GENERAL1_SMALL",<br>  "image": "aws/codebuild/nodejs:6.3.1",<br>  "privileged_mode": "false",<br>  "type": "LINUX_CONTAINER"<br>}<br></pre> | no |
+| force\_artifact\_destroy | Force the removal of the artifact S3 bucket on destroy (default: false). | `string` | `false` | no |
+| name | The name of the Build | `string` | n/a | yes |
+| projectroot | The name of the parent project for SSM | `string` | `"core"` | no |
+| reponame | The name of the repository | `string` | `""` | no |
+| role | Override for providing a role | `string` | `""` | no |
+| sourcecode | A map to describe where your sourcecode comes from, to fill the sourcecode block in a Codebuild project | `map` | <pre>{<br>  "buildspec": "",<br>  "location": "",<br>  "type": "CODECOMMIT"<br>}<br></pre> | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| artifact\_bucket | required by Hashicorp |
-| codebuild\_role\_name |  |
-| project |  |
+| artifact\_bucket | n/a |
+| codebuild\_role\_name | n/a |
+| project | n/a |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Related Projects
@@ -86,7 +92,7 @@ Please use the [issue tracker](https://github.com/jameswoolfenden/terraform-aws-
 
 ## Copyrights
 
-Copyright © 2019-2019 [Slalom, LLC](https://slalom.com)
+Copyright © 2019-2020 [Slalom, LLC](https://slalom.com)
 
 ## License
 
@@ -113,11 +119,10 @@ under the License.
 
 ### Contributors
 
-  [![James Woolfenden][jameswoolfenden_avatar]][jameswoolfenden_homepage]<br/>[James Woolfenden][jameswoolfenden_homepage]
+[![James Woolfenden][jameswoolfenden_avatar]][jameswoolfenden_homepage]<br/>[James Woolfenden][jameswoolfenden_homepage]
 
-  [jameswoolfenden_homepage]: https://github.com/jameswoolfenden
-  [jameswoolfenden_avatar]: https://github.com/jameswoolfenden.png?size=150
-
+[jameswoolfenden_homepage]: https://github.com/jameswoolfenden
+[jameswoolfenden_avatar]: https://github.com/jameswoolfenden.png?size=150
 [logo]: https://gist.githubusercontent.com/JamesWoolfenden/5c457434351e9fe732ca22b78fdd7d5e/raw/15933294ae2b00f5dba6557d2be88f4b4da21201/slalom-logo.png
 [website]: https://slalom.com
 [github]: https://github.com/jameswoolfenden
