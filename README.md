@@ -67,6 +67,7 @@ In the root directory there is an example `buildspec.yml`. This is a build speci
 | reponame | The name of the repository | `string` | `""` | no |
 | role | Override for providing a role | `string` | `""` | no |
 | sourcecode | A map to describe where your sourcecode comes from, to fill the sourcecode block in a Codebuild project | `map` | <pre>{<br>  "buildspec": "",<br>  "location": "",<br>  "type": "CODECOMMIT"<br>}<br></pre> | no |
+| sse\_algorithm | The type of encryption algorithm to use | `string` | `"aws:kms"` | no |
 
 ## Outputs
 
