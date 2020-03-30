@@ -36,10 +36,8 @@ variable "common_tags" {
 variable "artifact" {
   description = "Populates the Artifact block"
   default = {
-    encryption_disabled = false
-    packaging           = "NONE"
-    type                = "NO_ARTIFACTS"
-    namespace_type      = "NONE"
+    packaging      = "NONE"
+    namespace_type = "NONE"
   }
 }
 
@@ -92,4 +90,17 @@ variable "sse_algorithm" {
   description = "The type of encryption algorithm to use"
   type        = string
   default     = "aws:kms"
+}
+
+
+variable "encryption_disabled" {
+  description = "Disable the encryption of artifacts"
+  type        = bool
+  default     = false
+}
+
+variable "artifact_type" {
+  description = "The Artifact type, S3, CODEPIPELINE or NO_ARTIFACT"
+  type        = string
+  default     = "S3"
 }

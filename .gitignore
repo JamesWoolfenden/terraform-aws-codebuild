@@ -4,6 +4,7 @@
 
 # Module directory
 .terraform
+__pycache__/
 .idea
 *.iml
 *.orig
