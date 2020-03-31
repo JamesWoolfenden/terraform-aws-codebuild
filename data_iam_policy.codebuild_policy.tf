@@ -1,7 +1,11 @@
 data "aws_iam_policy_document" "codebuild_policy" {
   statement {
     actions = [
-      "*",
+      "s3:GetObject",
+      "s3:List*",
+      "s3:PutObject",
+      "s3:GetBucketAcl",
+      "s3:GetBucketLocation"
     ]
 
     resources = [
@@ -14,7 +18,9 @@ data "aws_iam_policy_document" "codebuild_policy" {
 
   statement {
     actions = [
-      "codebuild:*",
+      "codebuild:StartBuild",
+      "codebuild:StopBuild",
+      "codebuild:UpdateProject"
     ]
 
     resources = [
@@ -24,7 +30,16 @@ data "aws_iam_policy_document" "codebuild_policy" {
 
   statement {
     actions = [
-      "ecr:*",
+      "ecr:DescribeImages",
+      "ecr:DescribeRepositories",
+      "ecr:GetAuthorizationToken",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:BatchGetImage",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:PutImage",
+      "ecr:InitiateLayerUpload",
+      "ecr:UploadLayerPart",
+      "ecr:CompleteLayerUpload"
     ]
 
     resources = [
