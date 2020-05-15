@@ -104,3 +104,15 @@ variable "artifact_type" {
   type        = string
   default     = "S3"
 }
+
+variable "versioning" {
+  type        = bool
+  description = "Set bucket to version, probably not as you shouldn't update releases"
+  default     = false
+}
+
+variable "mfa_delete" {
+  type        = bool
+  description = "Require MFA to delete"
+  default     = true
+}

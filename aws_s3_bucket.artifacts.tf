@@ -19,17 +19,3 @@ resource "aws_s3_bucket" "artifacts" {
     }
   }
 }
-
-
-variable "versioning" {
-  type        = boolean
-  description = "Set bucket to version, probably not as you shouldn't update releases"
-  default     = false
-}
-
-
-variable "mfa_delete" {
-  type        = boolean
-  description = "Require MFA to delete"
-  default     = true
-}

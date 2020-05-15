@@ -64,14 +64,14 @@ In the root directory there is an example `buildspec.yml`. This is a build speci
 | encryption\_disabled | Disable the encryption of artifacts | `bool` | `false` | no |
 | environment | A map to describe the build environment and populate the environment block | `map` | <pre>{<br>  "compute_type": "BUILD_GENERAL1_SMALL",<br>  "image": "aws/codebuild/nodejs:6.3.1",<br>  "privileged_mode": "false",<br>  "type": "LINUX_CONTAINER"<br>}</pre> | no |
 | force\_artifact\_destroy | Force the removal of the artifact S3 bucket on destroy (default: false). | `string` | `false` | no |
-| mfa\_delete | Require MFA to delete | `boolean` | `true` | no |
+| mfa\_delete | Require MFA to delete | `bool` | `true` | no |
 | name | The name of the Build | `string` | n/a | yes |
 | projectroot | The name of the parent project for SSM | `string` | `"core"` | no |
 | reponame | The name of the repository | `string` | `""` | no |
 | role | Override for providing a role | `string` | `""` | no |
 | sourcecode | A map to describe where your sourcecode comes from, to fill the sourcecode block in a Codebuild project | `map` | <pre>{<br>  "buildspec": "",<br>  "location": "",<br>  "type": "CODECOMMIT"<br>}</pre> | no |
 | sse\_algorithm | The type of encryption algorithm to use | `string` | `"aws:kms"` | no |
-| versioning | Set bucket to version, probably not as you shouldn't update releases | `boolean` | `false` | no |
+| versioning | Set bucket to version, probably not as you shouldn't update releases | `bool` | `false` | no |
 
 ## Outputs
 
