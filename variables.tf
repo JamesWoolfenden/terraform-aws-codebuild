@@ -86,6 +86,7 @@ variable "sourcecode" {
     buildspec = ""
   }
 }
+
 variable "sse_algorithm" {
   description = "The type of encryption algorithm to use"
   type        = string
@@ -107,7 +108,7 @@ variable "artifact_type" {
 
 variable "versioning" {
   type        = bool
-  description = "Set bucket to version, probably not as you shouldn't update releases"
+  description = "Set bucket to version"
   default     = false
 }
 

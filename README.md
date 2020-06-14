@@ -82,7 +82,7 @@ No requirements.
 | role | Override for providing a role | `string` | `""` | no |
 | sourcecode | A map to describe where your sourcecode comes from, to fill the sourcecode block in a Codebuild project | `map` | <pre>{<br>  "buildspec": "",<br>  "location": "",<br>  "type": "CODECOMMIT"<br>}</pre> | no |
 | sse\_algorithm | The type of encryption algorithm to use | `string` | `"aws:kms"` | no |
-| versioning | Set bucket to version, probably not as you shouldn't update releases | `bool` | `false` | no |
+| versioning | Set bucket to version | `bool` | `false` | no |
 
 ## Outputs
 
