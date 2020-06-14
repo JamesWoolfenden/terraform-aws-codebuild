@@ -1,7 +1,6 @@
 description            = "Description fitting of such a repos"
 force_artifact_destroy = "true"
 
-name        = "examplea"
 projectroot = "example"
 
 sourcecode = {

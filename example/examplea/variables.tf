@@ -8,11 +8,6 @@ variable "projectroot" {
   description = "The root project name"
 }
 
-variable "name" {
-  type        = string
-  description = "The name of the build pipeline"
-}
-
 variable "force_artifact_destroy" {
   type = string
 }

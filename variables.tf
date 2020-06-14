@@ -114,5 +114,5 @@ variable "versioning" {
 variable "mfa_delete" {
   type        = bool
   description = "Require MFA to delete"
-  default     = true
+  default     = false
 }
