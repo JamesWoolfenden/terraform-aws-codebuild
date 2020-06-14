@@ -37,6 +37,11 @@ module "codebuild" {
 
 As always a full example is included for reference.
 
+## Testing
+
+Every version of this module is built in Terraform using the the example **examplea** using Github Actions. It 100% has worked.
+See the successes and failures here: <https://github.com/JamesWoolfenden/terraform-aws-codebuild/actions>
+
 ## Detailed Notes
 
 These templates implement the module terraform-aws-codebuild. It includes a number of defaulted behaviours.
