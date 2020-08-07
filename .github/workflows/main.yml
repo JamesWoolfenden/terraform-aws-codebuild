@@ -11,8 +11,11 @@ jobs:
     strategy:
       matrix:
         python-version: [3.7]
+
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: master
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
         with:

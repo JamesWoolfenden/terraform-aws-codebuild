@@ -6,15 +6,9 @@ resource "aws_iam_policy" "additionalneeds" {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "VisualEditor0",
-            "Effect": "Allow",
-            "Action": "lex:*",
-            "Resource": "*"
-        },
-        {
             "Sid": "VisualEditor2",
             "Effect": "Allow",
-            "Action": "s3:*",
+            "Action": "s3:listbuckets",
             "Resource": [
                 "arn:aws:s3:::aws-lexbot-wilbur-${data.aws_caller_identity.current.account_id}-artifacts/*",
                 "arn:aws:s3:::aws-lexbot-wilbur-${data.aws_caller_identity.current.account_id}-artifacts"
