@@ -1,5 +1,3 @@
-[![Slalom][logo]](https://slalom.com)
-
 # terraform-aws-codebuild
 
 [![Build Status](https://github.com/JamesWoolfenden/terraform-aws-codebuild/workflows/Verify%20and%20Bump/badge.svg?branch=master)](https://github.com/JamesWoolfenden/terraform-aws-codebuild)
@@ -51,6 +49,7 @@ These templates implement the module terraform-aws-codebuild. It includes a numb
 In the root directory there is an example `buildspec.yml`. This is a build specification you can supply to CodeCommit. It includes some basic codebuild functionality to drive semantic versioning using SSM parameters.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
 ## Requirements
 
 No requirements.
@@ -58,41 +57,42 @@ No requirements.
 ## Providers
 
 | Name | Version |
-|------|---------|
-| aws | n/a |
+| ---- | ------- |
+| aws  | n/a     |
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| artifact | Populates the Artifact block | `map` | <pre>{<br>  "namespace_type": "NONE",<br>  "packaging": "NONE"<br>}</pre> | no |
-| artifact\_type | The Artifact type, S3, CODEPIPELINE or NO\_ARTIFACT | `string` | `"S3"` | no |
-| bucketname | n/a | `string` | `""` | no |
-| build\_timeout | The time to wait for a CodeBuild to complete before timing out in minutes (default: 5) | `string` | `"60"` | no |
-| common\_tags | An AWS tagging scheme | `map` | n/a | yes |
-| defaultbranch | The default git branch | `string` | `"master"` | no |
-| description | Yeah it's the description | `string` | `""` | no |
-| encryption\_disabled | Disable the encryption of artifacts | `bool` | `false` | no |
-| environment | A map to describe the build environment and populate the environment block | `map` | <pre>{<br>  "compute_type": "BUILD_GENERAL1_SMALL",<br>  "image": "aws/codebuild/nodejs:6.3.1",<br>  "privileged_mode": "false",<br>  "type": "LINUX_CONTAINER"<br>}</pre> | no |
-| force\_artifact\_destroy | Force the removal of the artifact S3 bucket on destroy (default: false). | `string` | `false` | no |
-| mfa\_delete | Require MFA to delete | `bool` | `false` | no |
-| name | The name of the Build | `string` | n/a | yes |
-| projectroot | The name of the parent project for SSM | `string` | `"core"` | no |
-| reponame | The name of the repository | `string` | `""` | no |
-| role | Override for providing a role | `string` | `""` | no |
-| sourcecode | A map to describe where your sourcecode comes from, to fill the sourcecode block in a Codebuild project | `map` | <pre>{<br>  "buildspec": "",<br>  "location": "",<br>  "type": "CODECOMMIT"<br>}</pre> | no |
-| sse\_algorithm | The type of encryption algorithm to use | `string` | `"aws:kms"` | no |
-| versioning | Set bucket to version | `bool` | `false` | no |
+| Name                   | Description                                                                                             | Type     | Default                                                                                                                                                                | Required |
+| ---------------------- | ------------------------------------------------------------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| artifact               | Populates the Artifact block                                                                            | `map`    | <pre>{<br> "namespace_type": "NONE",<br> "packaging": "NONE"<br>}</pre>                                                                                                |    no    |
+| artifact_type          | The Artifact type, S3, CODEPIPELINE or NO_ARTIFACT                                                      | `string` | `"S3"`                                                                                                                                                                 |    no    |
+| bucketname             | n/a                                                                                                     | `string` | `""`                                                                                                                                                                   |    no    |
+| build_timeout          | The time to wait for a CodeBuild to complete before timing out in minutes (default: 5)                  | `string` | `"60"`                                                                                                                                                                 |    no    |
+| common_tags            | An AWS tagging scheme                                                                                   | `map`    | n/a                                                                                                                                                                    |   yes    |
+| defaultbranch          | The default git branch                                                                                  | `string` | `"master"`                                                                                                                                                             |    no    |
+| description            | Yeah it's the description                                                                               | `string` | `""`                                                                                                                                                                   |    no    |
+| encryption_disabled    | Disable the encryption of artifacts                                                                     | `bool`   | `false`                                                                                                                                                                |    no    |
+| environment            | A map to describe the build environment and populate the environment block                              | `map`    | <pre>{<br> "compute_type": "BUILD_GENERAL1_SMALL",<br> "image": "aws/codebuild/nodejs:6.3.1",<br> "privileged_mode": "false",<br> "type": "LINUX_CONTAINER"<br>}</pre> |    no    |
+| force_artifact_destroy | Force the removal of the artifact S3 bucket on destroy (default: false).                                | `string` | `false`                                                                                                                                                                |    no    |
+| mfa_delete             | Require MFA to delete                                                                                   | `bool`   | `false`                                                                                                                                                                |    no    |
+| name                   | The name of the Build                                                                                   | `string` | n/a                                                                                                                                                                    |   yes    |
+| projectroot            | The name of the parent project for SSM                                                                  | `string` | `"core"`                                                                                                                                                               |    no    |
+| reponame               | The name of the repository                                                                              | `string` | `""`                                                                                                                                                                   |    no    |
+| role                   | Override for providing a role                                                                           | `string` | `""`                                                                                                                                                                   |    no    |
+| sourcecode             | A map to describe where your sourcecode comes from, to fill the sourcecode block in a Codebuild project | `map`    | <pre>{<br> "buildspec": "",<br> "location": "",<br> "type": "CODECOMMIT"<br>}</pre>                                                                                    |    no    |
+| sse_algorithm          | The type of encryption algorithm to use                                                                 | `string` | `"aws:kms"`                                                                                                                                                            |    no    |
+| versioning             | Set bucket to version                                                                                   | `bool`   | `false`                                                                                                                                                                |    no    |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| artifact\_bucket | n/a |
-| codebuild\_role\_name | n/a |
-| project | n/a |
+| Name                | Description |
+| ------------------- | ----------- |
+| artifact_bucket     | n/a         |
+| codebuild_role_name | n/a         |
+| project             | n/a         |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
 ## Related Projects
 
 Check out these related projects.
@@ -113,7 +113,7 @@ Please use the [issue tracker](https://github.com/jameswoolfenden/terraform-aws-
 
 ## Copyrights
 
-Copyright © 2019-2020 [Slalom, LLC](https://slalom.com)
+Copyright © 2019-2020 James Woolfenden
 
 ## License
 
@@ -122,19 +122,19 @@ Copyright © 2019-2020 [Slalom, LLC](https://slalom.com)
 See [LICENSE](LICENSE) for full details.
 
 Licensed to the Apache Software Foundation (ASF) under one
-or more contributor license agreements.  See the NOTICE file
+or more contributor license agreements. See the NOTICE file
 distributed with this work for additional information
-regarding copyright ownership.  The ASF licenses this file
+regarding copyright ownership. The ASF licenses this file
 to you under the Apache License, Version 2.0 (the
 "License"); you may not use this file except in compliance
-with the License.  You may obtain a copy of the License at
+with the License. You may obtain a copy of the License at
 
 <https://www.apache.org/licenses/LICENSE-2.0>
 
 Unless required by applicable law or agreed to in writing,
 software distributed under the License is distributed on an
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, either express or implied.  See the License for the
+KIND, either express or implied. See the License for the
 specific language governing permissions and limitations
 under the License.
 
@@ -144,12 +144,9 @@ under the License.
 
 [jameswoolfenden_homepage]: https://github.com/jameswoolfenden
 [jameswoolfenden_avatar]: https://github.com/jameswoolfenden.png?size=150
-[logo]: https://gist.githubusercontent.com/JamesWoolfenden/5c457434351e9fe732ca22b78fdd7d5e/raw/15933294ae2b00f5dba6557d2be88f4b4da21201/slalom-logo.png
-[website]: https://slalom.com
 [github]: https://github.com/jameswoolfenden
 [linkedin]: https://www.linkedin.com/in/jameswoolfenden/
 [twitter]: https://twitter.com/JimWoolfenden
-
 [share_twitter]: https://twitter.com/intent/tweet/?text=terraform-aws-codebuild&url=https://github.com/jameswoolfenden/terraform-aws-codebuild
 [share_linkedin]: https://www.linkedin.com/shareArticle?mini=true&title=terraform-aws-codebuild&url=https://github.com/jameswoolfenden/terraform-aws-codebuild
 [share_reddit]: https://reddit.com/submit/?url=https://github.com/jameswoolfenden/terraform-aws-codebuild
