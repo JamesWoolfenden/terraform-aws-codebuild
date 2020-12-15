@@ -14,14 +14,17 @@ all: init plan build
 
 init:
 	$(RM)
-	terraform init -reconfigure
+	terraform init -reconfigure -upgrade
 
-plan: init
+plan:
 	terraform plan -refresh=true
+
 p:
 	terraform plan -refresh=true
 
-build: init
+apply: build
+
+build:
 	terraform apply -auto-approve
 
 check: init
@@ -34,8 +37,8 @@ docs:
 	terraform-docs md . > README.md
 
 valid:
-	tflint
-	terraform fmt -check=true -diff=true
+	terraform fmt
+	checkov -d . --external-checks-dir ../../checkov
 
 target:
 	@read -p "Enter Module to target:" MODULE;
