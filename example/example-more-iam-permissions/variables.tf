@@ -18,11 +18,11 @@ variable "force_artifact_destroy" {
 }
 
 variable "common_tags" {
-  type = map
+  type = map(any)
 }
 
 variable "sourcecode" {
-  type = map
+  type = map(any)
   default = {
     type      = "CODECOMMIT"
     location  = ""

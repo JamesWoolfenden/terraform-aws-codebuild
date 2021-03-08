@@ -28,7 +28,7 @@ variable "role" {
 }
 
 variable "common_tags" {
-  type        = map
+  type        = map(any)
   description = "An AWS tagging scheme"
 }
 
@@ -67,7 +67,7 @@ variable "defaultbranch" {
 
 variable "environment" {
   description = "A map to describe the build environment and populate the environment block"
-  type        = map
+  type        = map(any)
   default = {
     privileged_mode = "false"
     type            = "LINUX_CONTAINER"
@@ -79,7 +79,7 @@ variable "environment" {
 
 variable "sourcecode" {
   description = "A map to describe where your sourcecode comes from, to fill the sourcecode block in a Codebuild project "
-  type        = map
+  type        = map(any)
   default = {
     type      = "CODECOMMIT"
     location  = ""
