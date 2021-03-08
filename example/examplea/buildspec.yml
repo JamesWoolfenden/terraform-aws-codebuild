@@ -1,4 +1,5 @@
 ---
+# yamllint disable rule:line-length
 version: 0.2
 env:
   parameter-store:
