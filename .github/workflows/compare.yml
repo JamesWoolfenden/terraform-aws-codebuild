@@ -10,7 +10,7 @@ env:
   terraform: 0.14.5
   terraform-docs: 0.11.2
   tf_target_dir: example/examplea
-  branch: main
+  branch: master
 jobs:
   tfsec:
     runs-on: ubuntu-latest
