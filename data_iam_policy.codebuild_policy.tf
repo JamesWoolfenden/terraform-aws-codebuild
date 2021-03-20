@@ -1,4 +1,10 @@
 data "aws_iam_policy_document" "codebuild_policy" {
+  #checkov:skip=CKV_AWS_107:this never goes in prod
+  #checkov:skip=CKV_AWS_108:this never goes in prod
+  #checkov:skip=CKV_AWS_109:this never goes in prod
+  #checkov:skip=CKV_AWS_110:this never goes in prod
+  #checkov:skip=CKV_AWS_111:this never goes in prod
+
   statement {
     actions = [
       "s3:GetObject",
