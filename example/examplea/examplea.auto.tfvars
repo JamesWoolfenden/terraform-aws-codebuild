@@ -10,7 +10,7 @@ sourcecode = {
 }
 
 common_tags = {
-  name        = "examplea"
-  "createdby" = "Terraform"
-  module      = "terraform-aws-codebuild"
+  name      = "examplea"
+  createdby = "Terraform"
+  module    = "terraform-aws-codebuild"
 }
