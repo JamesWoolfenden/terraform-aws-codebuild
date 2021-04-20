@@ -1,4 +1,5 @@
 resource "aws_codebuild_project" "project" {
+  # checkov:skip=CKV_AWS_147: ADD REASON
   # test is wrong
   # checkov:skip=CKV_AWS_78: "Ensure that CodeBuild Project encryption is not disabled"
   name          = replace(var.name, ".", "-")
