@@ -6,7 +6,7 @@
 # Module directory
 .terraform/
 .terraform
-.plugins/
+.plugins
 __pycache__/
 .vscode/
 .idea
@@ -27,3 +27,6 @@ tf.plan
 *.log
 output/*.json
 secrets.auto.tfvars
+checksums.txt
+*.tar.gz
+original/
