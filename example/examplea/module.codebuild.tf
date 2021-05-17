@@ -6,4 +6,5 @@ module "codebuild" {
   name                   = random_string.random.result
   projectroot            = var.projectroot
   sourcecode             = var.sourcecode
+  kms_key_id             = aws_kms_key.custom.key_id
 }
