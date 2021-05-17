@@ -86,7 +86,7 @@ jobs:
           ref: ${{ env.branch }}
           token: ${{ github.token }}
       - name: run kics Scan
-        uses: checkmarx/kics-action@v1.0
+        uses: checkmarx/kics-action@latest
         with:
           path: ${{ env.tf_target_dir }}
           output_path: "kics.json"
@@ -96,7 +96,7 @@ jobs:
         with:
           name: kics
           path: kics.json
-          if-no-files-found: error
+          if-no-files-found: warn
 
   upload:
     needs: [kics, terrascan, checkov, tfsec]
