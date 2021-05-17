@@ -74,4 +74,4 @@ purge:
 	$(BLAT)
 
 cost:
-	infracost breakdown --path . --usage-file infracost-usage.yml  --sync-usage-file
+	infracost breakdown --path . --usage-file infracost-usage.yml  --sync-usage-file --show-skipped
