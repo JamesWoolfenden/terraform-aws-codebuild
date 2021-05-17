@@ -86,7 +86,7 @@ jobs:
           ref: ${{ env.branch }}
           token: ${{ github.token }}
       - name: run kics Scan
-        uses: checkmarx/kics-action@latest
+        uses: checkmarx/kics-action@v1.2
         with:
           path: ${{ env.tf_target_dir }}
           output_path: "kics.json"
