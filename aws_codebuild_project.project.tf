@@ -2,11 +2,11 @@ resource "aws_codebuild_project" "project" {
   # checkov:skip=CKV_AWS_147: ADD REASON
   # test is wrong
   # checkov:skip=CKV_AWS_78: "Ensure that CodeBuild Project encryption is not disabled"
-  name          = replace(var.name, ".", "-")
-  description   = var.description
-  service_role  = var.role == "" ? element(concat(aws_iam_role.codebuild.*.arn, list("")), 0) : element(concat(data.aws_iam_role.existing.*.arn, list("")), 0)
-  build_timeout = var.build_timeout
-
+  name           = replace(var.name, ".", "-")
+  description    = var.description
+  service_role   = var.role == "" ? element(concat(aws_iam_role.codebuild.*.arn, [""]), 0) : element(concat(data.aws_iam_role.existing.*.arn, [""]), 0)
+  build_timeout  = var.build_timeout
+  encryption_key = var.kms_key_id
   artifacts {
     encryption_disabled = var.encryption_disabled
     location            = local.bucketname

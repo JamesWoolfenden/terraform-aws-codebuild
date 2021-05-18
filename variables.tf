@@ -117,3 +117,9 @@ variable "mfa_delete" {
   description = "Require MFA to delete"
   default     = false
 }
+
+variable "kms_key_id" {
+  type        = string
+  description = "Your Custom KMS key"
+  default     = ""
+}
