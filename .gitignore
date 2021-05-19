@@ -1,34 +1,3 @@
-<<<<<<< HEAD
-# Compiled files
-*.tfstate
-*.tfstate.backup
-*.zip
-.DS_Store
-# Module directory
-.terraform/
-.terraform
-.plugins/
-__pycache__/
-.vscode/
-.idea
-*.iml
-*.orig
-*.ini
-*~HEAD
-*backup
-tmp
-lambda
-*~HEAD
-*backup
-*.bak
-.terraform.tfstate.lock.info
-.terraform.lock.hcl
-tf.json
-tf.plan
-*.log
-output/*.json
-secrets.auto.tfvars
-=======
 # Compiled files
 *.tfstate
 *.tfstate.backup
@@ -61,4 +30,3 @@ secrets.auto.tfvars
 checksums.txt
 *.tar.gz
 original/
->>>>>>> cf20d2a6ae1128dcf8ee88bc2c876adf804f5159
