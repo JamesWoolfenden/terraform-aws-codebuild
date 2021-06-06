@@ -38,18 +38,6 @@ jobs:
         env:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      - run: |
-          pip3 install lastversion
-          lastversion infracost --assets -d --verbose
-          mkdir $GITHUB_WORKSPACE/bin
-          tar -xvf infracost*.tar.gz --directory $GITHUB_WORKSPACE/bin
-          chmod +x $GITHUB_WORKSPACE/bin/infracost-linux-amd64
-          $GITHUB_WORKSPACE/bin/infracost-linux-amd64 breakdown --path ${{ env.tf_target_dir }}
-        env:
-          INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Do not change
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   security:
     runs-on: ubuntu-latest
     steps:

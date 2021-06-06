@@ -1,5 +1,6 @@
 
 resource "aws_s3_bucket" "artifacts" {
+  # checkov:skip=CKV2_AWS_6: it does
   # tfsec:ignore:AWS077
   # tfsec:ignore:AWS002
   # checkov:skip=CKV_AWS_144: ADD REASON
