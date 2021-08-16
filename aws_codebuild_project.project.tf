@@ -1,6 +1,4 @@
 resource "aws_codebuild_project" "project" {
-  # checkov:skip=CKV_AWS_147: ADD REASON
-
   name           = replace(var.name, ".", "-")
   description    = var.description
   service_role   = var.role == "" ? element(concat(aws_iam_role.codebuild.*.arn, [""]), 0) : element(concat(data.aws_iam_role.existing.*.arn, [""]), 0)

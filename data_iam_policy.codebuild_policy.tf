@@ -1,4 +1,4 @@
-data "aws_iam_policy_document" "codebuild_policy" {
+data "aws_iam_policy_document" "codebuild" {
   #checkov:skip=CKV_AWS_107:this never goes in prod
   #checkov:skip=CKV_AWS_108:this never goes in prod
   #checkov:skip=CKV_AWS_109:this never goes in prod
@@ -17,8 +17,6 @@ data "aws_iam_policy_document" "codebuild_policy" {
     resources = [
       "arn:aws:s3:::${local.bucketname}",
       "arn:aws:s3:::${local.bucketname}/*",
-      "arn:aws:s3:::codepipeline-${data.aws_region.current.name}-163714928765/*",
-      "arn:aws:s3:::codepipeline-${data.aws_region.current.name}-163714928765",
     ]
   }
 
