@@ -53,16 +53,15 @@ These templates implement the module terraform-aws-codebuild. It includes a numb
 In the root directory there is an example `buildspec.yml`. This is a build specification you can supply to CodeCommit. It includes some basic codebuild functionality to drive semantic versioning using SSM parameters.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
 ## Requirements
 
 No requirements.
 
 ## Providers
 
-| Name                                             | Version |
-| ------------------------------------------------ | ------- |
-| <a name="provider_aws"></a> [aws](#provider_aws) | n/a     |
+| Name | Version |
+|------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.37.0 |
 
 ## Modules
 
@@ -70,58 +69,57 @@ No modules.
 
 ## Resources
 
-| Name                                                                                                                                                         | Type        |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| [aws_cloudwatch_event_rule.codechange](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule)                    | resource    |
-| [aws_cloudwatch_event_target.triggerbuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target)              | resource    |
-| [aws_codebuild_project.project](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_project)                               | resource    |
-| [aws_iam_policy.trigger](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy)                                             | resource    |
-| [aws_iam_role.codebuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role)                                               | resource    |
-| [aws_iam_role.trigger](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role)                                                 | resource    |
-| [aws_iam_role_policy.codebuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy)                                 | resource    |
-| [aws_iam_role_policy.codecommit](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy)                                | resource    |
-| [aws_iam_role_policy_attachment.attachtotriggerrole](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource    |
-| [aws_s3_bucket.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket)                                             | resource    |
-| [aws_s3_bucket_public_access_block.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block)     | resource    |
-| [aws_ssm_parameter.buildnumber](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter)                                   | resource    |
-| [aws_ssm_parameter.latest](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter)                                        | resource    |
-| [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity)                                | data source |
-| [aws_iam_policy_document.codebuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document)                      | data source |
-| [aws_iam_role.existing](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_role)                                             | data source |
-| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region)                                                  | data source |
+| Name | Type |
+|------|------|
+| [aws_cloudwatch_event_rule.codechange](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule) | resource |
+| [aws_cloudwatch_event_target.triggerbuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
+| [aws_codebuild_project.project](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_project) | resource |
+| [aws_iam_policy.trigger](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_iam_role.codebuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role.trigger](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy.codebuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_iam_role_policy.codecommit](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_iam_role_policy_attachment.attachtotriggerrole](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_s3_bucket.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
+| [aws_s3_bucket_public_access_block.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
+| [aws_ssm_parameter.buildnumber](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter) | resource |
+| [aws_ssm_parameter.latest](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter) | resource |
+| [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
+| [aws_iam_policy_document.codebuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_role.existing](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_role) | data source |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
 
-| Name                                                                                                | Description                                                                                             | Type       | Default                                                                                                                                                                | Required |
-| --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
-| <a name="input_artifact"></a> [artifact](#input_artifact)                                           | Populates the Artifact block                                                                            | `map`      | <pre>{<br> "namespace_type": "NONE",<br> "packaging": "NONE"<br>}</pre>                                                                                                |    no    |
-| <a name="input_artifact_type"></a> [artifact_type](#input_artifact_type)                            | The Artifact type, S3, CODEPIPELINE or NO_ARTIFACT                                                      | `string`   | `"S3"`                                                                                                                                                                 |    no    |
-| <a name="input_bucketname"></a> [bucketname](#input_bucketname)                                     | n/a                                                                                                     | `string`   | `""`                                                                                                                                                                   |    no    |
-| <a name="input_build_timeout"></a> [build_timeout](#input_build_timeout)                            | The time to wait for a CodeBuild to complete before timing out in minutes (default: 5)                  | `string`   | `"60"`                                                                                                                                                                 |    no    |
-| <a name="input_common_tags"></a> [common_tags](#input_common_tags)                                  | An AWS tagging scheme                                                                                   | `map(any)` | n/a                                                                                                                                                                    |   yes    |
-| <a name="input_defaultbranch"></a> [defaultbranch](#input_defaultbranch)                            | The default git branch                                                                                  | `string`   | `"master"`                                                                                                                                                             |    no    |
-| <a name="input_description"></a> [description](#input_description)                                  | Yeah it's the description                                                                               | `string`   | `""`                                                                                                                                                                   |    no    |
-| <a name="input_encryption_disabled"></a> [encryption_disabled](#input_encryption_disabled)          | Disable the encryption of artifacts                                                                     | `bool`     | `false`                                                                                                                                                                |    no    |
-| <a name="input_environment"></a> [environment](#input_environment)                                  | A map to describe the build environment and populate the environment block                              | `map(any)` | <pre>{<br> "compute_type": "BUILD_GENERAL1_SMALL",<br> "image": "aws/codebuild/nodejs:6.3.1",<br> "privileged_mode": "false",<br> "type": "LINUX_CONTAINER"<br>}</pre> |    no    |
-| <a name="input_force_artifact_destroy"></a> [force_artifact_destroy](#input_force_artifact_destroy) | Force the removal of the artifact S3 bucket on destroy (default: false).                                | `string`   | `false`                                                                                                                                                                |    no    |
-| <a name="input_kms_key_id"></a> [kms_key_id](#input_kms_key_id)                                     | Your Custom KMS key                                                                                     | `string`   | `""`                                                                                                                                                                   |    no    |
-| <a name="input_mfa_delete"></a> [mfa_delete](#input_mfa_delete)                                     | Require MFA to delete                                                                                   | `bool`     | `false`                                                                                                                                                                |    no    |
-| <a name="input_name"></a> [name](#input_name)                                                       | The name of the Build                                                                                   | `string`   | n/a                                                                                                                                                                    |   yes    |
-| <a name="input_projectroot"></a> [projectroot](#input_projectroot)                                  | The name of the parent project for SSM                                                                  | `string`   | `"core"`                                                                                                                                                               |    no    |
-| <a name="input_reponame"></a> [reponame](#input_reponame)                                           | The name of the repository                                                                              | `string`   | `""`                                                                                                                                                                   |    no    |
-| <a name="input_role"></a> [role](#input_role)                                                       | Override for providing a role                                                                           | `string`   | `""`                                                                                                                                                                   |    no    |
-| <a name="input_sourcecode"></a> [sourcecode](#input_sourcecode)                                     | A map to describe where your sourcecode comes from, to fill the sourcecode block in a Codebuild project | `map(any)` | <pre>{<br> "buildspec": "",<br> "location": "",<br> "type": "CODECOMMIT"<br>}</pre>                                                                                    |    no    |
-| <a name="input_sse_algorithm"></a> [sse_algorithm](#input_sse_algorithm)                            | The type of encryption algorithm to use                                                                 | `string`   | `"aws:kms"`                                                                                                                                                            |    no    |
-| <a name="input_versioning"></a> [versioning](#input_versioning)                                     | Set bucket to version                                                                                   | `bool`     | `false`                                                                                                                                                                |    no    |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_artifact"></a> [artifact](#input\_artifact) | Populates the Artifact block | `map` | <pre>{<br>  "namespace_type": "NONE",<br>  "packaging": "NONE"<br>}</pre> | no |
+| <a name="input_artifact_type"></a> [artifact\_type](#input\_artifact\_type) | The Artifact type, S3, CODEPIPELINE or NO\_ARTIFACT | `string` | `"S3"` | no |
+| <a name="input_bucketname"></a> [bucketname](#input\_bucketname) | n/a | `string` | `""` | no |
+| <a name="input_build_timeout"></a> [build\_timeout](#input\_build\_timeout) | The time to wait for a CodeBuild to complete before timing out in minutes (default: 5) | `string` | `"60"` | no |
+| <a name="input_common_tags"></a> [common\_tags](#input\_common\_tags) | An AWS tagging scheme | `map(any)` | n/a | yes |
+| <a name="input_defaultbranch"></a> [defaultbranch](#input\_defaultbranch) | The default git branch | `string` | `"master"` | no |
+| <a name="input_description"></a> [description](#input\_description) | Yeah it's the description | `string` | `""` | no |
+| <a name="input_encryption_disabled"></a> [encryption\_disabled](#input\_encryption\_disabled) | Disable the encryption of artifacts | `bool` | `false` | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | A map to describe the build environment and populate the environment block | `map(any)` | <pre>{<br>  "compute_type": "BUILD_GENERAL1_SMALL",<br>  "image": "aws/codebuild/nodejs:6.3.1",<br>  "privileged_mode": "false",<br>  "type": "LINUX_CONTAINER"<br>}</pre> | no |
+| <a name="input_force_artifact_destroy"></a> [force\_artifact\_destroy](#input\_force\_artifact\_destroy) | Force the removal of the artifact S3 bucket on destroy (default: false). | `string` | `false` | no |
+| <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | Your Custom KMS key | `string` | `""` | no |
+| <a name="input_mfa_delete"></a> [mfa\_delete](#input\_mfa\_delete) | Require MFA to delete | `bool` | `false` | no |
+| <a name="input_name"></a> [name](#input\_name) | The name of the Build | `string` | n/a | yes |
+| <a name="input_projectroot"></a> [projectroot](#input\_projectroot) | The name of the parent project for SSM | `string` | `"core"` | no |
+| <a name="input_reponame"></a> [reponame](#input\_reponame) | The name of the repository | `string` | `""` | no |
+| <a name="input_role"></a> [role](#input\_role) | Override for providing a role | `string` | `""` | no |
+| <a name="input_sourcecode"></a> [sourcecode](#input\_sourcecode) | A map to describe where your sourcecode comes from, to fill the sourcecode block in a Codebuild project | `map(any)` | <pre>{<br>  "buildspec": "",<br>  "location": "",<br>  "type": "CODECOMMIT"<br>}</pre> | no |
+| <a name="input_sse_algorithm"></a> [sse\_algorithm](#input\_sse\_algorithm) | The type of encryption algorithm to use | `string` | `"aws:kms"` | no |
+| <a name="input_versioning"></a> [versioning](#input\_versioning) | Set bucket to version | `bool` | `false` | no |
 
 ## Outputs
 
-| Name                                                                                         | Description |
-| -------------------------------------------------------------------------------------------- | ----------- |
-| <a name="output_artifact_bucket"></a> [artifact_bucket](#output_artifact_bucket)             | n/a         |
-| <a name="output_codebuild_role_name"></a> [codebuild_role_name](#output_codebuild_role_name) | n/a         |
-| <a name="output_project"></a> [project](#output_project)                                     | n/a         |
-
+| Name | Description |
+|------|-------------|
+| <a name="output_artifact_bucket"></a> [artifact\_bucket](#output\_artifact\_bucket) | n/a |
+| <a name="output_codebuild_role_name"></a> [codebuild\_role\_name](#output\_codebuild\_role\_name) | n/a |
+| <a name="output_project"></a> [project](#output\_project) | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Related Projects
