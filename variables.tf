@@ -107,15 +107,15 @@ variable "artifact_type" {
 }
 
 variable "versioning" {
-  type        = bool
+  type        = string
   description = "Set bucket to version"
-  default     = false
+  default     = "Enabled"
 }
 
 variable "mfa_delete" {
-  type        = bool
+  type        = string
   description = "Require MFA to delete"
-  default     = false
+  default     = "Disabled"
 }
 
 variable "kms_key_id" {
