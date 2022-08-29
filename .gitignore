@@ -32,3 +32,4 @@ checksums.txt
 original/
 .external_modules
 twistcli
+temp*

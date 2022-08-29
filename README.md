@@ -125,6 +125,119 @@ No modules.
 | <a name="output_project"></a> [project](#output\_project) | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
+## Policy
+
+<!-- BEGINNING OF PRE-COMMIT-PIKE DOCS HOOK -->
+The Policy required is:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "events:DeleteRule",
+                "events:DescribeRule",
+                "events:ListTagsForResource",
+                "events:ListTargetsByRule",
+                "events:PutRule",
+                "events:PutTargets",
+                "events:RemoveTargets"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "iam:AttachRolePolicy",
+                "iam:CreatePolicy",
+                "iam:CreateRole",
+                "iam:DeletePolicy",
+                "iam:DeleteRole",
+                "iam:DeleteRolePolicy",
+                "iam:DetachRolePolicy",
+                "iam:GetPolicy",
+                "iam:GetPolicyVersion",
+                "iam:GetRole",
+                "iam:GetRolePolicy",
+                "iam:ListAttachedRolePolicies",
+                "iam:ListInstanceProfilesForRole",
+                "iam:ListPolicyVersions",
+                "iam:ListRolePolicies",
+                "iam:PutRolePolicy",
+                "iam:TagRole"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor2",
+            "Effect": "Allow",
+            "Action": [
+                "kms:CreateKey",
+                "kms:Decrypt",
+                "kms:DescribeKey",
+                "kms:EnableKeyRotation",
+                "kms:GetKeyPolicy",
+                "kms:GetKeyRotationStatus",
+                "kms:ListResourceTags",
+                "kms:ScheduleKeyDeletion"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor3",
+            "Effect": "Allow",
+            "Action": [
+                "s3:CreateBucket",
+                "s3:DeleteBucket",
+                "s3:GetAccelerateConfiguration",
+                "s3:GetBucketAcl",
+                "s3:GetBucketCORS",
+                "s3:GetBucketLogging",
+                "s3:GetBucketObjectLockConfiguration",
+                "s3:GetBucketPolicy",
+                "s3:GetBucketPublicAccessBlock",
+                "s3:GetBucketRequestPayment",
+                "s3:GetBucketTagging",
+                "s3:GetBucketVersioning",
+                "s3:GetBucketWebsite",
+                "s3:GetEncryptionConfiguration",
+                "s3:GetLifecycleConfiguration",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:GetReplicationConfiguration",
+                "s3:ListAllMyBuckets",
+                "s3:ListBucket",
+                "s3:PutBucketAcl",
+                "s3:PutBucketPublicAccessBlock",
+                "s3:PutBucketVersioning",
+                "s3:PutEncryptionConfiguration"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor4",
+            "Effect": "Allow",
+            "Action": [
+                "ssm:AddTagsToResource",
+                "ssm:DeleteParameter",
+                "ssm:DescribeParameters",
+                "ssm:GetParameter",
+                "ssm:GetParameters",
+                "ssm:ListTagsForResource",
+                "ssm:PutParameter"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+
+```
+<!-- END OF PRE-COMMIT-PIKE DOCS HOOK -->
+
 ## Related Projects
 
 Check out these related projects.
@@ -176,11 +289,3 @@ under the License.
 
 [jameswoolfenden_homepage]: https://github.com/jameswoolfenden
 [jameswoolfenden_avatar]: https://github.com/jameswoolfenden.png?size=150
-[github]: https://github.com/jameswoolfenden
-[linkedin]: https://www.linkedin.com/in/jameswoolfenden/
-[twitter]: https://twitter.com/JimWoolfenden
-[share_twitter]: https://twitter.com/intent/tweet/?text=terraform-aws-codebuild&url=https://github.com/jameswoolfenden/terraform-aws-codebuild
-[share_linkedin]: https://www.linkedin.com/shareArticle?mini=true&title=terraform-aws-codebuild&url=https://github.com/jameswoolfenden/terraform-aws-codebuild
-[share_reddit]: https://reddit.com/submit/?url=https://github.com/jameswoolfenden/terraform-aws-codebuild
-[share_facebook]: https://facebook.com/sharer/sharer.php?u=https://github.com/jameswoolfenden/terraform-aws-codebuild
-[share_email]: mailto:?subject=terraform-aws-codebuild&body=https://github.com/jameswoolfenden/terraform-aws-codebuild
