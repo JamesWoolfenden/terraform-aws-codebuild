@@ -125,7 +125,7 @@ No modules.
 | <a name="output_project"></a> [project](#output\_project) | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
-## Policy
+## Policy Requirement
 
 <!-- BEGINNING OF PRE-COMMIT-PIKE DOCS HOOK -->
 The Policy required is:
