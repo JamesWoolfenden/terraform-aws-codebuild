@@ -138,6 +138,17 @@ The Policy required is:
             "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": [
+                "codebuild:BatchGetProjects",
+                "codebuild:CreateProject",
+                "codebuild:DeleteProject",
+                "codebuild:UpdateProject"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
                 "events:DeleteRule",
                 "events:DescribeRule",
                 "events:ListTagsForResource",
@@ -149,7 +160,7 @@ The Policy required is:
             "Resource": "*"
         },
         {
-            "Sid": "VisualEditor1",
+            "Sid": "VisualEditor2",
             "Effect": "Allow",
             "Action": [
                 "iam:AttachRolePolicy",
@@ -167,13 +178,14 @@ The Policy required is:
                 "iam:ListInstanceProfilesForRole",
                 "iam:ListPolicyVersions",
                 "iam:ListRolePolicies",
+                "iam:PassRole",
                 "iam:PutRolePolicy",
                 "iam:TagRole"
             ],
             "Resource": "*"
         },
         {
-            "Sid": "VisualEditor2",
+            "Sid": "VisualEditor3",
             "Effect": "Allow",
             "Action": [
                 "kms:CreateKey",
@@ -188,7 +200,7 @@ The Policy required is:
             "Resource": "*"
         },
         {
-            "Sid": "VisualEditor3",
+            "Sid": "VisualEditor4",
             "Effect": "Allow",
             "Action": [
                 "s3:CreateBucket",
@@ -219,7 +231,7 @@ The Policy required is:
             "Resource": "*"
         },
         {
-            "Sid": "VisualEditor4",
+            "Sid": "VisualEditor5",
             "Effect": "Allow",
             "Action": [
                 "ssm:AddTagsToResource",
