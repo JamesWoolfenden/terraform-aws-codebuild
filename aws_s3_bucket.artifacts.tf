@@ -1,12 +1,9 @@
 
 resource "aws_s3_bucket" "artifacts" {
-  # checkov:skip=CKV2_AWS_6: ADD REASON
-  # checkov:skip=CKV2_AWS_41: ADD REASON
-  # checkov:skip=CKV_AWS_18:LEGACY
+
   # checkov:skip=CKV_AWS_144:LEGACY
-  # checkov:skip=CKV_AWS_19:LEGACY
-  # checkov:skip=CKV_AWS_145:LEGACY
-  # checkov:skip=CKV_AWS_21:LEGACY
+  # checkov:skip=CKV2_AWS_61:
+  # checkov:skip=CKV_AWS_18:LEGACY
   count         = var.bucketname == "" ? 1 : 0
   bucket        = local.bucketname
   force_destroy = var.force_artifact_destroy
@@ -21,6 +18,19 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
       sse_algorithm     = var.sse_algorithm
       kms_master_key_id = var.kms_key_id
     }
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "pike" {
+  count  = var.bucketname == "" ? 1 : 0
+  bucket = aws_s3_bucket.artifacts[0].id
+  rule {
+    id = "expire"
+
+    expiration {
+      days = var.artifact_expiry
+    }
+    status = "Enabled"
   }
 }
 
@@ -39,4 +49,11 @@ resource "aws_s3_bucket_acl" "example" {
   count  = var.bucketname == "" ? 1 : 0
   bucket = aws_s3_bucket.artifacts[0].id
   acl    = "private"
+}
+
+
+variable "artifact_expiry" {
+  type        = number
+  default     = 365
+  description = "number of days"
 }

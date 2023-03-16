@@ -4,6 +4,3 @@ provider "aws" {
 
 provider "local" {
 }
-
-provider "template" {
-}

@@ -123,3 +123,8 @@ variable "kms_key_id" {
   description = "Your Custom KMS key"
   default     = ""
 }
+
+variable "logs_bucket" {
+  type        = string
+  description = "The bucket id and path for storing the logs "
+}

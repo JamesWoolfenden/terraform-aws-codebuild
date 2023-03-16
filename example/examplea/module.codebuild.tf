@@ -7,4 +7,5 @@ module "codebuild" {
   projectroot            = var.projectroot
   sourcecode             = var.sourcecode
   kms_key_id             = aws_kms_key.custom.key_id
+  logs_bucket            = "logging-680235478471/codebuild/"
 }

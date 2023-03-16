@@ -27,5 +27,14 @@ resource "aws_codebuild_project" "project" {
     buildspec = var.sourcecode["buildspec"]
   }
 
+  logs_config {
+    s3_logs {
+      //default value false
+      encryption_disabled = false
+      status              = "ENABLED"
+      location            = var.logs_bucket
+    }
+  }
+
   tags = var.common_tags
 }

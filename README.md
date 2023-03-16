@@ -82,6 +82,7 @@ No modules.
 | [aws_iam_role_policy_attachment.attachtotriggerrole](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_s3_bucket.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket_acl.example](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_acl) | resource |
+| [aws_s3_bucket_lifecycle_configuration.pike](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
 | [aws_s3_bucket_public_access_block.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
 | [aws_s3_bucket_server_side_encryption_configuration.example](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
 | [aws_s3_bucket_versioning.example](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
@@ -97,6 +98,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_artifact"></a> [artifact](#input\_artifact) | Populates the Artifact block | `map` | <pre>{<br>  "namespace_type": "NONE",<br>  "packaging": "NONE"<br>}</pre> | no |
+| <a name="input_artifact_expiry"></a> [artifact\_expiry](#input\_artifact\_expiry) | number of days | `number` | `365` | no |
 | <a name="input_artifact_type"></a> [artifact\_type](#input\_artifact\_type) | The Artifact type, S3, CODEPIPELINE or NO\_ARTIFACT | `string` | `"S3"` | no |
 | <a name="input_bucketname"></a> [bucketname](#input\_bucketname) | n/a | `string` | `""` | no |
 | <a name="input_build_timeout"></a> [build\_timeout](#input\_build\_timeout) | The time to wait for a CodeBuild to complete before timing out in minutes (default: 5) | `string` | `"60"` | no |
@@ -107,6 +109,7 @@ No modules.
 | <a name="input_environment"></a> [environment](#input\_environment) | A map to describe the build environment and populate the environment block | `map(any)` | <pre>{<br>  "compute_type": "BUILD_GENERAL1_SMALL",<br>  "image": "aws/codebuild/nodejs:6.3.1",<br>  "privileged_mode": "false",<br>  "type": "LINUX_CONTAINER"<br>}</pre> | no |
 | <a name="input_force_artifact_destroy"></a> [force\_artifact\_destroy](#input\_force\_artifact\_destroy) | Force the removal of the artifact S3 bucket on destroy (default: false). | `string` | `false` | no |
 | <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | Your Custom KMS key | `string` | `""` | no |
+| <a name="input_logs_bucket"></a> [logs\_bucket](#input\_logs\_bucket) | The bucket id and path for storing the logs | `string` | n/a | yes |
 | <a name="input_mfa_delete"></a> [mfa\_delete](#input\_mfa\_delete) | Require MFA to delete | `string` | `"Disabled"` | no |
 | <a name="input_name"></a> [name](#input\_name) | The name of the Build | `string` | n/a | yes |
 | <a name="input_projectroot"></a> [projectroot](#input\_projectroot) | The name of the parent project for SSM | `string` | `"core"` | no |
@@ -148,7 +151,9 @@ resource "aws_iam_policy" "terraform_pike" {
                 "codebuild:DeleteProject",
                 "codebuild:UpdateProject"
             ],
-            "Resource": "*"
+            "Resource": [
+                "*"
+            ]
         },
         {
             "Sid": "VisualEditor1",
@@ -162,7 +167,9 @@ resource "aws_iam_policy" "terraform_pike" {
                 "events:PutTargets",
                 "events:RemoveTargets"
             ],
-            "Resource": "*"
+            "Resource": [
+                "*"
+            ]
         },
         {
             "Sid": "VisualEditor2",
@@ -187,7 +194,9 @@ resource "aws_iam_policy" "terraform_pike" {
                 "iam:PutRolePolicy",
                 "iam:TagRole"
             ],
-            "Resource": "*"
+            "Resource": [
+                "*"
+            ]
         },
         {
             "Sid": "VisualEditor3",
@@ -195,7 +204,9 @@ resource "aws_iam_policy" "terraform_pike" {
             "Action": [
                 "kms:Decrypt"
             ],
-            "Resource": "*"
+            "Resource": [
+                "*"
+            ]
         },
         {
             "Sid": "VisualEditor4",
@@ -222,11 +233,15 @@ resource "aws_iam_policy" "terraform_pike" {
                 "s3:ListAllMyBuckets",
                 "s3:ListBucket",
                 "s3:PutBucketAcl",
+                "s3:PutBucketLogging",
                 "s3:PutBucketPublicAccessBlock",
                 "s3:PutBucketVersioning",
-                "s3:PutEncryptionConfiguration"
+                "s3:PutEncryptionConfiguration",
+                "s3:PutLifecycleConfiguration"
             ],
-            "Resource": "*"
+            "Resource": [
+                "*"
+            ]
         },
         {
             "Sid": "VisualEditor5",
@@ -240,7 +255,9 @@ resource "aws_iam_policy" "terraform_pike" {
                 "ssm:ListTagsForResource",
                 "ssm:PutParameter"
             ],
-            "Resource": "*"
+            "Resource": [
+                "*"
+            ]
         }
     ]
 })
