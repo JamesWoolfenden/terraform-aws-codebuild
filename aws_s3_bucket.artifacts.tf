@@ -4,6 +4,7 @@ resource "aws_s3_bucket" "artifacts" {
   # checkov:skip=CKV_AWS_144:LEGACY
   # checkov:skip=CKV2_AWS_61:
   # checkov:skip=CKV_AWS_18:LEGACY
+  # checkov:skip=CKV2_AWS_62::OVERKILL
   count         = var.bucketname == "" ? 1 : 0
   bucket        = local.bucketname
   force_destroy = var.force_artifact_destroy
@@ -30,6 +31,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "pike" {
     expiration {
       days = var.artifact_expiry
     }
+
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 14
+    }
     status = "Enabled"
   }
 }
@@ -50,6 +55,7 @@ resource "aws_s3_bucket_acl" "example" {
   bucket = aws_s3_bucket.artifacts[0].id
   acl    = "private"
 }
+
 
 
 variable "artifact_expiry" {
