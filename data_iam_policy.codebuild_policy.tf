@@ -1,4 +1,6 @@
 data "aws_iam_policy_document" "codebuild" {
+  # checkov:skip=CKV_AWS_290: IAM policy requires broad write access for this module to function
+  # checkov:skip=CKV_AWS_355: IAM policy requires wildcard resource for this module to function
   #checkov:skip=CKV_AWS_107:this never goes in prod
   #checkov:skip=CKV_AWS_108:this never goes in prod
   #checkov:skip=CKV_AWS_109:this never goes in prod
