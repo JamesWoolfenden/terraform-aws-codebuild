@@ -1,4 +1,6 @@
 resource "aws_iam_role_policy" "codecommit" {
+  # checkov:skip=CKV_AWS_272: Policy requires broad access for this module to function
+  # checkov:skip=CKV_AWS_356: Policy requires broad access for this module to function
   name  = "codecommit-${var.name}"
   count = var.reponame == "" ? 0 : 1
   role  = aws_iam_role.codebuild[count.index].id
