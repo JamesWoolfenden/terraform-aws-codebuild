@@ -1,4 +1,3 @@
-
 resource "aws_s3_bucket" "artifacts" {
 
   # checkov:skip=CKV_AWS_144:LEGACY
@@ -9,8 +8,6 @@ resource "aws_s3_bucket" "artifacts" {
   bucket        = local.bucketname
   force_destroy = var.force_artifact_destroy
 }
-
-
 resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
   count  = var.bucketname == "" ? 1 : 0
   bucket = aws_s3_bucket.artifacts[0].bucket
@@ -21,7 +18,6 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
     }
   }
 }
-
 resource "aws_s3_bucket_lifecycle_configuration" "pike" {
   count  = var.bucketname == "" ? 1 : 0
   bucket = aws_s3_bucket.artifacts[0].id
@@ -38,7 +34,6 @@ resource "aws_s3_bucket_lifecycle_configuration" "pike" {
     status = "Enabled"
   }
 }
-
 resource "aws_s3_bucket_versioning" "example" {
   count  = var.bucketname == "" ? 1 : 0
   bucket = aws_s3_bucket.artifacts[0].id
@@ -47,17 +42,11 @@ resource "aws_s3_bucket_versioning" "example" {
     mfa_delete = var.mfa_delete
   }
 }
-
-
-
 resource "aws_s3_bucket_acl" "example" {
   count  = var.bucketname == "" ? 1 : 0
   bucket = aws_s3_bucket.artifacts[0].id
   acl    = "private"
 }
-
-
-
 variable "artifact_expiry" {
   type        = number
   default     = 365
