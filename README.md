@@ -4,10 +4,8 @@
 [![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-aws-codebuild.svg)](https://github.com/JamesWoolfenden/terraform-aws-codebuild/releases/latest)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/JamesWoolfenden/terraform-aws-codebuild.svg?label=latest)](https://github.com/JamesWoolfenden/terraform-aws-codebuild/releases/latest)
 ![Terraform Version](https://img.shields.io/badge/tf-%3E%3D0.14.0-blue.svg)
-[![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/JamesWoolfenden/terraform-aws-codebuild/cis_aws)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=JamesWoolfenden%2Fterraform-aws-codebuild&benchmark=CIS+AWS+V1.2)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![checkov](https://img.shields.io/badge/checkov-verified-brightgreen)](https://www.checkov.io/)
-[![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/jameswoolfenden/terraform-aws-codebuild/general)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=JamesWoolfenden%2Fterraform-aws-codebuild&benchmark=INFRASTRUCTURE+SECURITY)
 
 Terraform module to provision an AWS [`codebuild`](https://aws.amazon.com/codebuild/) CI/CD system.
 
@@ -60,7 +58,7 @@ No requirements.
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
 
 ## Modules
@@ -70,7 +68,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [aws_cloudwatch_event_rule.codechange](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule) | resource |
 | [aws_cloudwatch_event_target.triggerbuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
 | [aws_codebuild_project.project](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_project) | resource |
@@ -96,8 +94,8 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_artifact"></a> [artifact](#input\_artifact) | Populates the Artifact block | `map` | <pre>{<br>  "namespace_type": "NONE",<br>  "packaging": "NONE"<br>}</pre> | no |
+| ---- | ----------- | ---- | ------- | :------: |
+| <a name="input_artifact"></a> [artifact](#input\_artifact) | Populates the Artifact block | `map` | <pre>{<br/>  "namespace_type": "NONE",<br/>  "packaging": "NONE"<br/>}</pre> | no |
 | <a name="input_artifact_expiry"></a> [artifact\_expiry](#input\_artifact\_expiry) | number of days | `number` | `365` | no |
 | <a name="input_artifact_type"></a> [artifact\_type](#input\_artifact\_type) | The Artifact type, S3, CODEPIPELINE or NO\_ARTIFACT | `string` | `"S3"` | no |
 | <a name="input_bucketname"></a> [bucketname](#input\_bucketname) | n/a | `string` | `""` | no |
@@ -106,7 +104,7 @@ No modules.
 | <a name="input_defaultbranch"></a> [defaultbranch](#input\_defaultbranch) | The default git branch | `string` | `"master"` | no |
 | <a name="input_description"></a> [description](#input\_description) | Yeah it's the description | `string` | `""` | no |
 | <a name="input_encryption_disabled"></a> [encryption\_disabled](#input\_encryption\_disabled) | Disable the encryption of artifacts | `bool` | `false` | no |
-| <a name="input_environment"></a> [environment](#input\_environment) | A map to describe the build environment and populate the environment block | `map(any)` | <pre>{<br>  "compute_type": "BUILD_GENERAL1_SMALL",<br>  "image": "aws/codebuild/nodejs:6.3.1",<br>  "privileged_mode": "false",<br>  "type": "LINUX_CONTAINER"<br>}</pre> | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | A map to describe the build environment and populate the environment block | `map(any)` | <pre>{<br/>  "compute_type": "BUILD_GENERAL1_SMALL",<br/>  "image": "aws/codebuild/nodejs:6.3.1",<br/>  "privileged_mode": "false",<br/>  "type": "LINUX_CONTAINER"<br/>}</pre> | no |
 | <a name="input_force_artifact_destroy"></a> [force\_artifact\_destroy](#input\_force\_artifact\_destroy) | Force the removal of the artifact S3 bucket on destroy (default: false). | `string` | `false` | no |
 | <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | Your Custom KMS key | `string` | `""` | no |
 | <a name="input_logs_bucket"></a> [logs\_bucket](#input\_logs\_bucket) | The bucket id and path for storing the logs | `string` | n/a | yes |
@@ -115,14 +113,14 @@ No modules.
 | <a name="input_projectroot"></a> [projectroot](#input\_projectroot) | The name of the parent project for SSM | `string` | `"core"` | no |
 | <a name="input_reponame"></a> [reponame](#input\_reponame) | The name of the repository | `string` | `""` | no |
 | <a name="input_role"></a> [role](#input\_role) | Override for providing a role | `string` | `""` | no |
-| <a name="input_sourcecode"></a> [sourcecode](#input\_sourcecode) | A map to describe where your sourcecode comes from, to fill the sourcecode block in a Codebuild project | `map(any)` | <pre>{<br>  "buildspec": "",<br>  "location": "",<br>  "type": "CODECOMMIT"<br>}</pre> | no |
+| <a name="input_sourcecode"></a> [sourcecode](#input\_sourcecode) | A map to describe where your sourcecode comes from, to fill the sourcecode block in a Codebuild project | `map(any)` | <pre>{<br/>  "buildspec": "",<br/>  "location": "",<br/>  "type": "CODECOMMIT"<br/>}</pre> | no |
 | <a name="input_sse_algorithm"></a> [sse\_algorithm](#input\_sse\_algorithm) | The type of encryption algorithm to use | `string` | `"aws:kms"` | no |
 | <a name="input_versioning"></a> [versioning](#input\_versioning) | Set bucket to version | `string` | `"Enabled"` | no |
 
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_artifact_bucket"></a> [artifact\_bucket](#output\_artifact\_bucket) | n/a |
 | <a name="output_codebuild_role_name"></a> [codebuild\_role\_name](#output\_codebuild\_role\_name) | n/a |
 | <a name="output_project"></a> [project](#output\_project) | n/a |
@@ -288,7 +286,7 @@ Please use the [issue tracker](https://github.com/jameswoolfenden/terraform-aws-
 
 ## Copyrights
 
-Copyright © 2019-2023 James Woolfenden
+Copyright © 2019-2026 James Woolfenden
 
 ## License
 
