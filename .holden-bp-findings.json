@@ -1,0 +1,160 @@
+{
+  "findings": [
+    {
+      "confidence": "high",
+      "explanation": "aws_s3_bucket_versioning.artifacts sets status = var.versioning, which defaults to \"Enabled\", so every overwrite of a build artifact leaves a noncurrent version behind. The lifecycle rule bounds only current versions (expiration.days = var.artifact_expiry) and incomplete multipart uploads. Nothing ever removes a noncurrent version, so on a bucket whose entire purpose is repeatedly-overwritten CI output, storage grows without bound and the expiration rule reads, to anyone auditing it, as though retention is handled. This is the exact mirror of the shape HLD_AWS_384 catches, and no existing holden policy covers this direction.",
+      "file": "aws_s3_bucket.artifacts.tf",
+      "first_seen": "2026-08-24",
+      "fix": "    noncurrent_version_expiration {\n      noncurrent_days = var.artifact_noncurrent_expiry\n    }",
+      "fixable": true,
+      "id": "HOLDEN_BP_001",
+      "last_seen": "2026-08-24",
+      "line": 18,
+      "principle": "cost",
+      "remediation": "Add a noncurrent_version_expiration block to the existing rule, bounded by its own variable so callers can tune retention of prior artifact versions independently of current ones.",
+      "resource": "aws_s3_bucket_lifecycle_configuration.pike",
+      "severity": "MEDIUM",
+      "status": "fixed",
+      "title": "Versioned artifact bucket expires current objects but never their noncurrent versions"
+    },
+    {
+      "confidence": "high",
+      "explanation": "With no cache block, CodeBuild defaults to NO_CACHE. Every build starts from a cold container and re-fetches the full dependency tree, paying both build-minute cost and NAT/egress cost on each run. For a module whose whole job is running repeated builds, this is the single largest recurring waste available to fix, and LOCAL caching costs nothing extra.",
+      "file": "aws_codebuild_project.build.tf",
+      "first_seen": "2026-08-24",
+      "fix": "  cache {\n    type  = var.cache_type\n    modes = var.cache_modes\n  }",
+      "fixable": true,
+      "id": "HOLDEN_BP_002",
+      "last_seen": "2026-08-24",
+      "line": 1,
+      "principle": "cost",
+      "remediation": "Add a cache block driven by a variable, defaulting to LOCAL with source and custom caching so behaviour is opt-out rather than silently absent.",
+      "resource": "aws_codebuild_project.build",
+      "severity": "LOW",
+      "status": "fixed",
+      "title": "CodeBuild project configures no cache, so every build re-downloads all dependencies"
+    },
+    {
+      "confidence": "high",
+      "explanation": "The buildspec hardcodes /core/codebuild/examplea/buildnumber and /core/codebuild/examplea/latest. The module actually creates /${var.projectroot}/codebuild/${var.name}/*, and in this example var.name is random_string.random.result and projectroot is a tfvars value, so the path can never be /core/codebuild/examplea. Previously the codebuild role held ssm:PutParameter on \"*\", so these writes silently succeeded and created stray parameters outside the module's tree. Now that the policy is scoped to the module's own parameter path, the same writes return AccessDenied. The example therefore demonstrates a pattern that will fail, and any consumer whose buildspec writes outside the module path is affected the same way.",
+      "file": "example/examplea/buildspec.yml",
+      "first_seen": "2026-08-24",
+      "fixable": false,
+      "id": "HOLDEN_BP_003",
+      "last_seen": "2026-08-24",
+      "line": 6,
+      "principle": "maintainability",
+      "remediation": "Drive the paths from CodeBuild environment variables that the module populates, rather than hardcoding them, and document in the README that ssm:PutParameter is now scoped to /<projectroot>/codebuild/<name>/*.",
+      "resource": "example/examplea/buildspec.yml",
+      "severity": "LOW",
+      "status": "open",
+      "title": "Example buildspec writes SSM parameters the module does not create, and the newly scoped IAM policy now denies it"
+    },
+    {
+      "confidence": "high",
+      "explanation": "The variable is typed string, defaulted to the bare boolean false, and consumed by aws_s3_bucket.artifacts.force_destroy, which is a bool attribute. Terraform coerces all three, so it works, but the declared type documents the wrong contract: callers cannot tell whether \"False\", \"no\" or \"0\" are acceptable, and the validation block exists only to re-impose what type = bool would have enforced for free. This is also what left HLD_TF_082 Unknown \u2014 the engine could not classify a boolean literal sitting in a string-typed default. Resolving that check: the default is a meaningful value, not a placeholder, so HLD_TF_082 itself is a false alarm here; the type declaration is the real defect.",
+      "file": "variables.tf",
+      "first_seen": "2026-08-24",
+      "fix": "variable \"force_artifact_destroy\" {\n  type        = bool\n  description = \"Force the removal of the artifact S3 bucket on destroy (default: false).\"\n  default     = false\n}",
+      "fixable": true,
+      "id": "HOLDEN_BP_004",
+      "last_seen": "2026-08-24",
+      "line": 22,
+      "principle": "maintainability",
+      "remediation": "Change to type = bool with default = false and drop the now-redundant validation block. The example passes the string \"true\", which Terraform converts to bool cleanly, so no caller change is required.",
+      "resource": "var.force_artifact_destroy",
+      "severity": "LOW",
+      "status": "fixed",
+      "supersedes": "HLD_TF_082",
+      "title": "force_artifact_destroy is declared string but is semantically boolean"
+    },
+    {
+      "confidence": "high",
+      "explanation": "build_timeout is typed string with default \"30\", and its validation block has to call tonumber() twice to range-check it. aws_codebuild_project.build_timeout is a number. Declaring it number would make the range check direct and reject \"thirty\" at parse time rather than inside a can() guard.",
+      "file": "variables.tf",
+      "first_seen": "2026-08-24",
+      "fix": "variable \"build_timeout\" {\n  description = \"The time to wait for a CodeBuild to complete before timing out in minutes (default: 30)\"\n  type        = number\n  default     = 30\n\n  validation {\n    condition     = var.build_timeout >= 5 && var.build_timeout <= 480\n    error_message = \"The build_timeout must be between 5 and 480 minutes, the range AWS CodeBuild accepts.\"\n  }\n}",
+      "fixable": true,
+      "id": "HOLDEN_BP_005",
+      "last_seen": "2026-08-24",
+      "line": 33,
+      "principle": "maintainability",
+      "remediation": "Change to type = number with default = 30 and simplify the validation to a plain range comparison.",
+      "resource": "var.build_timeout",
+      "severity": "LOW",
+      "status": "fixed",
+      "title": "build_timeout is declared string for a purely numeric minute count"
+    },
+    {
+      "confidence": "medium",
+      "explanation": "var.environment and var.sourcecode are map(any) consumed by index lookups such as var.environment[\"compute_type\"]. A caller who supplies computetype gets a plan-time index error with no indication of the valid key set, and a caller who supplies an extra key gets silence. The validation blocks added for HLD_TF_021 use lookup() with defaults, which papers over a missing key rather than rejecting it. An object type with optional() would state the contract in the type system and let Terraform reject unknown keys directly.",
+      "file": "variables.tf",
+      "first_seen": "2026-08-24",
+      "fixable": false,
+      "id": "HOLDEN_BP_006",
+      "last_seen": "2026-08-24",
+      "line": 113,
+      "principle": "maintainability",
+      "remediation": "Convert both to object({...}) with optional() members and defaults, e.g. object({ compute_type = optional(string, \"BUILD_GENERAL1_SMALL\"), image = string, type = optional(string, \"LINUX_CONTAINER\"), privileged_mode = optional(bool, false) }). This is a breaking interface change for callers passing extra keys, so it belongs in a major version.",
+      "resource": "var.environment",
+      "severity": "LOW",
+      "status": "open",
+      "title": "environment and sourcecode are map(any), so key typos fail at apply rather than plan"
+    },
+    {
+      "confidence": "medium",
+      "explanation": "Without concurrent_build_limit the project inherits the account-wide concurrency ceiling. A commit storm or a retry loop on the CloudWatch Events trigger can fan out into many simultaneous builds, each billed per minute. A per-project cap bounds the worst case without affecting normal operation.",
+      "file": "aws_codebuild_project.build.tf",
+      "first_seen": "2026-08-24",
+      "fixable": false,
+      "id": "HOLDEN_BP_007",
+      "last_seen": "2026-08-24",
+      "line": 1,
+      "principle": "cost",
+      "remediation": "Add concurrent_build_limit driven by a variable, defaulting to a small number such as 1 for a single-branch build project.",
+      "resource": "aws_codebuild_project.build",
+      "severity": "LOW",
+      "status": "open",
+      "title": "CodeBuild project sets no concurrent_build_limit"
+    },
+    {
+      "confidence": "high",
+      "explanation": "logs_config declared only s3_logs. CodeBuild defaults cloudwatch_logs to ENABLED with group /aws/codebuild/<project>, so logs were reaching CloudWatch, but nothing in the configuration said so \u2014 which is why HLD_AWS_065 could not resolve. It also mattered more than usual here: data_iam_policy.codebuild_policy.tf now scopes logs:CreateLogStream/PutLogEvents to exactly that group name, so an implicit default and an explicit IAM scope were free to drift apart silently.",
+      "file": "aws_codebuild_project.build.tf",
+      "first_seen": "2026-08-24",
+      "fix": "    cloudwatch_logs {\n      status      = \"ENABLED\"\n      group_name  = \"/aws/codebuild/${replace(var.name, \".\", \"-\")}\"\n      stream_name = \"build\"\n    }",
+      "fixable": true,
+      "id": "HOLDEN_BP_008",
+      "last_seen": "2026-08-24",
+      "line": 30,
+      "principle": "reliability",
+      "remediation": "Declare cloudwatch_logs explicitly with the same group name the IAM policy grants on.",
+      "resource": "aws_codebuild_project.build",
+      "severity": "LOW",
+      "status": "fixed",
+      "supersedes": "HLD_AWS_065",
+      "title": "CodeBuild CloudWatch logging left implicit, so the log group name could drift from the IAM policy scoped to it"
+    }
+  ],
+  "scan_date": "2026-08-24T00:00:00Z",
+  "scan_path": ".",
+  "suggested_policies": [
+    {
+      "rationale": "HLD_AWS_384 catches a lifecycle configuration whose rules touch only noncurrent versions, leaving current versions unbounded. The opposite shape is equally common and equally invisible: versioning is enabled on the bucket, the lifecycle rule expires current versions, and nothing ever removes the noncurrent versions those expirations create. On artifact, log and backup buckets \u2014 where overwrites are the normal access pattern \u2014 this accumulates indefinitely while the configuration reads as though retention is handled. The check is only meaningful when versioning is actually enabled, so it keys off the aws_s3_bucket_versioning companion rather than the lifecycle resource alone. terraform-aws-codebuild is a live instance of exactly this shape.",
+      "yaml": "id: HLD_AWS_385\nname: S3 lifecycle configuration must bound noncurrent versions on a versioned bucket\nprinciple: cost\nseverity: MEDIUM\nrationale: |\n  HLD_AWS_384 catches a lifecycle configuration that bounds only noncurrent\n  versions and never a current one. This is its mirror, and the more common of\n  the two: versioning is enabled, the lifecycle rule expires current objects,\n  and every one of those expirations leaves a noncurrent version that nothing\n  will ever remove.\n\n  The failure mode is the same in both directions. A bucket with no lifecycle\n  configuration at all is obviously unbounded and gets noticed. A bucket with a\n  well-named expire rule looks handled, so nobody looks again \u2014 and on exactly\n  the workloads where versioning is turned on, artifact and log and backup\n  sinks whose normal access pattern is overwrite, the hidden noncurrent tier\n  grows without limit in S3 Standard.\n\n  The check applies only where versioning is actually enabled: on a bucket\n  without versioning a noncurrent rule can never act, and demanding one would\n  be noise.\nremediation: |\n  Add a noncurrent_version_expiration to at least one enabled rule:\n\n    resource \"aws_s3_bucket_lifecycle_configuration\" \"example\" {\n      bucket = aws_s3_bucket.example.id\n\n      rule {\n        id     = \"expire-artifacts\"\n        status = \"Enabled\"\n\n        expiration {\n          days = 365\n        }\n\n        noncurrent_version_expiration {\n          noncurrent_days = 30\n        }\n      }\n    }\n\n  Keep the noncurrent window shorter than the current one unless prior versions\n  are themselves the thing being retained: their purpose is recovery from a bad\n  overwrite, which is a question of days, not of the object's full lifetime.\nresources:\n  aws_s3_bucket_lifecycle_configuration:\n    filter:\n      references:\n        type: aws_s3_bucket\n        via: bucket\n    path: rule\n    any_in:\n      any:\n        - path: noncurrent_version_expiration\n          not_null: true\n        - path: noncurrent_version_transition\n          not_null: true\n"
+    }
+  ],
+  "unresolved_review": {
+    "confirmed_safe": [
+      "HLD_AWS_269 and HLD_AWS_292 on data.aws_iam_policy_document.custom_kms_key: the principal is arn:aws:iam::${account_id}:root, an account-root ARN, not a wildcard. Unknown only because the account id is interpolated."
+    ],
+    "resolved_to_finding": [
+      "HLD_TF_082 -> HOLDEN_BP_004",
+      "HLD_AWS_065 -> HOLDEN_BP_008"
+    ],
+    "reviewed": 4,
+    "still_unresolvable": [
+      "HLD_AWS_308 on aws_s3_bucket_logging.artifacts: the target bucket comes from var.logs_bucket and is outside this configuration, so its encryption cannot be seen. Documented as a caller requirement on the variable instead."
+    ]
+  }
+}

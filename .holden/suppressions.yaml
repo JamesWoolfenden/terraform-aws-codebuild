@@ -1,0 +1,10 @@
+suppressions:
+  - policy_id: HLD_TF_027
+    resource_id: tf_file.variables.tf
+    reason: "The 20 variables are the module's public interface, and each one maps to a distinct CodeBuild, S3 or IAM setting a caller legitimately needs to override. Reducing the count would mean either collapsing unrelated settings into opaque maps or dropping configurability, both worse than the count itself."
+    approved_by: james.woolfenden
+
+  - policy_id: HLD_TF_029
+    resource_id: workspace
+    reason: "The permission count reflects what a CodeBuild project genuinely needs to run: S3 artifacts, ECR push, SSM build counters, CloudWatch Logs and a scoped PassRole. Every statement in data_iam_policy.codebuild_policy.tf is now scoped to a specific ARN, so the blast radius is bounded by resource even though the action count is high."
+    approved_by: james.woolfenden

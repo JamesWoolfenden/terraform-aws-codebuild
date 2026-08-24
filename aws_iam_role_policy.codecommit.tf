@@ -1,11 +1,13 @@
 resource "aws_iam_role_policy" "codecommit" {
-  # checkov:skip=CKV_AWS_290: Policy requires broad access for this module to function
-  # checkov:skip=CKV_AWS_355: Policy requires broad access for this module to function
-  # checkov:skip=CKV_AWS_272: Policy requires broad access for this module to function
-  # checkov:skip=CKV_AWS_356: Policy requires broad access for this module to function
-  name  = "codecommit-${var.name}"
-  count = var.reponame == "" ? 0 : 1
-  role  = aws_iam_role.codebuild[count.index].id
+  name = "codecommit-${var.name}"
+  # Gated on BOTH conditions. aws_iam_role.codebuild exists only when this
+  # module creates the role, so counting on reponame alone made this policy
+  # index an empty collection whenever a caller supplied their own role and a
+  # repo together, failing the plan outright. Matching the gate on
+  # aws_iam_role_policy.codebuild also keeps the module's convention: it
+  # manages permissions only on roles it owns.
+  count = var.role == "" && var.reponame != "" ? 1 : 0
+  role  = aws_iam_role.codebuild[0].id
 
   policy = <<JSON
 {
@@ -42,7 +44,7 @@ resource "aws_iam_role_policy" "codecommit" {
                 "codecommit:GetBranch",
                 "codecommit:GetMergeConflicts"
             ],
-            "Resource": "arn:aws:codecommit:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${var.reponame}"
+            "Resource": "arn:aws:codecommit:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:${var.reponame}"
         }
     ]
 }

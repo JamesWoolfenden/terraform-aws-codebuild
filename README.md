@@ -5,7 +5,6 @@
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/JamesWoolfenden/terraform-aws-codebuild.svg?label=latest)](https://github.com/JamesWoolfenden/terraform-aws-codebuild/releases/latest)
 ![Terraform Version](https://img.shields.io/badge/tf-%3E%3D0.14.0-blue.svg)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![checkov](https://img.shields.io/badge/checkov-verified-brightgreen)](https://www.checkov.io/)
 
 Terraform module to provision an AWS [`codebuild`](https://aws.amazon.com/codebuild/) CI/CD system.
 
@@ -26,7 +25,6 @@ Include this repository as a module in your existing Terraform code:
 module "codebuild" {
   source                 = "jameswoolfenden/codebuild/aws"
   version                = "0.2.70"
-  common_tags            = var.common_tags
   description            = var.description
   force_artifact_destroy = var.force_artifact_destroy
   name                   = var.name
@@ -71,7 +69,7 @@ No modules.
 | ---- | ---- |
 | [aws_cloudwatch_event_rule.codechange](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule) | resource |
 | [aws_cloudwatch_event_target.triggerbuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
-| [aws_codebuild_project.project](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_project) | resource |
+| [aws_codebuild_project.build](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_project) | resource |
 | [aws_iam_policy.trigger](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_role.codebuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.trigger](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
@@ -79,11 +77,12 @@ No modules.
 | [aws_iam_role_policy.codecommit](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy_attachment.attachtotriggerrole](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_s3_bucket.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
-| [aws_s3_bucket_acl.example](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_acl) | resource |
 | [aws_s3_bucket_lifecycle_configuration.pike](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
+| [aws_s3_bucket_logging.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_logging) | resource |
+| [aws_s3_bucket_ownership_controls.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_ownership_controls) | resource |
 | [aws_s3_bucket_public_access_block.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
-| [aws_s3_bucket_server_side_encryption_configuration.example](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
-| [aws_s3_bucket_versioning.example](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
+| [aws_s3_bucket_server_side_encryption_configuration.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
+| [aws_s3_bucket_versioning.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
 | [aws_ssm_parameter.buildnumber](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter) | resource |
 | [aws_ssm_parameter.latest](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
@@ -95,19 +94,21 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 | ---- | ----------- | ---- | ------- | :------: |
-| <a name="input_artifact"></a> [artifact](#input\_artifact) | Populates the Artifact block | `map` | <pre>{<br/>  "namespace_type": "NONE",<br/>  "packaging": "NONE"<br/>}</pre> | no |
-| <a name="input_artifact_expiry"></a> [artifact\_expiry](#input\_artifact\_expiry) | number of days | `number` | `365` | no |
+| <a name="input_artifact"></a> [artifact](#input\_artifact) | Populates the Artifact block | `map(string)` | <pre>{<br/>  "namespace_type": "NONE",<br/>  "packaging": "NONE"<br/>}</pre> | no |
+| <a name="input_artifact_expiry"></a> [artifact\_expiry](#input\_artifact\_expiry) | The number of days after which build artifacts expire from the artifact bucket | `number` | `365` | no |
+| <a name="input_artifact_noncurrent_expiry"></a> [artifact\_noncurrent\_expiry](#input\_artifact\_noncurrent\_expiry) | The number of days after which noncurrent (superseded) artifact versions are deleted. Prior versions exist to recover from a bad overwrite, so this is normally much shorter than artifact\_expiry. | `number` | `30` | no |
 | <a name="input_artifact_type"></a> [artifact\_type](#input\_artifact\_type) | The Artifact type, S3, CODEPIPELINE or NO\_ARTIFACT | `string` | `"S3"` | no |
-| <a name="input_bucketname"></a> [bucketname](#input\_bucketname) | n/a | `string` | `""` | no |
-| <a name="input_build_timeout"></a> [build\_timeout](#input\_build\_timeout) | The time to wait for a CodeBuild to complete before timing out in minutes (default: 5) | `string` | `"60"` | no |
-| <a name="input_common_tags"></a> [common\_tags](#input\_common\_tags) | An AWS tagging scheme | `map(any)` | n/a | yes |
+| <a name="input_bucketname"></a> [bucketname](#input\_bucketname) | Existing S3 bucket to use for artifacts; leave empty to have this module create one | `string` | `""` | no |
+| <a name="input_build_timeout"></a> [build\_timeout](#input\_build\_timeout) | The time to wait for a CodeBuild to complete before timing out in minutes (default: 30) | `number` | `30` | no |
+| <a name="input_cache_modes"></a> [cache\_modes](#input\_cache\_modes) | Cache modes used when cache\_type is LOCAL. Ignored for S3 and NO\_CACHE. | `list(string)` | <pre>[<br/>  "LOCAL_SOURCE_CACHE",<br/>  "LOCAL_CUSTOM_CACHE"<br/>]</pre> | no |
+| <a name="input_cache_type"></a> [cache\_type](#input\_cache\_type) | CodeBuild cache type: LOCAL, S3 or NO\_CACHE | `string` | `"LOCAL"` | no |
 | <a name="input_defaultbranch"></a> [defaultbranch](#input\_defaultbranch) | The default git branch | `string` | `"master"` | no |
-| <a name="input_description"></a> [description](#input\_description) | Yeah it's the description | `string` | `""` | no |
+| <a name="input_description"></a> [description](#input\_description) | The description applied to the CodeBuild project | `string` | `""` | no |
 | <a name="input_encryption_disabled"></a> [encryption\_disabled](#input\_encryption\_disabled) | Disable the encryption of artifacts | `bool` | `false` | no |
-| <a name="input_environment"></a> [environment](#input\_environment) | A map to describe the build environment and populate the environment block | `map(any)` | <pre>{<br/>  "compute_type": "BUILD_GENERAL1_SMALL",<br/>  "image": "aws/codebuild/nodejs:6.3.1",<br/>  "privileged_mode": "false",<br/>  "type": "LINUX_CONTAINER"<br/>}</pre> | no |
-| <a name="input_force_artifact_destroy"></a> [force\_artifact\_destroy](#input\_force\_artifact\_destroy) | Force the removal of the artifact S3 bucket on destroy (default: false). | `string` | `false` | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | A map to describe the build environment and populate the environment block | `map(any)` | <pre>{<br/>  "compute_type": "BUILD_GENERAL1_SMALL",<br/>  "image": "aws/codebuild/standard:7.0",<br/>  "privileged_mode": "false",<br/>  "type": "LINUX_CONTAINER"<br/>}</pre> | no |
+| <a name="input_force_artifact_destroy"></a> [force\_artifact\_destroy](#input\_force\_artifact\_destroy) | Force the removal of the artifact S3 bucket on destroy (default: false). | `bool` | `false` | no |
 | <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | Your Custom KMS key | `string` | `""` | no |
-| <a name="input_logs_bucket"></a> [logs\_bucket](#input\_logs\_bucket) | The bucket id and path for storing the logs | `string` | n/a | yes |
+| <a name="input_logs_bucket"></a> [logs\_bucket](#input\_logs\_bucket) | The bucket id and path for storing the logs. This bucket also receives S3 server access logs for the artifact bucket, so it must not be encrypted with SSE-KMS unless a bucket key is enabled — S3 log delivery cannot write to an SSE-KMS bucket without one. | `string` | n/a | yes |
 | <a name="input_mfa_delete"></a> [mfa\_delete](#input\_mfa\_delete) | Require MFA to delete | `string` | `"Disabled"` | no |
 | <a name="input_name"></a> [name](#input\_name) | The name of the Build | `string` | n/a | yes |
 | <a name="input_projectroot"></a> [projectroot](#input\_projectroot) | The name of the parent project for SSM | `string` | `"core"` | no |
@@ -121,9 +122,9 @@ No modules.
 
 | Name | Description |
 | ---- | ----------- |
-| <a name="output_artifact_bucket"></a> [artifact\_bucket](#output\_artifact\_bucket) | n/a |
-| <a name="output_codebuild_role_name"></a> [codebuild\_role\_name](#output\_codebuild\_role\_name) | n/a |
-| <a name="output_project"></a> [project](#output\_project) | n/a |
+| <a name="output_artifact_bucket"></a> [artifact\_bucket](#output\_artifact\_bucket) | The Bucket for Artifacts |
+| <a name="output_codebuild_role_name"></a> [codebuild\_role\_name](#output\_codebuild\_role\_name) | The name of the IAM role CodeBuild assumes, either the role created by this module or the override supplied in var.role |
+| <a name="output_project"></a> [project](#output\_project) | The full aws\_codebuild\_project resource, exposed so callers can reference its arn, id, and badge\_url |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Policy Requirement
@@ -132,6 +133,7 @@ No modules.
 The Terraform resource required is:
 
 ```golang
+# apply role — full permissions for terraform apply
 resource "aws_iam_policy" "terraform_pike" {
   name_prefix = "terraform_pike"
   path        = "/"
@@ -189,9 +191,7 @@ resource "aws_iam_policy" "terraform_pike" {
                 "iam:ListPolicyVersions",
                 "iam:ListRolePolicies",
                 "iam:PassRole",
-                "iam:PutRolePolicy",
-                "iam:TagRole",
-                "iam:UntagRole"
+                "iam:PutRolePolicy"
             ],
             "Resource": [
                 "*"
@@ -218,6 +218,7 @@ resource "aws_iam_policy" "terraform_pike" {
                 "s3:GetBucketCORS",
                 "s3:GetBucketLogging",
                 "s3:GetBucketObjectLockConfiguration",
+                "s3:GetBucketOwnershipControls",
                 "s3:GetBucketPolicy",
                 "s3:GetBucketPublicAccessBlock",
                 "s3:GetBucketRequestPayment",
@@ -229,10 +230,9 @@ resource "aws_iam_policy" "terraform_pike" {
                 "s3:GetObject",
                 "s3:GetObjectAcl",
                 "s3:GetReplicationConfiguration",
-                "s3:ListAllMyBuckets",
                 "s3:ListBucket",
-                "s3:PutBucketAcl",
                 "s3:PutBucketLogging",
+                "s3:PutBucketOwnershipControls",
                 "s3:PutBucketPublicAccessBlock",
                 "s3:PutBucketVersioning",
                 "s3:PutEncryptionConfiguration",
@@ -253,6 +253,64 @@ resource "aws_iam_policy" "terraform_pike" {
                 "ssm:GetParameters",
                 "ssm:ListTagsForResource",
                 "ssm:PutParameter"
+            ],
+            "Resource": [
+                "*"
+            ]
+        }
+    ]
+})
+}
+
+# plan role — read-only permissions for terraform plan
+resource "aws_iam_policy" "terraform_pike_plan" {
+  name_prefix = "terraform_pike_plan"
+  path        = "/"
+  description = "Pike Autogenerated policy from IAC"
+
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetRole"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "kms:Decrypt"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor2",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetAccelerateConfiguration",
+                "s3:GetBucketAcl",
+                "s3:GetBucketCORS",
+                "s3:GetBucketLogging",
+                "s3:GetBucketObjectLockConfiguration",
+                "s3:GetBucketPolicy",
+                "s3:GetBucketRequestPayment",
+                "s3:GetBucketTagging",
+                "s3:GetBucketVersioning",
+                "s3:GetBucketWebsite",
+                "s3:GetEncryptionConfiguration",
+                "s3:GetLifecycleConfiguration",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:GetReplicationConfiguration",
+                "s3:ListBucket"
             ],
             "Resource": [
                 "*"

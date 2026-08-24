@@ -1,0 +1,5 @@
+suppressions:
+  - policy_id: HLD_TF_029
+    resource_id: workspace
+    reason: "Inherited from the module under test — the example exists to exercise terraform-aws-codebuild end to end, so it necessarily requires the union of the module's permissions plus KMS key management. See the matching suppression in the module root."
+    approved_by: james.woolfenden

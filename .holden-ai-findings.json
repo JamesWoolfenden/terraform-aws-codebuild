@@ -1,0 +1,190 @@
+{
+  "findings": [
+    {
+      "confidence": "high",
+      "explanation": "aws_iam_role_policy.codecommit is created when var.reponame != \"\", but its role attribute reads aws_iam_role.codebuild[count.index] \u2014 and that role is created only when var.role == \"\". Supply both a CodeCommit repo and your own IAM role, which are two independently documented options, and the policy exists while the role it indexes does not. Terraform errors with \"Invalid index ... the collection has no elements\" before it can plan anything. No attribute rule can see this: each resource's own count is valid, and the defect only exists in the relationship between two different count expressions. I reproduced it with a minimal two-resource config sharing the same shape and confirmed the plan-time failure. The intent is wrong as well as the index: if the caller brought their own role, the CodeCommit permissions should attach to that role, not to a role this module never created.",
+      "file": "aws_iam_role_policy.codecommit.tf",
+      "first_seen": "2026-08-24",
+      "fixable": false,
+      "id": "HOLDEN_AI_001",
+      "last_seen": "2026-08-24",
+      "line": 4,
+      "principle": "reliability",
+      "related_resources": [
+        "aws_iam_role.codebuild",
+        "aws_iam_role_policy.codebuild"
+      ],
+      "remediation": "Gate the policy on both conditions and attach to whichever role is actually in use. Change count to var.reponame == \"\" || var.role != \"\" ? 0 : 1 if the module should only manage permissions on roles it owns, or attach to data.aws_iam_role.existing when var.role is set. Either way the [count.index] must not index a differently-gated resource.",
+      "resource": "aws_iam_role_policy.codecommit",
+      "severity": "HIGH",
+      "status": "fixed",
+      "suppression_reason": null,
+      "title": "Module fails at plan time whenever both role and reponame are supplied: codecommit policy indexes a role gated on a different condition"
+    },
+    {
+      "confidence": "high",
+      "explanation": "The event pattern matches CodeCommit events whose resource ARN ends in ${var.name}, but aws_iam_role_policy.codecommit grants codecommit:GitPull and friends on ${var.reponame}. These are two different variables describing the same repository, and nothing forces them to agree \u2014 var.name is the build name and defaults to nothing in common with var.reponame. Whenever they differ the module is broken in one of two directions: the rule watches a repository that does not exist so builds never trigger, or it triggers on a repository the build role has no permission to clone. A rules engine compares attributes against constants, not two interpolations of different variables against each other for semantic equivalence.",
+      "file": "aws_cloudwatch_event_rule.codechange.tf",
+      "first_seen": "2026-08-24",
+      "fix": "        \"arn:aws:codecommit:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:${var.reponame}\"",
+      "fixable": true,
+      "id": "HOLDEN_AI_002",
+      "last_seen": "2026-08-24",
+      "line": 20,
+      "principle": "identity-and-access",
+      "related_resources": [
+        "aws_iam_role_policy.codecommit"
+      ],
+      "remediation": "Use var.reponame in the event pattern's resource ARN, matching the IAM policy, since the rule only exists when var.reponame is set. Alternatively drop var.name from the trigger path entirely and derive both from one variable.",
+      "resource": "aws_cloudwatch_event_rule.codechange",
+      "severity": "MEDIUM",
+      "status": "fixed",
+      "suppression_reason": null,
+      "title": "CloudWatch Events rule watches the repository named var.name while the IAM policy grants access to var.reponame"
+    },
+    {
+      "confidence": "high",
+      "explanation": "var.environment defaults image to aws/codebuild/nodejs:6.3.1. Node.js 6 reached end of life in April 2019 and receives no security patches, and the whole aws/codebuild/<language>:<version> curated image family has since been retired by AWS in favour of aws/codebuild/standard:N.0 and the amazonlinux2 images. Any caller who does not override var.environment therefore gets a build environment that is both unpatched and, in practice, no longer resolvable \u2014 so this is a live default, not a dormant one. HLD_AWS_095/096/097 all inspect this resource but none looks at the image, so nothing flagged it.",
+      "file": "variables.tf",
+      "first_seen": "2026-08-24",
+      "fix": "    image           = \"aws/codebuild/standard:7.0\"",
+      "fixable": true,
+      "id": "HOLDEN_AI_003",
+      "last_seen": "2026-08-24",
+      "line": 114,
+      "principle": "patch-management",
+      "remediation": "Change the default image to a currently supported curated image, e.g. aws/codebuild/standard:7.0, and note in the variable description that the aws/codebuild/<language> family is retired.",
+      "resource": "var.environment",
+      "severity": "MEDIUM",
+      "status": "fixed",
+      "suppression_reason": null,
+      "title": "Default build image is a retired CodeBuild curated image carrying a Node.js runtime that reached EOL in 2019"
+    },
+    {
+      "confidence": "high",
+      "explanation": "The role granted to the build holds codebuild:UpdateProject and codebuild:StartBuild scoped to aws_codebuild_project.build.arn \u2014 its own project. A build can therefore rewrite the project definition and start a new build under it. The sharpest consequence is privileged_mode: a build can set it to true and re-trigger itself, obtaining a privileged Docker container and, from there, escape to the build host. It can also repoint the buildspec, which makes the change persist for every later build rather than only the compromised one. Scoping the resource ARN, which is what the deterministic wildcard rules check, does not help here because the dangerous target is the project itself.",
+      "file": "data_iam_policy.codebuild_policy.tf",
+      "first_seen": "2026-08-24",
+      "fixable": false,
+      "id": "HOLDEN_AI_004",
+      "last_seen": "2026-08-24",
+      "line": 20,
+      "principle": "identity-and-access",
+      "related_resources": [
+        "aws_codebuild_project.build"
+      ],
+      "remediation": "Drop codebuild:UpdateProject unless a build genuinely needs to reconfigure its own project \u2014 StartBuild and StopBuild cover self-triggering. If it must stay, add a condition restricting it, and set privileged_mode explicitly on the resource so drift is visible.",
+      "resource": "data.aws_iam_policy_document.codebuild",
+      "severity": "MEDIUM",
+      "status": "open",
+      "suppression_reason": null,
+      "title": "Build role can call codebuild:UpdateProject on its own project, letting a build rewrite the environment it runs in",
+      "unresolved_since": "2026-08-24"
+    },
+    {
+      "confidence": "high",
+      "explanation": "The confused-deputy condition uses ArnLike on arn:aws:events:<region>:<account>:rule/*, so any EventBridge rule in the account can assume this role and start the build. The rule this role exists for has a statically known name, codecommit-${var.name}, so the wildcard buys nothing. Naming it exactly does not create a dependency cycle, because the condition needs only the name string, not a reference to the rule resource. This is a self-review of a condition added earlier in this same session.",
+      "file": "aws_iam_role.trigger.tf",
+      "first_seen": "2026-08-24",
+      "fix": "                    \"aws:SourceArn\": \"arn:aws:events:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:rule/codecommit-${var.name}\"",
+      "fixable": true,
+      "id": "HOLDEN_AI_005",
+      "last_seen": "2026-08-24",
+      "line": 25,
+      "principle": "identity-and-access",
+      "related_resources": [
+        "aws_cloudwatch_event_rule.codechange"
+      ],
+      "remediation": "Replace the rule/* wildcard with the specific rule name the role is created for.",
+      "resource": "aws_iam_role.trigger",
+      "severity": "LOW",
+      "status": "fixed",
+      "suppression_reason": null,
+      "title": "Trigger role trust policy scopes aws:SourceArn to every EventBridge rule in the account, though the rule name is statically known"
+    },
+    {
+      "confidence": "high",
+      "explanation": "The statement grants ssm:GetParameters (plural) and ssm:PutParameter. The buildspec env.parameter-store block uses the plural GetParameters API so that path works, but any direct aws ssm get-parameter call in a build command hits the singular GetParameter action and is denied. Those are separate IAM actions, not aliases. This matters more now that the statement is scoped: previously the resource was \"*\" but the action list was the same, so the gap existed and was equally silent.",
+      "file": "data_iam_policy.codebuild_policy.tf",
+      "first_seen": "2026-08-24",
+      "fix": "      \"ssm:GetParameter\",",
+      "fixable": true,
+      "id": "HOLDEN_AI_006",
+      "last_seen": "2026-08-24",
+      "line": 69,
+      "principle": "reliability",
+      "remediation": "Add ssm:GetParameter alongside ssm:GetParameters in the same statement.",
+      "resource": "data.aws_iam_policy_document.codebuild",
+      "severity": "LOW",
+      "status": "fixed",
+      "suppression_reason": null,
+      "title": "Build role can call ssm:GetParameters but not ssm:GetParameter, so a buildspec reading one parameter is denied"
+    },
+    {
+      "confidence": "medium",
+      "explanation": "var.sse_algorithm defaults to aws:kms while var.kms_key_id defaults to the empty string, and both feed aws_s3_bucket_server_side_encryption_configuration.artifacts. The result is SSE-KMS under the account's AWS-managed aws/s3 key rather than a customer-managed key, which means no key policy of your own gates decryption and the key cannot be disabled or audited independently. aws_codebuild_project.build.encryption_key takes the same empty default. The configuration reads as though a CMK is in play, which is the mismatch worth knowing about; HLD_AWS_064 covers the CodeBuild side of CMK use but the pairing of a KMS algorithm with an absent key is what makes this easy to miss.",
+      "file": "variables.tf",
+      "first_seen": "2026-08-24",
+      "fixable": false,
+      "id": "HOLDEN_AI_007",
+      "last_seen": "2026-08-24",
+      "line": 146,
+      "principle": "encryption",
+      "related_resources": [
+        "var.kms_key_id",
+        "aws_s3_bucket_server_side_encryption_configuration.artifacts",
+        "aws_codebuild_project.build"
+      ],
+      "remediation": "Either default sse_algorithm to AES256 so the posture is honest about being AWS-managed, or document clearly that kms_key_id must be supplied for the aws:kms default to mean a customer-managed key.",
+      "resource": "var.sse_algorithm",
+      "severity": "LOW",
+      "status": "open",
+      "suppression_reason": null,
+      "title": "Default encryption posture advertises KMS but resolves to the AWS-managed key",
+      "unresolved_since": "2026-08-24"
+    },
+    {
+      "confidence": "high",
+      "explanation": "logs_bucket is set to \"logging-680235478471/codebuild/\", embedding what appears to be a real 12-digit AWS account ID in a public repository. Account IDs are not secrets on their own, but they are useful to an attacker for cross-account role enumeration and for targeting S3 bucket names, and they should not ship in example code. It also makes the example non-functional for anyone else, since that bucket exists only in that account.",
+      "file": "example/examplea/module.codebuild.tf",
+      "first_seen": "2026-08-24",
+      "fix": "  logs_bucket            = \"logging-${data.aws_caller_identity.current.account_id}/codebuild/\"",
+      "fixable": true,
+      "id": "HOLDEN_AI_008",
+      "last_seen": "2026-08-24",
+      "line": 9,
+      "principle": "data-protection",
+      "remediation": "Derive the bucket from data.aws_caller_identity.current.account_id, which the example already declares, or take it as a variable with no default.",
+      "resource": "module.codebuild",
+      "severity": "LOW",
+      "status": "fixed",
+      "suppression_reason": null,
+      "title": "Example hardcodes a real AWS account ID in the log bucket name"
+    }
+  ],
+  "scan_date": "2026-08-24T00:00:00Z",
+  "scan_path": ".",
+  "suggested_policies": [
+    {
+      "rationale": "aws_codebuild_project already has six policies covering privileged mode, compute type, CMK, logging, timeout and public read, but none inspects the build image. The aws/codebuild/<language>:<version> curated family is retired by AWS and every image in it pins a language runtime that is years past end of life \u2014 aws/codebuild/nodejs:6.3.1, the default this module shipped, carries a runtime that reached EOL in April 2019. The check is a single attribute against a fixed, well-known naming scheme, fires identically on any Terraform using the resource type, and needs no context, so it belongs in the deterministic engine rather than in an AI pass.",
+      "yaml": "id: HLD_PROPOSED_001\nname: CodeBuild projects must not use a retired curated build image\nprinciple: patch-management\nseverity: MEDIUM\nrationale: |\n  The aws/codebuild/<language>:<version> curated image family \u2014 nodejs, python,\n  ruby, java, golang, php, dot-net, android, docker \u2014 has been retired by AWS in\n  favour of aws/codebuild/standard:N.0 and the amazonlinux2 images. Every image\n  in the retired family pins a language runtime to a specific old version that\n  no longer receives security patches, and several pin runtimes that reached end\n  of life years ago.\n\n  The risk is not only the unpatched runtime. Because these images are no longer\n  published, a project still naming one fails to start rather than building with\n  something stale, so the configuration is broken as well as insecure \u2014 but it\n  fails at build time, not at plan time, so nothing surfaces it until a build is\n  actually run.\nremediation: |\n  Move to a currently supported curated image and select the runtime in the\n  buildspec rather than through the image tag:\n\n    environment {\n      image        = \"aws/codebuild/standard:7.0\"\n      compute_type = \"BUILD_GENERAL1_SMALL\"\n      type         = \"LINUX_CONTAINER\"\n    }\n\n  Declare the language version in the buildspec's install phase\n  (runtime-versions), which is how the standard images are designed to be used\n  and what lets the runtime be upgraded without changing the image.\nresources:\n  aws_codebuild_project:\n    path: environment.image\n    not_matches: \"^aws/codebuild/(nodejs|python|ruby|java|golang|php|dot-net|android|docker):\"\n"
+    },
+    {
+      "dsl_extension_note": "Needs a cross-resource comparison of count expressions, which no current operator expresses. Concretely: a check that, for each resource whose attribute references another resource with an index (count.index, a literal [0], or a splat later indexed), compares the raw count expression source text of the referencing resource against that of the referenced one and fails when they are not equivalent. The graph already records the reference edge and the attribute path, so the missing pieces are (a) retaining each resource's count expression as source text on graph.Resource \u2014 it is currently evaluated to an instance count and the expression discarded, so nothing is left to compare \u2014 and (b) a ResourcePolicy field such as `count_expression_matches_referenced: {via: <attribute>}` plus an evaluator following the existing checkCompanion dispatch shape in internal/policy/evaluator.go. Exact textual equality is the conservative first cut and would have caught this case (`var.role == \"\" ? 1 : 0` versus `var.reponame == \"\" ? 0 : 1`); normalising whitespace is a cheap refinement, and full expression equivalence is explicitly out of scope.",
+      "rationale": "HOLDEN_AI_001 in this scan is a plan-breaking bug of a shape no current policy can express: a resource indexes another resource with [count.index] or [0] while the two are gated on different count expressions. Whenever the conditions diverge the index reaches into an empty collection and the plan fails outright. HLD_TF_053 covers count.index appearing in name attributes and HLD_TF_075 covers count with length(), but neither compares two resources' count expressions. This is common in conditional-toggle modules, where several optional resources accumulate independent conditions over time, and it is entirely mechanical to detect \u2014 which is what makes it worth having deterministically rather than relying on someone running a build with the unlucky variable combination.",
+      "requires_dsl_extension": true,
+      "yaml": "id: HLD_PROPOSED_002\nname: A resource must not index another resource gated on a different count expression\nprinciple: reliability\nseverity: HIGH\nrationale: |\n  When resource A is created under `count = X` and indexes resource B, created\n  under `count = Y`, the configuration is only valid while X and Y agree. As\n  soon as a variable combination makes them diverge, A exists while B does not,\n  the index reaches into an empty collection, and Terraform fails the whole plan\n  with \"Invalid index: the collection has no elements\".\n\n  This is easy to introduce and hard to notice. Each resource's own count is\n  perfectly valid, the defect lives only in the relationship between the two,\n  and it stays invisible until someone supplies the particular combination of\n  variables that separates them. In a module offering several independent\n  toggles that combination may not be exercised for a long time, and when it is,\n  it fails at plan for the consumer rather than in the module's own tests.\nremediation: |\n  Gate the indexing resource on the same condition as the resource it indexes,\n  combining conditions where it genuinely depends on both:\n\n    resource \"aws_iam_role\" \"build\" {\n      count = var.role == \"\" ? 1 : 0\n    }\n\n    resource \"aws_iam_role_policy\" \"repo\" {\n      count = var.role == \"\" && var.reponame != \"\" ? 1 : 0\n      role  = aws_iam_role.build[0].id\n    }\n\n  If the resource genuinely needs to work in both cases, point it at whichever\n  target actually exists with `one()` or a ternary rather than a bare index.\nresources:\n  aws_iam_role_policy:\n    count_expression_matches_referenced:\n      via: role\n"
+    }
+  ],
+  "suggested_suppressions": [],
+  "unresolved_review": {
+    "confirmed_safe": [
+      "HLD_AWS_292 \u2014 the KMS principal is an account-root ARN; HLD_AWS_269 now proves this after the not_any partial-string fix"
+    ],
+    "resolved_to_finding": 0,
+    "reviewed": 3,
+    "still_unresolvable": [
+      "HLD_AWS_308 (both roots) \u2014 the log target bucket comes from var.logs_bucket and lives outside the configuration"
+    ]
+  }
+}
