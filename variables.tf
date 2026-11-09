@@ -141,9 +141,9 @@ variable "sourcecode" {
 }
 
 variable "sse_algorithm" {
-  description = "The type of encryption algorithm to use"
+  description = "The type of encryption algorithm to use. AES256 uses AWS-managed keys; set aws:kms together with kms_key_id for a customer-managed key."
   type        = string
-  default     = "aws:kms"
+  default     = "AES256"
 
   validation {
     condition     = contains(["aws:kms", "aws:kms:dsse", "AES256"], var.sse_algorithm)
@@ -241,12 +241,12 @@ variable "mfa_delete" {
 
 variable "kms_key_id" {
   type        = string
-  description = "Your Custom KMS key"
+  description = "ARN of your custom KMS key. Set sse_algorithm to aws:kms (or aws:kms:dsse) to encrypt the artifact bucket with it. Leave empty to use the AWS-managed keys."
   default     = ""
 
   validation {
-    condition     = var.kms_key_id == "" || can(regex("^(arn:aws[a-z-]*:kms:|alias/|[0-9a-f]{8}-)", var.kms_key_id))
-    error_message = "The kms_key_id must be empty, a KMS key ARN, an alias/ name, or a bare key UUID."
+    condition     = var.kms_key_id == "" || can(regex("^arn:aws[a-z-]*:kms:[a-z0-9-]+:[0-9]{12}:key/", var.kms_key_id))
+    error_message = "The kms_key_id must be empty or a KMS key ARN. Key ids and aliases are not accepted because the build role's IAM grant must be scoped to a key ARN."
   }
 }
 

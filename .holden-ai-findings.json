@@ -1,4 +1,5 @@
 {
+  "category": "all",
   "findings": [
     {
       "confidence": "high",
@@ -19,7 +20,8 @@
       "severity": "HIGH",
       "status": "fixed",
       "suppression_reason": null,
-      "title": "Module fails at plan time whenever both role and reponame are supplied: codecommit policy indexes a role gated on a different condition"
+      "title": "Module fails at plan time whenever both role and reponame are supplied: codecommit policy indexes a role gated on a different condition",
+      "unresolved_since": null
     },
     {
       "confidence": "high",
@@ -40,7 +42,8 @@
       "severity": "MEDIUM",
       "status": "fixed",
       "suppression_reason": null,
-      "title": "CloudWatch Events rule watches the repository named var.name while the IAM policy grants access to var.reponame"
+      "title": "CloudWatch Events rule watches the repository named var.name while the IAM policy grants access to var.reponame",
+      "unresolved_since": null
     },
     {
       "confidence": "high",
@@ -58,7 +61,8 @@
       "severity": "MEDIUM",
       "status": "fixed",
       "suppression_reason": null,
-      "title": "Default build image is a retired CodeBuild curated image carrying a Node.js runtime that reached EOL in 2019"
+      "title": "Default build image is a retired CodeBuild curated image carrying a Node.js runtime that reached EOL in 2019",
+      "unresolved_since": null
     },
     {
       "confidence": "high",
@@ -67,8 +71,8 @@
       "first_seen": "2026-08-24",
       "fixable": false,
       "id": "HOLDEN_AI_004",
-      "last_seen": "2026-08-24",
-      "line": 20,
+      "last_seen": "2026-11-09",
+      "line": 21,
       "principle": "identity-and-access",
       "related_resources": [
         "aws_codebuild_project.build"
@@ -76,10 +80,10 @@
       "remediation": "Drop codebuild:UpdateProject unless a build genuinely needs to reconfigure its own project \u2014 StartBuild and StopBuild cover self-triggering. If it must stay, add a condition restricting it, and set privileged_mode explicitly on the resource so drift is visible.",
       "resource": "data.aws_iam_policy_document.codebuild",
       "severity": "MEDIUM",
-      "status": "open",
+      "status": "fixed",
       "suppression_reason": null,
       "title": "Build role can call codebuild:UpdateProject on its own project, letting a build rewrite the environment it runs in",
-      "unresolved_since": "2026-08-24"
+      "unresolved_since": null
     },
     {
       "confidence": "high",
@@ -100,7 +104,8 @@
       "severity": "LOW",
       "status": "fixed",
       "suppression_reason": null,
-      "title": "Trigger role trust policy scopes aws:SourceArn to every EventBridge rule in the account, though the rule name is statically known"
+      "title": "Trigger role trust policy scopes aws:SourceArn to every EventBridge rule in the account, though the rule name is statically known",
+      "unresolved_since": null
     },
     {
       "confidence": "high",
@@ -118,7 +123,8 @@
       "severity": "LOW",
       "status": "fixed",
       "suppression_reason": null,
-      "title": "Build role can call ssm:GetParameters but not ssm:GetParameter, so a buildspec reading one parameter is denied"
+      "title": "Build role can call ssm:GetParameters but not ssm:GetParameter, so a buildspec reading one parameter is denied",
+      "unresolved_since": null
     },
     {
       "confidence": "medium",
@@ -127,8 +133,8 @@
       "first_seen": "2026-08-24",
       "fixable": false,
       "id": "HOLDEN_AI_007",
-      "last_seen": "2026-08-24",
-      "line": 146,
+      "last_seen": "2026-11-09",
+      "line": 143,
       "principle": "encryption",
       "related_resources": [
         "var.kms_key_id",
@@ -138,10 +144,10 @@
       "remediation": "Either default sse_algorithm to AES256 so the posture is honest about being AWS-managed, or document clearly that kms_key_id must be supplied for the aws:kms default to mean a customer-managed key.",
       "resource": "var.sse_algorithm",
       "severity": "LOW",
-      "status": "open",
+      "status": "fixed",
       "suppression_reason": null,
       "title": "Default encryption posture advertises KMS but resolves to the AWS-managed key",
-      "unresolved_since": "2026-08-24"
+      "unresolved_since": null
     },
     {
       "confidence": "high",
@@ -159,32 +165,46 @@
       "severity": "LOW",
       "status": "fixed",
       "suppression_reason": null,
-      "title": "Example hardcodes a real AWS account ID in the log bucket name"
-    }
-  ],
-  "scan_date": "2026-08-24T00:00:00Z",
-  "scan_path": ".",
-  "suggested_policies": [
-    {
-      "rationale": "aws_codebuild_project already has six policies covering privileged mode, compute type, CMK, logging, timeout and public read, but none inspects the build image. The aws/codebuild/<language>:<version> curated family is retired by AWS and every image in it pins a language runtime that is years past end of life \u2014 aws/codebuild/nodejs:6.3.1, the default this module shipped, carries a runtime that reached EOL in April 2019. The check is a single attribute against a fixed, well-known naming scheme, fires identically on any Terraform using the resource type, and needs no context, so it belongs in the deterministic engine rather than in an AI pass.",
-      "yaml": "id: HLD_PROPOSED_001\nname: CodeBuild projects must not use a retired curated build image\nprinciple: patch-management\nseverity: MEDIUM\nrationale: |\n  The aws/codebuild/<language>:<version> curated image family \u2014 nodejs, python,\n  ruby, java, golang, php, dot-net, android, docker \u2014 has been retired by AWS in\n  favour of aws/codebuild/standard:N.0 and the amazonlinux2 images. Every image\n  in the retired family pins a language runtime to a specific old version that\n  no longer receives security patches, and several pin runtimes that reached end\n  of life years ago.\n\n  The risk is not only the unpatched runtime. Because these images are no longer\n  published, a project still naming one fails to start rather than building with\n  something stale, so the configuration is broken as well as insecure \u2014 but it\n  fails at build time, not at plan time, so nothing surfaces it until a build is\n  actually run.\nremediation: |\n  Move to a currently supported curated image and select the runtime in the\n  buildspec rather than through the image tag:\n\n    environment {\n      image        = \"aws/codebuild/standard:7.0\"\n      compute_type = \"BUILD_GENERAL1_SMALL\"\n      type         = \"LINUX_CONTAINER\"\n    }\n\n  Declare the language version in the buildspec's install phase\n  (runtime-versions), which is how the standard images are designed to be used\n  and what lets the runtime be upgraded without changing the image.\nresources:\n  aws_codebuild_project:\n    path: environment.image\n    not_matches: \"^aws/codebuild/(nodejs|python|ruby|java|golang|php|dot-net|android|docker):\"\n"
+      "title": "Example hardcodes a real AWS account ID in the log bucket name",
+      "unresolved_since": null
     },
     {
-      "dsl_extension_note": "Needs a cross-resource comparison of count expressions, which no current operator expresses. Concretely: a check that, for each resource whose attribute references another resource with an index (count.index, a literal [0], or a splat later indexed), compares the raw count expression source text of the referencing resource against that of the referenced one and fails when they are not equivalent. The graph already records the reference edge and the attribute path, so the missing pieces are (a) retaining each resource's count expression as source text on graph.Resource \u2014 it is currently evaluated to an instance count and the expression discarded, so nothing is left to compare \u2014 and (b) a ResourcePolicy field such as `count_expression_matches_referenced: {via: <attribute>}` plus an evaluator following the existing checkCompanion dispatch shape in internal/policy/evaluator.go. Exact textual equality is the conservative first cut and would have caught this case (`var.role == \"\" ? 1 : 0` versus `var.reponame == \"\" ? 0 : 1`); normalising whitespace is a cheap refinement, and full expression equivalence is explicitly out of scope.",
-      "rationale": "HOLDEN_AI_001 in this scan is a plan-breaking bug of a shape no current policy can express: a resource indexes another resource with [count.index] or [0] while the two are gated on different count expressions. Whenever the conditions diverge the index reaches into an empty collection and the plan fails outright. HLD_TF_053 covers count.index appearing in name attributes and HLD_TF_075 covers count with length(), but neither compares two resources' count expressions. This is common in conditional-toggle modules, where several optional resources accumulate independent conditions over time, and it is entirely mechanical to detect \u2014 which is what makes it worth having deterministically rather than relying on someone running a build with the unlucky variable combination.",
-      "requires_dsl_extension": true,
-      "yaml": "id: HLD_PROPOSED_002\nname: A resource must not index another resource gated on a different count expression\nprinciple: reliability\nseverity: HIGH\nrationale: |\n  When resource A is created under `count = X` and indexes resource B, created\n  under `count = Y`, the configuration is only valid while X and Y agree. As\n  soon as a variable combination makes them diverge, A exists while B does not,\n  the index reaches into an empty collection, and Terraform fails the whole plan\n  with \"Invalid index: the collection has no elements\".\n\n  This is easy to introduce and hard to notice. Each resource's own count is\n  perfectly valid, the defect lives only in the relationship between the two,\n  and it stays invisible until someone supplies the particular combination of\n  variables that separates them. In a module offering several independent\n  toggles that combination may not be exercised for a long time, and when it is,\n  it fails at plan for the consumer rather than in the module's own tests.\nremediation: |\n  Gate the indexing resource on the same condition as the resource it indexes,\n  combining conditions where it genuinely depends on both:\n\n    resource \"aws_iam_role\" \"build\" {\n      count = var.role == \"\" ? 1 : 0\n    }\n\n    resource \"aws_iam_role_policy\" \"repo\" {\n      count = var.role == \"\" && var.reponame != \"\" ? 1 : 0\n      role  = aws_iam_role.build[0].id\n    }\n\n  If the resource genuinely needs to work in both cases, point it at whichever\n  target actually exists with `one()` or a ternary rather than a bare index.\nresources:\n  aws_iam_role_policy:\n    count_expression_matches_referenced:\n      via: role\n"
+      "confidence": "high",
+      "explanation": "When var.kms_key_id is set, it becomes both the S3 default-encryption key for the artifact bucket and aws_codebuild_project.build.encryption_key. The example does exactly this with a CMK whose key policy grants only the account root (EnableAccountRootAccess), which delegates access to IAM policies. But data.aws_iam_policy_document.codebuild contains no kms:* action at all, so the build role has no kms:GenerateDataKey, kms:Decrypt or kms:Encrypt on the key. CodeBuild documents that its service role needs those on the project's CMK, and S3 PutObject into an SSE-KMS bucket needs kms:GenerateDataKey; builds fail with AccessDenied when encrypting artifacts, or on encrypted cache and source. Nothing is flagged because each resource is individually valid: the gap is between the variable, the key policy in the caller, and the role policy in this module.",
+      "file": "data_iam_policy.codebuild_policy.tf",
+      "first_seen": "2026-11-08",
+      "fixable": false,
+      "id": "HOLDEN_AI_009",
+      "last_seen": "2026-11-09",
+      "line": 1,
+      "principle": "reliability",
+      "related_resources": [
+        "var.kms_key_id",
+        "aws_codebuild_project.build",
+        "aws_s3_bucket_server_side_encryption_configuration.artifacts",
+        "aws_kms_key.custom"
+      ],
+      "remediation": "Add a conditional statement (dynamic block when var.kms_key_id != \"\") granting kms:Decrypt, kms:Encrypt, kms:ReEncrypt*, kms:GenerateDataKey* and kms:DescribeKey on the supplied key, resolving a bare key id to an ARN. Not auto-fixable: the key may be an alias, id or ARN and the correct resource form depends on which the caller supplies.",
+      "resource": "data.aws_iam_policy_document.codebuild",
+      "severity": "MEDIUM",
+      "status": "fixed",
+      "suppression_reason": null,
+      "title": "Build role has no KMS permissions, so supplying kms_key_id breaks builds writing to the SSE-KMS artifact bucket",
+      "unresolved_since": null
     }
   ],
+  "scan_date": "2026-11-09T00:00:00Z",
+  "scan_path": ".",
+  "suggested_policies": [],
   "suggested_suppressions": [],
   "unresolved_review": {
     "confirmed_safe": [
-      "HLD_AWS_292 \u2014 the KMS principal is an account-root ARN; HLD_AWS_269 now proves this after the not_any partial-string fix"
+      "HLD_AWS_292 \u2014 the KMS principal is an account-root ARN, not a wildcard"
     ],
     "resolved_to_finding": 0,
-    "reviewed": 3,
+    "reviewed": 2,
     "still_unresolvable": [
-      "HLD_AWS_308 (both roots) \u2014 the log target bucket comes from var.logs_bucket and lives outside the configuration"
+      "HLD_AWS_308 \u2014 the log target bucket comes from var.logs_bucket and lives outside the configuration"
     ]
   }
 }

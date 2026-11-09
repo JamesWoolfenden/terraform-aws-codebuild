@@ -10,12 +10,16 @@ resource "aws_s3_bucket" "artifacts" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "artifacts" {
+  # holden:ignore:HLD_AWS_282: a customer-managed key is opt-in. The default is
+  # AES256 (AWS-managed keys) so the module never claims a CMK it doesn't have;
+  # callers get SSE-KMS by setting kms_key_id and sse_algorithm = "aws:kms",
+  # which the example does.
   count  = var.bucketname == "" ? 1 : 0
   bucket = aws_s3_bucket.artifacts[0].bucket
   rule {
     apply_server_side_encryption_by_default {
       sse_algorithm     = var.sse_algorithm
-      kms_master_key_id = var.kms_key_id
+      kms_master_key_id = var.kms_key_id == "" ? null : var.kms_key_id
     }
   }
 }

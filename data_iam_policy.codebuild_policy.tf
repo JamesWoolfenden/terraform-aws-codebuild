@@ -22,12 +22,34 @@ data "aws_iam_policy_document" "codebuild" {
     actions = [
       "codebuild:StartBuild",
       "codebuild:StopBuild",
-      "codebuild:UpdateProject"
     ]
 
     resources = [
       aws_codebuild_project.build.arn,
     ]
+  }
+
+  # codebuild:UpdateProject is deliberately absent: a build holding it could
+  # set privileged_mode or repoint the buildspec on its own project, and the
+  # change would persist for every later build. StartBuild/StopBuild are
+  # enough to re-trigger itself.
+
+  # The caller's CMK (var.kms_key_id) encrypts the artifact bucket and the
+  # project's own artifacts, so the build role needs to use it. The statement
+  # is not gated on the variable: the key is often created in the same apply,
+  # so its ARN is unknown at plan time and cannot drive count/for_each. With no
+  # key supplied the resource is an all-zero placeholder ARN that matches no
+  # real key, which is correct because the AWS-managed keys need no grant.
+  statement {
+    actions = [
+      "kms:Decrypt",
+      "kms:DescribeKey",
+      "kms:Encrypt",
+      "kms:GenerateDataKey*",
+      "kms:ReEncrypt*",
+    ]
+
+    resources = [var.kms_key_id == "" ? "arn:aws:kms:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:key/00000000-0000-0000-0000-000000000000" : var.kms_key_id]
   }
 
   # ecr:GetAuthorizationToken is the one ECR action that has no resource to

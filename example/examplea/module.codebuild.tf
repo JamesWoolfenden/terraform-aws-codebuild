@@ -13,6 +13,7 @@ module "codebuild" {
   name                   = random_string.random.result
   projectroot            = var.projectroot
   sourcecode             = var.sourcecode
-  kms_key_id             = aws_kms_key.custom.key_id
+  kms_key_id             = aws_kms_key.custom.arn
+  sse_algorithm          = "aws:kms"
   logs_bucket            = "logging-${data.aws_caller_identity.current.account_id}/codebuild/"
 }

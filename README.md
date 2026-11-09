@@ -107,7 +107,7 @@ No modules.
 | <a name="input_encryption_disabled"></a> [encryption\_disabled](#input\_encryption\_disabled) | Disable the encryption of artifacts | `bool` | `false` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | A map to describe the build environment and populate the environment block | `map(any)` | <pre>{<br/>  "compute_type": "BUILD_GENERAL1_SMALL",<br/>  "image": "aws/codebuild/standard:7.0",<br/>  "privileged_mode": "false",<br/>  "type": "LINUX_CONTAINER"<br/>}</pre> | no |
 | <a name="input_force_artifact_destroy"></a> [force\_artifact\_destroy](#input\_force\_artifact\_destroy) | Force the removal of the artifact S3 bucket on destroy (default: false). | `bool` | `false` | no |
-| <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | Your Custom KMS key | `string` | `""` | no |
+| <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | ARN of your custom KMS key. Set sse\_algorithm to aws:kms (or aws:kms:dsse) to encrypt the artifact bucket with it. Leave empty to use the AWS-managed keys. | `string` | `""` | no |
 | <a name="input_logs_bucket"></a> [logs\_bucket](#input\_logs\_bucket) | The bucket id and path for storing the logs. This bucket also receives S3 server access logs for the artifact bucket, so it must not be encrypted with SSE-KMS unless a bucket key is enabled — S3 log delivery cannot write to an SSE-KMS bucket without one. | `string` | n/a | yes |
 | <a name="input_mfa_delete"></a> [mfa\_delete](#input\_mfa\_delete) | Require MFA to delete | `string` | `"Disabled"` | no |
 | <a name="input_name"></a> [name](#input\_name) | The name of the Build | `string` | n/a | yes |
@@ -115,7 +115,7 @@ No modules.
 | <a name="input_reponame"></a> [reponame](#input\_reponame) | The name of the repository | `string` | `""` | no |
 | <a name="input_role"></a> [role](#input\_role) | Override for providing a role | `string` | `""` | no |
 | <a name="input_sourcecode"></a> [sourcecode](#input\_sourcecode) | A map to describe where your sourcecode comes from, to fill the sourcecode block in a Codebuild project | `map(any)` | <pre>{<br/>  "buildspec": "",<br/>  "location": "",<br/>  "type": "CODECOMMIT"<br/>}</pre> | no |
-| <a name="input_sse_algorithm"></a> [sse\_algorithm](#input\_sse\_algorithm) | The type of encryption algorithm to use | `string` | `"aws:kms"` | no |
+| <a name="input_sse_algorithm"></a> [sse\_algorithm](#input\_sse\_algorithm) | The type of encryption algorithm to use. AES256 uses AWS-managed keys; set aws:kms together with kms\_key\_id for a customer-managed key. | `string` | `"AES256"` | no |
 | <a name="input_versioning"></a> [versioning](#input\_versioning) | Set bucket to version | `string` | `"Enabled"` | no |
 
 ## Outputs
